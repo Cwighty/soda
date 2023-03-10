@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  sodaapi:
+    image: ${DOCKER_REGISTRY-}sodaapi
+    build:
+      context: .
+      dockerfile: SodaAPI/Dockerfile
+
+  storeapp:
+    image: ${DOCKER_REGISTRY-}storeapp
+    build:
+      context: .
+      dockerfile: StoreApp/Dockerfile
+
