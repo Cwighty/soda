@@ -13,3 +13,14 @@ services:
       context: .
       dockerfile: StoreApp/Dockerfile
 
+  sodadb:
+    image: postgres
+    container_name: sodadb
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=soda
+      - POSTGRES_PASSWORD=Secret123
+    volumes:
+      - ./Database/Scripts/:/docker-entrypoint-initdb.d/
+      - ./Database/data:/var/lib/postgresql/data
