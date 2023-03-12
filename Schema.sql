@@ -1,40 +1,56 @@
 SET search_path TO public;
-DROP SCHEMA IF EXISTS soda CASCADE;
-CREATE SCHEMA soda;
-SET search_path TO soda;
+DROP SCHEMA IF EXISTS public CASCADE;
+CREATE SCHEMA public;
+SET search_path TO public;
+
+grant usage on schema public to postgres, anon, authenticated, service_role;
+
+grant all privileges on all tables in schema public to postgres, anon, authenticated, service_role;
+grant all privileges on all functions in schema public to postgres, anon, authenticated, service_role;
+grant all privileges on all sequences in schema public to postgres, anon, authenticated, service_role;
+
+alter default privileges in schema public grant all on tables to postgres, anon, authenticated, service_role;
+alter default privileges in schema public grant all on functions to postgres, anon, authenticated, service_role;
+alter default privileges in schema public grant all on sequences to postgres, anon, authenticated, service_role;
 
 CREATE TABLE customer (
     id INT PRIMARY KEY,
     name VARCHAR(255),
-    email VARCHAR(255),
-    password VARCHAR(255)
+    email VARCHAR(255)
+);
+
+create table base (
+	id int primary key,
+	name varchar(255),
+	description varchar(255),
+	price DECIMAL(10, 2)
 );
 
 CREATE TABLE product (
     id INT PRIMARY KEY,
     name VARCHAR(255),
     description TEXT,
-    price DECIMAL(10, 2),
-    image_url VARCHAR(255)
+    special_price DECIMAL(10, 2) null,
+    image_url VARCHAR(255),
+    base_id int,
+    foreign key (base_id) references base(id)
 );
 
 
 CREATE TABLE purchase (
     id INT PRIMARY KEY,
     customer_id INT,
-    purchase_id INT,
     created_at TIMESTAMP,
     status VARCHAR(255),
-    FOREIGN KEY (customer_id) REFERENCES customer(id),
-    FOREIGN KEY (purchase_id) REFERENCES purchase(id)
+    FOREIGN KEY (customer_id) REFERENCES customer(id)
 );
 
 CREATE TABLE purchase_item (
     id INT PRIMARY KEY,
-    order_id INT,
+    purchase_id INT,
     product_id INT,
     quantity INT,
-    FOREIGN KEY (order_id) REFERENCES purchase(id),
+    FOREIGN KEY (purchase_id) REFERENCES purchase(id),
     FOREIGN KEY (product_id) REFERENCES product(id)
    );
 
@@ -53,19 +69,19 @@ CREATE TABLE category_product (
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
-CREATE TABLE ingredient (
+CREATE TABLE addon (
     id INT PRIMARY KEY,
     name VARCHAR(255),
     price DECIMAL(10, 2)
 );
 
-CREATE TABLE recipe_ingredient (
+CREATE TABLE product_addon (
     id INT PRIMARY KEY,
     product_id INT,
-    ingredient_id INT,
+    addon_id INT,
     quantity INT,
     FOREIGN KEY (product_id) REFERENCES product(id),
-    FOREIGN KEY (ingredient_id) REFERENCES ingredient(id)
+    FOREIGN KEY (addon_id) REFERENCES addon(id)
 );
 
 CREATE TABLE purchase_history (
@@ -77,24 +93,49 @@ CREATE TABLE purchase_history (
 );
 
 -- Insert sample data into the customer table
-INSERT INTO customer (id, name, email, password) VALUES
-(1, 'John Doe', 'johndoe@example.com', 'password123'),
-(2, 'Jane Smith', 'janesmith@example.com', 'password456'),
-(3, 'Bob Johnson', 'bobjohnson@example.com', 'password789');
+INSERT INTO customer (id, name, email) VALUES
+(1, 'John Doe', 'johndoe@example.com'),
+(2, 'Jane Smith', 'janesmith@example.com'),
+(3, 'Bob Johnson', 'bobjohnson@example.com');
 
--- Insert sample data into the product table
-INSERT INTO product (id, name, description, price, image_url) VALUES
-(1, 'Classic Cola', 'A refreshing classic cola', 2.50, 'https://example.com/classic-cola.jpg'),
-(2, 'Orange Fizz', 'An orange-flavored soda with a fizzy kick', 3.00, 'https://example.com/orange-fizz.jpg'),
-(3, 'Lemon Lime Twist', 'A tangy lemon-lime soda with a twist', 2.75, 'https://example.com/lemon-lime-twist.jpg');
+
+-- sample data for the base table (assuming it already exists and has been populated)
+INSERT INTO base (id, name, description, price) VALUES
+(1, 'Cola', 'Classic carbonated soft drink with caffeine', 1.99),
+(2, 'Lemon-Lime', 'Citrus-flavored carbonated soft drink', 1.99),
+(3, 'Ginger Ale', 'Carbonated soft drink with ginger flavor', 1.99);
+
+-- sample data for the product table
+INSERT INTO product (id, base_id, name, description, special_price, image_url) VALUES
+(1, 1, 'Classic Cola', 'A classic carbonated soft drink with caffeine', 1.99, 'https://example.com/cola.jpg'),
+(2, 2, 'Lemon-Lime Twist', 'A citrusy twist on a classic carbonated soft drink', 2.49, 'https://example.com/lemon-lime.jpg'),
+(3, 3, 'Ginger Ale Splash', 'A refreshing ginger-flavored carbonated soft drink', 2.99, 'https://example.com/ginger-ale.jpg');
+
+-- sample data for the addon table
+INSERT INTO addon (id, name, price) VALUES
+(1, 'Whipped Cream', 0.50),
+(2, 'Caramel Drizzle', 0.75),
+(3, 'Chocolate Syrup', 0.75),
+(4, 'Vanilla Syrup', 0.50),
+(5, 'Strawberry Syrup', 0.75);
+
+-- sample data for the product_addon table
+INSERT INTO product_addon (id, product_id, addon_id, quantity) VALUES
+(1, 1, 1, 1),
+(2, 1, 2, 1),
+(3, 2, 1, 1),
+(4, 2, 3, 1),
+(5, 3, 2, 2),
+(6, 3, 4, 1),
+(7, 3, 5, 1);
 
 -- Insert sample data into the order table
-INSERT INTO purchase (id, customer_id, purchase_id, created_at, status) VALUES
-(1, 1, 1, '2023-03-10 12:30:00', 'Processing'),
-(2, 2, 2, '2023-03-10 13:30:00', 'Pending Payment');
+INSERT INTO purchase (id, customer_id, created_at, status) VALUES
+(1, 1, '2023-03-10 12:30:00', 'Processing'),
+(2, 2, '2023-03-10 13:30:00', 'Pending Payment');
 
 -- Insert sample data into the purchase_item table
-INSERT INTO purchase_item (id, order_id, product_id, quantity) VALUES
+INSERT INTO purchase_item (id, purchase_id, product_id, quantity) VALUES
 (1, 1, 1, 2),
 (2, 1, 2, 1),
 (3, 2, 3, 3);
@@ -110,12 +151,3 @@ INSERT INTO category_product (id, category_id, product_id) VALUES
 (2, 1, 3),
 (3, 2, 1),
 (4, 2, 3);
-
--- Insert sample data into the ingredient table
-INSERT INTO ingredient (id, name, price) VALUES
-(1, 'Cola syrup', .20),
-(2, 'Orange flavoring', .25),
-(3, 'Lemon juice', .20),
-(4, 'Lime juice', .05),
-(5, 'Carbonated water', .7),
-(6, 'Whipped cream', .28);
