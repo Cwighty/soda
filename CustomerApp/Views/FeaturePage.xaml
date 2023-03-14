@@ -123,13 +123,13 @@
                                 <Border Grid.Row="0"
                                         StrokeThickness="0"
                                         BackgroundColor="{StaticResource White}"
-                                        Padding="0,40"
+                                        Padding="0"
                                         Margin="-1">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="15" />
                                     </Border.StrokeShape>
                                     <Image Source="soda_placeholder.jpeg"
-                                           Aspect="AspectFill"
+                                           Aspect="Center"
                                            HeightRequest="180" />
                                 </Border>
                                 <Label Grid.Row="1"
