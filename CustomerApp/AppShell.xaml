@@ -8,7 +8,7 @@
 
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate views:ProductPage}"
+        ContentTemplate="{DataTemplate views:FeaturePage}"
         Route="MainPage" />
 
 </Shell>

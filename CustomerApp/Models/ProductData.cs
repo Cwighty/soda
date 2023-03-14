@@ -20,7 +20,7 @@ public class ProductData : BaseModel
     [Column("special_price")]
     public decimal? SpecialPrice { get; set; }
     [Column("image_url")]
-    public string ImageUrl { get; set; }
+    public string? ImageUrl { get; set; }
     [Reference(typeof(BaseData))]
     public BaseData Base { get; set; }
 }

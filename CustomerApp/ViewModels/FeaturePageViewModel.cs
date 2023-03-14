@@ -1,0 +1,45 @@
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CustomerApp.Models;
+using CustomerApp.Services;
+using CustomerApp.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CustomerApp.ViewModels
+{
+    [INotifyPropertyChanged]
+    public partial class FeaturePageViewModel : BaseViewModel
+    {
+        [ObservableProperty]
+        ObservableCollection<ProductData> _products;
+
+        [ObservableProperty]
+        private string[] categories;
+
+        [ObservableProperty]
+        public string _categorySelectedValue;
+        private readonly ProductService productService;
+
+        public FeaturePageViewModel(ProductService productService)
+        {
+            this.productService = productService;
+        }
+        public override async Task Initialize()
+        {
+            Categories = new[] { "All", "Coffee", "Soda" };
+            var products = await productService.GetProducts();
+            Products = products.ToObservableCollection();
+            CategorySelectedValue = Categories.FirstOrDefault();
+        }
+
+        public override Task Stop()
+        {
+            return Task.CompletedTask;
+        }
+    }
+}
