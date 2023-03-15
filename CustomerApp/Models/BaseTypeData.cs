@@ -3,6 +3,7 @@ using Postgrest.Models;
 
 namespace CustomerApp.Models;
 
+[Table ("base_type")]
 public class BaseTypeData : BaseModel
 {
     [PrimaryKey("id", false)]
