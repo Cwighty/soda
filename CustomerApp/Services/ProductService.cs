@@ -1,10 +1,6 @@
 ﻿using CustomerApp.Models;
 using Supabase;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace CustomerApp.Services;
 
@@ -20,6 +16,18 @@ public class ProductService
     public async Task<List<ProductData>> GetProducts()
     {
         var response = await client.From<ProductData>().Get();
+        return response.Models;
+    }
+
+    public async Task<List<CategoryData>> GetCategorizedProducts()
+    {
+        var response = await client.From<CategoryData>().Get();
+        return response.Models;
+    }
+
+    public async Task<List<BaseTypeData>> GetBaseTypes()
+    {
+        var response = await client.From<BaseTypeData>().Get();
         return response.Models;
     }
 }

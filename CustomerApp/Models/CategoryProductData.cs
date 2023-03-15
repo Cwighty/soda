@@ -1,4 +1,4 @@
-﻿using Postgrest.Attributes;
+﻿/*using Postgrest.Attributes;
 using Postgrest.Models;
 using System;
 using System.Collections.Generic;
@@ -19,6 +19,7 @@ public class CategoryProductData : BaseModel
     public int ProductId { get; set; }
     [Reference(typeof(CategoryData))]
     public CategoryData Category { get; set; }
-    [Reference(typeof(ProductData))]
-    public ProductData Product { get; set; }
-}
+   
+
+
+}*/

@@ -19,4 +19,7 @@ public class CategoryData : BaseModel
     public string Description { get; set; }
     [Column("image_url")]
     public string ImageUrl { get; set; }
+
+    [Reference(typeof(ProductData))]
+    public List<ProductData> Products { get; set; }
 }

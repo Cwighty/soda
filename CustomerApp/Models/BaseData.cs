@@ -19,4 +19,8 @@ public class BaseData : BaseModel
     public string Description { get; set; }
     [Column("price")]
     public decimal Price { get; set; }
+    [Column("type_id")]
+    public int TypeId { get; set; }
+    [Reference(typeof(BaseTypeData))]
+    public BaseTypeData BaseType { get; set; }
 }

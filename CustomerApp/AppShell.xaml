@@ -6,9 +6,28 @@
     xmlns:views="clr-namespace:CustomerApp.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate views:FeaturePage}"
-        Route="MainPage" />
+    <TabBar>
+        <Tab Title="Featured"
+             Icon="home.png"
+             Route="FeaturePage">
+            <ShellContent ContentTemplate="{DataTemplate views:FeaturePage}" />
+        </Tab>
+        <Tab Title="Menu"
+             Icon="drink.png"
+             Route="MenuPage">
+            <ShellContent ContentTemplate="{DataTemplate views:MenuPage}" />
+        </Tab>
+        <Tab Title="Cup Holder"
+             Icon="cup_holder.png"
+             Route="CartPage">
+            <ShellContent ContentTemplate="{DataTemplate views:CartPage}" />
+        </Tab>
+        <Tab Title="Profile"
+             Icon="profile.png"
+             Route="ProfilePage">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" />
+        </Tab>
+    </TabBar>
+    
 
 </Shell>

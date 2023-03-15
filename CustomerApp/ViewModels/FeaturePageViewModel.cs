@@ -15,14 +15,9 @@ namespace CustomerApp.ViewModels
     [INotifyPropertyChanged]
     public partial class FeaturePageViewModel : BaseViewModel
     {
-        [ObservableProperty]
-        ObservableCollection<ProductData> _products;
+        [ObservableProperty] 
+        private List<CategoryData> _categorizedProducts;
 
-        [ObservableProperty]
-        private string[] categories;
-
-        [ObservableProperty]
-        public string _categorySelectedValue;
         private readonly ProductService productService;
 
         public FeaturePageViewModel(ProductService productService)
@@ -31,10 +26,8 @@ namespace CustomerApp.ViewModels
         }
         public override async Task Initialize()
         {
-            Categories = new[] { "All", "Coffee", "Soda" };
-            var products = await productService.GetProducts();
-            Products = products.ToObservableCollection();
-            CategorySelectedValue = Categories.FirstOrDefault();
+            var categoryProducts = await productService.GetCategorizedProducts();
+            CategorizedProducts = categoryProducts;
         }
 
         public override Task Stop()

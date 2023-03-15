@@ -2,9 +2,9 @@ using CustomerApp.ViewModels;
 
 namespace CustomerApp.Views;
 
-public partial class ProductPage : ContentPage
+public partial class CartPage : BasePage
 {
-	public ProductPage(ProductPageViewModel vm)
+	public CartPage(CartPageViewModel vm)
 	{
 		BindingContext = vm;
 		InitializeComponent();
