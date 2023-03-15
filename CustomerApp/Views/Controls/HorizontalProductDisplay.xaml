@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="CustomerApp.Views.Controls.HorizontalProductDisplay">
+    <StackLayout>
+        <!---Product List Header-->
+        <StackLayout x:Name="ProductListHeader"
+                     Orientation="Horizontal"
+                     HorizontalOptions="
+                        FillAndExpand"
+                     VerticalOptions="
+                        Start"
+                     Margin="0,20,0,0">
+            <Label x:Name="SectionLabel"
+                   HorizontalOptions="StartAndExpand"
+                   FontFamily="RalewayMedium"
+                   FontSize="22"
+                   TextColor="Black" />
+            <Label x:Name="ShowAllLabel"
+                   Text="Show All"
+                   HorizontalOptions="EndAndExpand"
+                   FontFamily="RalewayMedium"
+                   FontSize="22"
+                   TextColor="{StaticResource Primary}" />
+        </StackLayout>
+        <!---Products Collection View-->
+        <CollectionView x:Name="ProductsCollection"
+                        SelectionMode="None"
+                        VerticalOptions="FillAndExpand"
+                        Margin="-10,0,0,0">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <Border Padding="0"
+                                Margin="15,10,5,5"
+                                WidthRequest="240"
+                                BackgroundColor="{StaticResource Tertiary}"
+                                Stroke="Gray"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15">
+                            <Border.Shadow>
+
+                                <OnPlatform x:TypeArguments="Shadow">
+                                    <On Platform="Android, WinUI">
+                                        <Shadow Radius="25"
+                                                Opacity="0.2"></Shadow>
+                                    </On>
+                                    <On Platform="iOS,MacCatalyst">
+                                        <Shadow Radius="5"
+                                                Opacity="0.2"></Shadow>
+                                    </On>
+                                </OnPlatform>
+                            </Border.Shadow>
+                            <Grid RowDefinitions="Auto,Auto,Auto">
+                                <Border Grid.Row="0"
+                                        StrokeThickness="0"
+                                        BackgroundColor="{StaticResource White}"
+                                        Padding="0"
+                                        Margin="-1">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="15" />
+                                    </Border.StrokeShape>
+                                    <Image Source="soda_placeholder.jpeg"
+                                           Aspect="Center"
+                                           HeightRequest="180" />
+                                </Border>
+                                <Label Grid.Row="1"
+                                       HorizontalOptions="FillAndExpand"
+                                       Text="{Binding Name}"
+                                       FontFamily="RalewayMedium"
+                                       FontSize="19"
+                                       TextColor="{StaticResource White}"
+                                       LineBreakMode="NoWrap"
+                                       Margin="10,10,10,10" />
+                                <StackLayout Grid.Row="2"
+                                             Orientation="Horizontal"
+                                             Margin="10,0,10,15">
+                                    <Label Text="{Binding SpecialPrice, StringFormat='${0}'}"
+                                           FontSize="25"
+                                           FontFamily="PoppinsRegular"
+                                           TextColor="{StaticResource White}"
+                                           HorizontalOptions="StartAndExpand" />
+                                    <ImageButton HorizontalOptions="End"
+                                                 Source="love_filled.png"
+                                                 Padding="5"
+                                                 Command="{Binding ProductFavCommand}"
+                                                 CommandParameter="{Binding .}">
+                                        <ImageButton.Triggers>
+                                            <DataTrigger TargetType="ImageButton"
+                                                         Binding="{Binding ProductIsFav}"
+                                                         Value="True">
+                                                <Setter Property="Source"
+                                                        Value="love_filled.png" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="ImageButton"
+                                                         Binding="{Binding ProductIsFav}"
+                                                         Value="False">
+                                                <Setter Property="Source"
+                                                        Value="love_default.png" />
+                                            </DataTrigger>
+                                        </ImageButton.Triggers>
+                                    </ImageButton>
+                                </StackLayout>
+                            </Grid>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.DetailCommand, Source={x:Reference HomeView}}"
+                                                      CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+
+                    </VerticalStackLayout>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentView>

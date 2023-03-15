@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                 xmlns:views="clr-namespace:CustomerApp.Views"
+                xmlns:controls="clr-namespace:CustomerApp.Views.Controls"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 x:Class="CustomerApp.Views.FeaturePage"
                 Title="FeaturePage">
@@ -11,115 +12,11 @@
             <CollectionView ItemsSource="{Binding CategorizedProducts}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <StackLayout>
-                            <!---Product List Header-->
-                            <StackLayout Orientation="
-                        Horizontal"
-                                         HorizontalOptions="
-                        FillAndExpand"
-                                         VerticalOptions="
-                        Start"
-                                         Margin="0,20,0,0">
-                                <Label Text="{Binding Name}"
-                                       HorizontalOptions="StartAndExpand"
-                                       FontFamily="RalewayMedium"
-                                       FontSize="22"
-                                       TextColor="Black" />
-                            </StackLayout>
-                            <!---Products Collection View-->
-                            <CollectionView ItemsSource="{Binding Products}"
-                                            SelectionMode="None"
-                                            VerticalOptions="FillAndExpand"
-                                            Margin="-10,0,0,0">
-                                <CollectionView.ItemsLayout>
-                                    <GridItemsLayout Orientation="Horizontal" />
-                                </CollectionView.ItemsLayout>
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <VerticalStackLayout>
-                                            <Border Padding="0"
-                                                    Margin="15,10,5,5"
-                                                    WidthRequest="240"
-                                                    BackgroundColor="{StaticResource Tertiary}"
-                                                    Stroke="Gray"
-                                                    StrokeThickness="0"
-                                                    StrokeShape="RoundRectangle 15">
-                                                <Border.Shadow>
-
-                                                    <OnPlatform x:TypeArguments="Shadow">
-                                                        <On Platform="Android, WinUI">
-                                                            <Shadow Radius="25"
-                                                                    Opacity="0.2"></Shadow>
-                                                        </On>
-                                                        <On Platform="iOS,MacCatalyst">
-                                                            <Shadow Radius="5"
-                                                                    Opacity="0.2"></Shadow>
-                                                        </On>
-                                                    </OnPlatform>
-                                                </Border.Shadow>
-                                                <Grid RowDefinitions="Auto,Auto,Auto">
-                                                    <Border Grid.Row="0"
-                                                            StrokeThickness="0"
-                                                            BackgroundColor="{StaticResource White}"
-                                                            Padding="0"
-                                                            Margin="-1">
-                                                        <Border.StrokeShape>
-                                                            <RoundRectangle CornerRadius="15" />
-                                                        </Border.StrokeShape>
-                                                        <Image Source="soda_placeholder.jpeg"
-                                                               Aspect="Center"
-                                                               HeightRequest="180" />
-                                                    </Border>
-                                                    <Label Grid.Row="1"
-                                                           HorizontalOptions="FillAndExpand"
-                                                           Text="{Binding Name}"
-                                                           FontFamily="RalewayMedium"
-                                                           FontSize="19"
-                                                           TextColor="{StaticResource White}"
-                                                           LineBreakMode="NoWrap"
-                                                           Margin="10,10,10,10" />
-                                                    <StackLayout Grid.Row="2"
-                                                                 Orientation="Horizontal"
-                                                                 Margin="10,0,10,15">
-                                                        <Label Text="{Binding SpecialPrice, StringFormat='${0}'}"
-                                                               FontSize="25"
-                                                               FontFamily="PoppinsRegular"
-                                                               TextColor="{StaticResource White}"
-                                                               HorizontalOptions="StartAndExpand" />
-                                                        <ImageButton HorizontalOptions="End"
-                                                                     Source="love_filled.png"
-                                                                     Padding="5"
-                                                                     Command="{Binding ProductFavCommand}"
-                                                                     CommandParameter="{Binding .}">
-                                                            <ImageButton.Triggers>
-                                                                <DataTrigger TargetType="ImageButton"
-                                                                             Binding="{Binding ProductIsFav}"
-                                                                             Value="True">
-                                                                    <Setter Property="Source"
-                                                                            Value="love_filled.png" />
-                                                                </DataTrigger>
-                                                                <DataTrigger TargetType="ImageButton"
-                                                                             Binding="{Binding ProductIsFav}"
-                                                                             Value="False">
-                                                                    <Setter Property="Source"
-                                                                            Value="love_default.png" />
-                                                                </DataTrigger>
-                                                            </ImageButton.Triggers>
-                                                        </ImageButton>
-                                                    </StackLayout>
-                                                </Grid>
-                                                <Border.GestureRecognizers>
-                                                    <TapGestureRecognizer Command="{Binding BindingContext.DetailCommand, Source={x:Reference HomeView}}"
-                                                                          CommandParameter="{Binding .}" />
-                                                </Border.GestureRecognizers>
-                                            </Border>
-
-                                        </VerticalStackLayout>
-
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </StackLayout>
+                        <controls:HorizontalProductDisplay 
+                            Title="{Binding Name}"
+                            Products="{Binding Products}"
+                            ShowAllEnabled="False"
+                            />
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
