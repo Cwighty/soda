@@ -1,7 +1,4 @@
 using CommunityToolkit.Maui.Behaviors;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CustomerApp.Models;
-using System.Runtime.CompilerServices;
 
 namespace CustomerApp.Views.Controls;
 

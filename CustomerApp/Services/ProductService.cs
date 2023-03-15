@@ -1,7 +1,4 @@
-﻿using CustomerApp.Models;
-using Supabase;
-
-
+﻿using Supabase;
 namespace CustomerApp.Services;
 
 public class ProductService

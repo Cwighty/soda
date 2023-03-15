@@ -1,9 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using CustomerApp.Models;
-using CustomerApp.Services;
-
-namespace CustomerApp.ViewModels;
+﻿namespace CustomerApp.ViewModels;
 
 [INotifyPropertyChanged]
 public partial class MenuPageViewModel : BaseViewModel

@@ -1,5 +1,3 @@
-using CustomerApp.ViewModels;
-
 namespace CustomerApp.Views;
 
 public partial class CartPage : BasePage

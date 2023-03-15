@@ -1,6 +1,4 @@
-﻿using CustomerApp.ViewModels;
-
-namespace CustomerApp.Views;
+﻿namespace CustomerApp.Views;
 
 public class BasePage : ContentPage
 {
