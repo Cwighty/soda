@@ -2,7 +2,7 @@ using CustomerApp.ViewModels;
 
 namespace CustomerApp.Views;
 
-public partial class MenuPage : ContentPage
+public partial class MenuPage : BasePage
 {
 	public MenuPage(MenuPageViewModel vm)
 	{
