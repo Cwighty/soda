@@ -12,25 +12,11 @@ public partial class HorizontalProductDisplay : ContentView
     public static BindableProperty CommandProperty = BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(HorizontalProductDisplay), null, propertyChanged: CommandChanged);
     public static BindableProperty ShowAllEnabledProperty = BindableProperty.Create(nameof(ShowAllEnabled), typeof(bool), typeof(HorizontalProductDisplay), true, propertyChanged: OnSeeAllEnabledChanged);
 
-    private static void OnProductsChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        var control = (HorizontalProductDisplay)bindable;
-        control.ProductsCollection.ItemsSource = (List<ProductData>) newValue;
-    }
-
     public List<ProductData> Products
     {
         get => (List<ProductData>)GetValue(ProductsProperty);
         set =>SetValue(ProductsProperty, value);
     }
-
-
-    private static void OnTitleChanged(BindableObject bindable, object oldValue, object newValue)
-    {
-        var control = (HorizontalProductDisplay) bindable;
-        control.SectionLabel.Text = (string)newValue;
-    }
-
     public string Title
     {
         get => (string)GetValue(TitleProperty);
@@ -41,8 +27,23 @@ public partial class HorizontalProductDisplay : ContentView
         get => (ICommand)GetValue(CommandProperty);
         set => SetValue(CommandProperty, value);
     }
-    
 
+    public HorizontalProductDisplay()
+    {
+        InitializeComponent();
+    }
+
+
+    private static void OnProductsChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var control = (HorizontalProductDisplay)bindable;
+        control.ProductsCollection.ItemsSource = (List<ProductData>)newValue;
+    }
+    private static void OnTitleChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var control = (HorizontalProductDisplay)bindable;
+        control.SectionLabel.Text = (string)newValue;
+    }
     private static void CommandChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var control = (HorizontalProductDisplay)bindable;
@@ -54,23 +55,14 @@ public partial class HorizontalProductDisplay : ContentView
         control.ShowallButton.Command = (ICommand)newValue;
         control.ShowallButton.CommandParameter = control.Products;
     }
-
-
-
     private static void OnSeeAllEnabledChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var control = (HorizontalProductDisplay)bindable;
         control.ShowAllLabel.IsVisible = (bool)newValue;
     }
-
     public bool ShowAllEnabled
     {
         get => (bool)GetValue(ShowAllEnabledProperty);
         set => SetValue(ShowAllEnabledProperty, value);
-    }
-
-    public HorizontalProductDisplay()
-    {
-        InitializeComponent();
     }
 }

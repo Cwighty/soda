@@ -2,6 +2,7 @@
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:CustomerApp.Views"
+                xmlns:vm="clr-namespace:CustomerApp.ViewModels"
                 xmlns:controls="clr-namespace:CustomerApp.Views.Controls"
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                 x:Class="CustomerApp.Views.MenuPage"
@@ -83,7 +84,7 @@
                             <controls:HorizontalProductDisplay Title="{Binding Base}"
                                                                Products="{Binding Products}"
                                                                ShowAllEnabled="True"
-                                                               Command="{Binding NavigateCommand}"/>
+                                                               Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=NavigateCommand}"/>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
