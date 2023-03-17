@@ -2,7 +2,8 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="CustomerApp.Views.Controls.HorizontalProductDisplay">
+             x:Class="CustomerApp.Views.Controls.HorizontalProductDisplay"
+             x:Name="ProductDisplay">
     <StackLayout>
         <!---Product List Header-->
         <StackLayout x:Name="ProductListHeader"
@@ -23,8 +24,6 @@
                    FontFamily="RalewayMedium"
                    FontSize="22"
                    TextColor="{StaticResource Primary}" />
-            <Button Text="Show All"
-                    x:Name="ShowallButton" />
         </StackLayout>
         <!---Products Collection View-->
         <CollectionView x:Name="ProductsCollection"
@@ -109,13 +108,11 @@
                                 </StackLayout>
                             </Grid>
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.DetailCommand, Source={x:Reference HomeView}}"
-                                                      CommandParameter="{Binding .}" />
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference ProductDisplay}, Path=DetailsCommand}"
+                                    CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
                         </Border>
-
                     </VerticalStackLayout>
-
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

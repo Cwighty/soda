@@ -66,4 +66,16 @@ public partial class MenuPageViewModel : BaseViewModel
                     ["Products"] = products
                 });
     }
+
+    [RelayCommand]
+    private async Task NavigateToDetail(ProductData product)
+    {
+        await navigationService
+            .GoTo(
+                nameof(ProductDetailPage),
+                new Dictionary<string, object>()
+                {
+                    ["Product"] = product
+                });
+    }
 }

@@ -84,7 +84,8 @@
                             <controls:HorizontalProductDisplay Title="{Binding Base}"
                                                                Products="{Binding Products}"
                                                                ShowAllEnabled="True"
-                                                               Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=NavigateCommand}"/>
+                                                               ShowAllCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=NavigateCommand}"
+                                                               DetailsCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:MenuPageViewModel}}, Path=NavigateToDetailCommand}"/>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>

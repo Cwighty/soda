@@ -45,5 +45,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ProfilePageViewModel>();
         builder.Services.AddSingleton<ProductListPage>();
         builder.Services.AddSingleton<ProductListPageViewModel>();
+        builder.Services.AddSingleton<ProductDetailPage>();
+        builder.Services.AddSingleton<ProductDetailPageViewModel>();
     }
 }
