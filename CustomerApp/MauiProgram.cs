@@ -22,6 +22,7 @@ public static class MauiProgram
         builder.Services.AddSingleton(new Supabase.Client(supabaseURL, anonKey));
         builder.Services.AddSingleton<ProductService>();
         builder.Services.AddSingleton<PurchaseService>();
+        builder.Services.AddSingleton<NavigationService>();
         IntializePages(builder);
 
 
@@ -42,5 +43,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<CartPageViewModel>();
         builder.Services.AddSingleton<ProfilePage>();
         builder.Services.AddSingleton<ProfilePageViewModel>();
+        builder.Services.AddSingleton<ProductListPage>();
+        builder.Services.AddSingleton<ProductListPageViewModel>();
     }
 }

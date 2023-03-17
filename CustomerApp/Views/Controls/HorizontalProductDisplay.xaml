@@ -23,6 +23,8 @@
                    FontFamily="RalewayMedium"
                    FontSize="22"
                    TextColor="{StaticResource Primary}" />
+            <Button Text="Show All"
+                    x:Name="ShowallButton" />
         </StackLayout>
         <!---Products Collection View-->
         <CollectionView x:Name="ProductsCollection"

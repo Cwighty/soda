@@ -1,11 +1,12 @@
-﻿using Supabase;
+﻿using Postgrest;
+using Supabase;
 namespace CustomerApp.Services;
 
 public class ProductService
 {
-    private readonly Client client;
+    private readonly Supabase.Client client;
 
-    public ProductService(Client client)
+    public ProductService(Supabase.Client client)
 	{
         this.client = client;
     }
@@ -27,4 +28,29 @@ public class ProductService
         var response = await client.From<BaseTypeData>().Get();
         return response.Models;
     }
+
+    public async Task<List<BaseData>> GetBases()
+    {
+        var response = await client.From<BaseData>().Get();
+        return response.Models;
+    }
+
+    public async Task<List<ProductData>> GetProductsByBase(int baseId)
+    {
+        var response = await client.From<ProductData>()
+            .Filter("base_id", Constants.Operator.Equals, baseId)
+            .Get();
+        return response.Models;
+    }
+
+    public async Task<List<BaseProduct>> GetBaseProducts()
+    {
+        var baseProducts = new List<BaseProduct>();
+        foreach (var b in await GetBases()) { 
+            baseProducts.Add(new(b.Name, await GetProductsByBase(b.Id)));
+        }
+        return baseProducts;
+    }
+
+    
 }
