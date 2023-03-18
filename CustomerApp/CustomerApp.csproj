@@ -41,7 +41,7 @@
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
     <MauiImage Update="Resources\Images\cup_holder.svg" BaseSize="40,40" />
-    <MauiImage Update="Resources\Images\black_drink.svg" BaseSize="20,20" />
+    <MauiImage Update="Resources\Images\black_drink.svg" BaseSize="20,20"  />
     <MauiImage Update="Resources\Images\white_drink.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\home.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\profile.svg" BaseSize="40,40" />
