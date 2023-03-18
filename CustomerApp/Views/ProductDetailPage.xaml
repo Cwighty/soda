@@ -2,12 +2,95 @@
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:CustomerApp.Views"
+             xmlns:models="clr-namespace:CustomerApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="CustomerApp.Views.ProductDetailPage"
              Title="ProductDetailPage">
     <VerticalStackLayout>
-        <Label 
-            Text="{Binding Product.Name}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Image 
+            Source="soda_placeholder.jpeg"
+            Aspect="AspectFit"
+            HeightRequest="200"
+            />
+        <Label Text="{Binding Product.Name}"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               FontSize="Large"
+               />
+            <ScrollView Orientation="Horizontal"
+                        VerticalOptions="Start"
+                        VerticalScrollBarVisibility="Never"
+                        HorizontalScrollBarVisibility="Never"
+                    HorizontalOptions="Center"
+                    BackgroundColor="Transparent">
+                <HorizontalStackLayout Spacing="10"
+                                       RadioButtonGroup.GroupName="Categories"
+                                       RadioButtonGroup.SelectedValue="{Binding SelectedProductSize}"
+                                       BindableLayout.ItemsSource="{Binding ProductSizes}">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton x:Name="RadioCategory"
+                                         Value="{Binding .}">
+                            <RadioButton.Content>
+                                <StackLayout>
+                                    
+                                    <Label Text="{Binding Size}" />
+                                </StackLayout>
+                            </RadioButton.Content>
+                                <RadioButton.ControlTemplate>
+                                    <ControlTemplate>
+                                        <Grid HorizontalOptions="FillAndExpand">
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroupList>
+                                                    <VisualStateGroup x:Name="CheckedStates">
+                                                        <VisualState x:Name="Checked">
+                                                            <VisualState.Setters>
+                                                                <Setter TargetName="CategoryLabel"
+                                                                        Property="Label.TextColor"
+                                                                        Value="{StaticResource Black}" />
+                                                                <Setter TargetName="ChipBorderView"
+                                                                        Property="Border.Background"
+                                                                        Value="{StaticResource TertiaryBrush}" />
+                                                        </VisualState.Setters>
+                                                        </VisualState>
+                                                        <VisualState x:Name="Unchecked">
+                                                            <VisualState.Setters>
+                                                                <Setter TargetName="CategoryLabel"
+                                                                        Property="Label.TextColor"
+                                                                        Value="{StaticResource Gray600}" />
+                                                                <Setter TargetName="ChipBorderView"
+                                                                        Property="Border.Background"
+                                                                        Value="{StaticResource White}" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateGroupList>
+                                            </VisualStateManager.VisualStateGroups>
+                                            <Border StrokeThickness="0"
+                                                    x:Name="ChipBorderView"
+                                                    HeightRequest="90"
+                                                    WidthRequest="90">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="25" />
+                                                </Border.StrokeShape>
+                                            <StackLayout VerticalOptions="CenterAndExpand">
+                                                <Image Source="{Binding Source={RelativeSource AncestorType={x:Type models:ProductSize}, AncestorLevel=1}, Path=Img}">
+                                                </Image>
+                                                <Label Text="{Binding Source={RelativeSource AncestorType={x:Type models:ProductSize}, AncestorLevel=1}, Path=Size}"
+                                                       x:Name="CategoryLabel"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="End"
+                                                       FontFamily="RalewayRegular"
+                                                       FontSize="16" />
+                                            </StackLayout>
+                                        </Border>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </RadioButton.ControlTemplate>
+                            </RadioButton>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </HorizontalStackLayout>
+            </ScrollView>
     </VerticalStackLayout>
 </views:BasePage>

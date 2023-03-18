@@ -13,7 +13,7 @@
             <ShellContent ContentTemplate="{DataTemplate views:FeaturePage}" />
         </Tab>
         <Tab Title="Menu"
-             Icon="drink.png"
+             Icon="black_drink.png"
              Route="MenuPage">
             <ShellContent ContentTemplate="{DataTemplate views:MenuPage}" />
         </Tab>

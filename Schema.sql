@@ -214,7 +214,9 @@ VALUES
     ('Caramel Drizzle', 0.75),
     ('Chocolate Syrup', 0.75),
     ('Vanilla Syrup', 0.50),
-    ('Strawberry Syrup', 0.75);
+    ('Strawberry Syrup', 0.75),
+    ('Medium Soda', 0.50),
+    ('Large Soda', 1.00);
 
 -- sample data for the product_addon table
 INSERT INTO
