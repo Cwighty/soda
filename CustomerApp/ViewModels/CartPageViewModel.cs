@@ -2,7 +2,6 @@
 
 namespace CustomerApp.ViewModels
 {
-    [INotifyPropertyChanged]
     public partial class CartPageViewModel : BaseViewModel
     {
         public override Task Initialize()

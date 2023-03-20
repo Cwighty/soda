@@ -1,6 +1,6 @@
 ﻿namespace CustomerApp.ViewModels
 {
-    public abstract class BaseViewModel: IViewModel
+    public abstract class BaseViewModel: ObservableObject, IViewModel
     {
         public BaseViewModel() { }
         public abstract Task Initialize();

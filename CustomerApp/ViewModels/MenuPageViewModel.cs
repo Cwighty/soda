@@ -2,7 +2,6 @@
 
 namespace CustomerApp.ViewModels;
 
-[INotifyPropertyChanged]
 public partial class MenuPageViewModel : BaseViewModel
 {
     private readonly ProductService productService;

@@ -50,7 +50,8 @@
                                                                         Value="{StaticResource Black}" />
                                                                 <Setter TargetName="ChipBorderView"
                                                                         Property="Border.Background"
-                                                                        Value="{StaticResource TertiaryBrush}" />
+                                                                        Value="{StaticResource TertiaryBrush}"
+                                                                        />
                                                         </VisualState.Setters>
                                                         </VisualState>
                                                         <VisualState x:Name="Unchecked">

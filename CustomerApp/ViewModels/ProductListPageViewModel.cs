@@ -2,7 +2,6 @@
 
 namespace CustomerApp.ViewModels;
 
-[INotifyPropertyChanged]
 [QueryProperty(nameof(Products), nameof(Products))]
 public partial class ProductListPageViewModel : BaseViewModel
 {

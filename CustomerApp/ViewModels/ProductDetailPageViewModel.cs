@@ -1,6 +1,5 @@
 ﻿namespace CustomerApp.ViewModels;
 
-[INotifyPropertyChanged]
 [QueryProperty(nameof(Product), nameof(Product))]
 public partial class ProductDetailPageViewModel : BaseViewModel
 {
@@ -10,15 +9,28 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     [ObservableProperty]
     private List<ProductSize> productSizes;
 
-    [ObservableProperty]
+
     private ProductSize selectedProductSize;
+    public ProductSize SelectedProductSize
+    {
+        get { return selectedProductSize; }
+        set
+        {
+            SetProperty(ref selectedProductSize, value);
+            foreach (var product in ProductSizes)
+            {
+                product.IsSelected = product == value;
+            }
+        }
+    }
+
 
     public ProductDetailPageViewModel()
     {
-        ProductSizes = new() { 
-            new ProductSize("Small", "black_drink.png"),
-            new ProductSize("Medium", "black_drink.png"),
-            new ProductSize("Large", "black_drink.png")
+        ProductSizes = new() {
+            new ProductSize("Small", "drink.png"),
+            new ProductSize("Medium", "drink.png"),
+            new ProductSize("Large", "drink.png")
         };
     }
     public override Task Initialize()

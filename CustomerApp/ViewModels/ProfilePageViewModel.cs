@@ -1,6 +1,5 @@
 ﻿namespace CustomerApp.ViewModels;
 
-[INotifyPropertyChanged]
 public partial class ProfilePageViewModel : BaseViewModel
 {
     public override Task Initialize()

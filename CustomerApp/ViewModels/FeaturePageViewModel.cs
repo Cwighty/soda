@@ -2,7 +2,6 @@
 
 namespace CustomerApp.ViewModels;
 
-[INotifyPropertyChanged]
 public partial class FeaturePageViewModel : BaseViewModel
 {
     [ObservableProperty] 
