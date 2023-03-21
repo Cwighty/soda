@@ -111,10 +111,17 @@ CREATE TABLE
     );
 
 CREATE TABLE
+    addon_type (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255)
+    );
+
+CREATE TABLE
     addon (
         id SERIAL PRIMARY KEY,
         name VARCHAR(255),
-        price DECIMAL(10, 2)
+        price DECIMAL(10, 2),
+        addon_type_id INT REFERENCES addon_type(id)
     );
 
 CREATE TABLE
@@ -206,17 +213,28 @@ VALUES
         'https://example.com/ginger-ale.jpg'
     );
 
+-- sample data for the addon_type table
+INSERT INTO
+    addon_type (name)
+VALUES
+    ('Size'),
+    ('Syrup'),
+    ('Coffee'),
+    ('Tea'),
+    ('Milk'),
+    ('Ice');
+
 -- sample data for the addon table
 INSERT INTO
-    addon (name, price)
+    addon (name, price, addon_type_id)
 VALUES
-    ('Whipped Cream', 0.50),
-    ('Caramel Drizzle', 0.75),
-    ('Chocolate Syrup', 0.75),
-    ('Vanilla Syrup', 0.50),
-    ('Strawberry Syrup', 0.75),
-    ('Medium Soda', 0.50),
-    ('Large Soda', 1.00);
+    ('Whipped Cream', 0.50, 5),
+    ('Caramel Drizzle', 0.75, 2),
+    ('Chocolate Syrup', 0.75, 2),
+    ('Vanilla Syrup', 0.50, 2),
+    ('Strawberry Syrup', 0.75, 2),
+    ('Medium Soda', 0.50, 1),
+    ('Large Soda', 1.00, 1);
 
 -- sample data for the product_addon table
 INSERT INTO

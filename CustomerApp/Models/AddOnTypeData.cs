@@ -3,8 +3,8 @@ using Postgrest.Models;
 
 namespace CustomerApp.Models;
 
-[Table ("base_type")]
-public class BaseTypeData : BaseModel
+[Table("addon_type")]
+public class AddOnTypeData : BaseModel
 {
     [PrimaryKey("id", false)]
     public int Id { get; set; }
@@ -12,16 +12,17 @@ public class BaseTypeData : BaseModel
     public string Name { get; set; }
 }
 
-public class BaseType
+public class AddOnType
 {
     public int Id { get; set; }
     public string Name { get; set; }
 }
 
-public static class BaseTypeExtensions
-{
-    public static BaseType ToBaseType(this BaseTypeData type)
+public static class AddOnTypeExtensions {
+    public static AddOnType ToAddOn(this AddOnTypeData addOn)
     {
-        return new BaseType { Id = type.Id, Name = type.Name };
+        return new AddOnType { Id = addOn.Id, Name = addOn.Name };
     }
+
 }
+

@@ -6,7 +6,7 @@ namespace CustomerApp.ViewModels;
 public partial class ProductDetailPageViewModel : BaseViewModel
 {
     private readonly ProductService productService;
-
+    private readonly NavigationService navigationService;
     [ObservableProperty]
     private ProductData product;
     [ObservableProperty]
@@ -33,7 +33,7 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     [ObservableProperty]
     private AddOnData selectedAddOn;
 
-    public ProductDetailPageViewModel(ProductService productService)
+    public ProductDetailPageViewModel(ProductService productService, NavigationService navigationService)
     {
         ProductSizes = new() {
             new ProductSize("Small", "drink_small.png"),
@@ -41,11 +41,14 @@ public partial class ProductDetailPageViewModel : BaseViewModel
             new ProductSize("Large", "drink_large.png")
         };
         this.productService = productService;
+        this.navigationService = navigationService;
     }
 
     public override async Task Initialize()
     {
-        AddOns = await productService.GetAddOns();
+        AddOns = (await productService.GetAddOns())
+                .Where(a => a.AddOnType.Name != "Size")
+                .ToList();
         CustomizedProduct = Product;
     }
 
@@ -70,5 +73,15 @@ public partial class ProductDetailPageViewModel : BaseViewModel
             OnPropertyChanged(nameof(CustomizedProduct));
             SelectedAddOn = null;
         }
+    }
+
+    [RelayCommand]
+    private async Task AddToCart()
+    {
+        await navigationService.GoTo(nameof(CartPage), 
+            new Dictionary<string, object>()
+            {
+                ["IncomingProduct"] = CustomizedProduct
+            });
     }
 }

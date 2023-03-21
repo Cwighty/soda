@@ -16,4 +16,5 @@ public class PurchaseService
         var response = await client.From<PurchaseData>().Get();
         return response.Models;
     }
+
 }

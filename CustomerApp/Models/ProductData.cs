@@ -1,4 +1,5 @@
-﻿using Postgrest.Attributes;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using Postgrest.Attributes;
 using Postgrest.Models;
 using System.Collections.ObjectModel;
 
@@ -22,3 +23,36 @@ public class ProductData : BaseModel
     [Reference(typeof(AddOnData))]
     public ObservableCollection<AddOnData> AddOns { get; set; }
 }
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public decimal? SpecialPrice { get; set; }
+    public string? ImageUrl { get; set; }
+    public Base Base { get; set; }
+    public ObservableCollection<AddOn> AddOns { get; set; }
+}
+
+public static class ProductDataExtensions
+{
+    public static List<Product> ToProducts (this List<ProductData> datas)
+    {
+        return datas.Select(d => d.ToProduct()).ToList();
+    }
+    public static Product ToProduct(this ProductData data)
+    {
+        return new Product
+        {
+            Id = data.Id,
+            Name = data.Name,
+            Description = data.Description,
+            SpecialPrice = data.SpecialPrice,
+            ImageUrl = data.ImageUrl,
+            Base = data.Base.ToBase(),
+            AddOns = data.AddOns.ToList().ToAddOns().ToObservableCollection()
+        };
+    }
+}
+

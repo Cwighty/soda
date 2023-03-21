@@ -127,5 +127,7 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </VerticalStackLayout>
+        <Button Text="Add To Cart"
+                Command="{Binding AddToCartCommand}" />
     </VerticalStackLayout>
 </views:BasePage>
