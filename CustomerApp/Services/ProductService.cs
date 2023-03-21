@@ -52,5 +52,9 @@ public class ProductService
         return baseProducts;
     }
 
-    
+    public async Task<List<AddOnData>> GetAddOns()
+    {
+        var response = await client.From<AddOnData>().Get();
+        return response.Models;
+    }
 }

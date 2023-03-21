@@ -119,10 +119,10 @@ CREATE TABLE
 
 CREATE TABLE
     product_addon (
-        id SERIAL PRIMARY KEY,
         product_id INT,
         addon_id INT,
         quantity INT,
+        PRIMARY KEY (product_id, addon_id),
         FOREIGN KEY (product_id) REFERENCES product (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
     );

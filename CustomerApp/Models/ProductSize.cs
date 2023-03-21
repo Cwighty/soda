@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace CustomerApp.Models
 {
-  [ObservableObject]
-  public partial class ProductSize
-  {
-    public string Size { get; set; }
-    public string Img => IsSelected ? SelectedPath : UnSelectedPath;
-
-    public string SelectedPath { get; set; }
-    public string UnSelectedPath { get; set; }
-
-    [NotifyPropertyChangedFor(nameof(Img))]
-    [ObservableProperty]
-    private bool isSelected;
-   
-
-    public ProductSize(string size, string img)
+    [ObservableObject]
+    public partial class ProductSize
     {
-      SelectedPath = $"white_{img}";
-      UnSelectedPath = $"black_{img}";
-      Size = size;
+        public string Size { get; set; }
+        public string Img => IsSelected ? SelectedPath : UnSelectedPath;
+
+        public string SelectedPath { get; set; }
+        public string UnSelectedPath { get; set; }
+
+        [NotifyPropertyChangedFor(nameof(Img))]
+        [ObservableProperty]
+        private bool isSelected;
+
+
+        public ProductSize(string size, string img)
+        {
+            SelectedPath = $"white_{img}";
+            UnSelectedPath = $"black_{img}";
+            Size = size;
+        }
     }
-  }
 }

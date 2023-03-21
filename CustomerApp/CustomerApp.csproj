@@ -35,16 +35,19 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Images\white_drink.svg" Color="#15616d" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
     <MauiImage Update="Resources\Images\cup_holder.svg" BaseSize="40,40" />
-    <MauiImage Update="Resources\Images\black_drink.svg" BaseSize="20,20"  />
-    <MauiImage Update="Resources\Images\white_drink.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\home.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\profile.svg" BaseSize="40,40" />
+    <MauiImage Update="Resources\Images\black_drink_large.svg" BaseSize="40,40" />
+    <MauiImage Update="Resources\Images\black_drink_medium.svg" BaseSize="30,30" />
+    <MauiImage Update="Resources\Images\black_drink_small.svg" BaseSize="20,20" />
+    <MauiImage Update="Resources\Images\white_drink_large.svg" BaseSize="40,40" />
+    <MauiImage Update="Resources\Images\white_drink_medium.svg" BaseSize="30,30" />
+    <MauiImage Update="Resources\Images\white_drink_small.svg" BaseSize="20,20" />
 
     <!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -54,14 +57,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\black_drink.svg" />
+	  <None Remove="Resources\Images\black_drink_large.svg" />
+	  <None Remove="Resources\Images\black_drink_medium.svg" />
+	  <None Remove="Resources\Images\black_drink_small.svg" />
+	  <None Remove="Resources\Images\clear.svg" />
 	  <None Remove="Resources\Images\cup_holder.svg" />
 	  <None Remove="Resources\Images\drink.svg" />
 	  <None Remove="Resources\Images\home.svg" />
 	  <None Remove="Resources\Images\profile.svg" />
 	  <None Remove="Resources\Images\soda_placeholder.jpeg" />
-	  <None Remove="Resources\Images\white_drink.svg" />
+	  <None Remove="Resources\Images\white_drink_large.svg" />
+	  <None Remove="Resources\Images\white_drink_medium.svg" />
 	  <None Remove="Resources\Images\white_drink_outline.svg" />
+	  <None Remove="Resources\Images\white_drink_small.svg" />
 	</ItemGroup>
 
 	<ItemGroup>

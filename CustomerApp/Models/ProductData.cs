@@ -1,5 +1,6 @@
 ﻿using Postgrest.Attributes;
 using Postgrest.Models;
+using System.Collections.ObjectModel;
 
 namespace CustomerApp.Models;
 
@@ -18,4 +19,6 @@ public class ProductData : BaseModel
     public string? ImageUrl { get; set; }
     [Reference(typeof(BaseData))]
     public BaseData Base { get; set; }
+    [Reference(typeof(AddOnData))]
+    public ObservableCollection<AddOnData> AddOns { get; set; }
 }
