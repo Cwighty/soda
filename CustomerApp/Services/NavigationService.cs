@@ -12,4 +12,8 @@ public class NavigationService
     {
         await Shell.Current.GoToAsync(path, parameters);
     }
+    public async Task ClearStack()
+    {
+        await Shell.Current.Navigation.PopToRootAsync(false);
+    }
 }

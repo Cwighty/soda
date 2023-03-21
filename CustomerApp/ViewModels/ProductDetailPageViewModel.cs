@@ -78,7 +78,8 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task AddToCart()
     {
-        await navigationService.GoTo(nameof(CartPage), 
+        await navigationService.ClearStack();
+        await navigationService.GoTo("///CartPage", 
             new Dictionary<string, object>()
             {
                 ["IncomingProduct"] = CustomizedProduct

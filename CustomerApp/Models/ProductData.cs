@@ -33,6 +33,9 @@ public class Product
     public string? ImageUrl { get; set; }
     public Base Base { get; set; }
     public ObservableCollection<AddOn> AddOns { get; set; }
+
+    public string Size => AddOns.Where(a => a.AddOnType.Name == "Size").FirstOrDefault()?.Name ?? "Small";
+    public Decimal CalculatedPrice => AddOns.Sum(a => a.Price) + Base.Price;
 }
 
 public static class ProductDataExtensions
