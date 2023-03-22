@@ -50,8 +50,23 @@ CREATE TABLE
         email VARCHAR(255)
     );
 
+CREATE TABLE 
+    size (
+        id SERIAL primary key,
+        name varchar(15),
+        price DECIMAl(10, 2),
+        img varchar(250)
+    );
+
 CREATE TABLE
     base_type (id SERIAL PRIMARY KEY, name VARCHAR(255));
+
+create table 
+    base_type_size (
+        base_type_id INT References base_type(id),
+        size_id INT References size(id),
+        PRIMARY KEY (base_type_id, size_id)
+    );
 
 create table
     base (
@@ -151,12 +166,26 @@ VALUES
     ('Jane Smith', 'janesmith@example.com'),
     ('Bob Johnson', 'bobjohnson@example.com');
 
+INSERT INTO 
+    size (name, price, img)
+VALUES
+    ('Small', 0, 'drink_small.png'),
+    ('Medium', 0.50, 'drink_medium.png'),
+    ('Large', 1.00, 'drink_large.png');
+
 INSERT INTO
     base_type (name)
 VAlUES
     ('Soda'),
     ('Coffee'),
     ('Tea');
+
+INSERT INTO 
+    base_type_size (base_type_id, size_id)
+VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3);
 
 -- sample data for the base table (assuming it already exists and has been populated)
 INSERT INTO
@@ -217,7 +246,6 @@ VALUES
 INSERT INTO
     addon_type (name)
 VALUES
-    ('Size'),
     ('Syrup'),
     ('Coffee'),
     ('Tea'),
@@ -232,9 +260,7 @@ VALUES
     ('Caramel Drizzle', 0.75, 2),
     ('Chocolate Syrup', 0.75, 2),
     ('Vanilla Syrup', 0.50, 2),
-    ('Strawberry Syrup', 0.75, 2),
-    ('Medium Soda', 0.50, 1),
-    ('Large Soda', 1.00, 1);
+    ('Strawberry Syrup', 0.75, 2);
 
 -- sample data for the product_addon table
 INSERT INTO

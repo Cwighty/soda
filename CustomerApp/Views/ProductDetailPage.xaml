@@ -31,7 +31,6 @@
                                      Value="{Binding .}">
                             <RadioButton.Content>
                                 <StackLayout>
-
                                     <Label Text="{Binding Size}" />
                                 </StackLayout>
                             </RadioButton.Content>
@@ -76,10 +75,10 @@
                                                   VerticalOptions="End">
                                                 <Image Grid.Row="0"
                                                        VerticalOptions="CenterAndExpand"
-                                                       Source="{Binding Source={RelativeSource AncestorType={x:Type models:ProductSize}, AncestorLevel=1}, Path=Img}">
+                                                       Source="{Binding Source={RelativeSource AncestorType={x:Type models:Size}, AncestorLevel=1}, Path=Img}">
                                                 </Image>
                                                 <Label Grid.Row="1"
-                                                       Text="{Binding Source={RelativeSource AncestorType={x:Type models:ProductSize}, AncestorLevel=1}, Path=Size}"
+                                                       Text="{Binding Source={RelativeSource AncestorType={x:Type models:Size}, AncestorLevel=1}, Path=Name}"
                                                        x:Name="CategoryLabel"
                                                        HorizontalTextAlignment="Center"
                                                        VerticalTextAlignment="End"

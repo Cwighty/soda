@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Size = CustomerApp.Models.Size;
 
 namespace CustomerApp.ViewModels;
 
@@ -13,9 +14,9 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     private ProductData customizedProduct;
 
     [ObservableProperty]
-    private List<ProductSize> productSizes;
-    private ProductSize selectedProductSize;
-    public ProductSize SelectedProductSize
+    private List<Size> productSizes;
+    private Size selectedProductSize;
+    public Size SelectedProductSize
     {
         get { return selectedProductSize; }
         set
@@ -35,20 +36,15 @@ public partial class ProductDetailPageViewModel : BaseViewModel
 
     public ProductDetailPageViewModel(ProductService productService, NavigationService navigationService)
     {
-        ProductSizes = new() {
-            new ProductSize("Small", "drink_small.png"),
-            new ProductSize("Medium", "drink_medium.png"),
-            new ProductSize("Large", "drink_large.png")
-        };
+        
         this.productService = productService;
         this.navigationService = navigationService;
     }
 
     public override async Task Initialize()
     {
-        AddOns = (await productService.GetAddOns())
-                .Where(a => a.AddOnType.Name != "Size")
-                .ToList();
+        AddOns = await productService.GetAddOns();
+        ProductSizes = Product.Base.BaseType.Sizes.ToList().ToSizes();
         CustomizedProduct = Product;
     }
 

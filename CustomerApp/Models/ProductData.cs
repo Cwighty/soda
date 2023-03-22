@@ -31,6 +31,8 @@ public class Product
     public string Description { get; set; }
     public decimal? SpecialPrice { get; set; }
     public string? ImageUrl { get; set; }
+
+    public Size SelectedSize { get; set; }
     public Base Base { get; set; }
     public ObservableCollection<AddOn> AddOns { get; set; }
 
