@@ -45,8 +45,8 @@ public partial class MenuPageViewModel : BaseViewModel
     public override async Task Initialize()
     {
         BaseTypes = await productService.GetBaseTypes();
-        SelectedBaseType = BaseTypes.First();
         ProductsByBase = await productService.GetBaseProducts();
+        SelectedBaseType = BaseTypes.First();
     }
 
     public override Task Stop()
