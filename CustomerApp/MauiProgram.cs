@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using CustomerApp.Mappers;
 using Microsoft.Extensions.Logging;
 using MonkeyCache.FileStore;
 
@@ -19,6 +20,8 @@ public static class MauiProgram
             });
 
         Barrel.ApplicationId = "MonkeyCash2";
+
+        builder.Services.AddAutoMapper(typeof(MapperProfile));
 
         var supabaseURL = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8000" : "http://localhost:8000";
         var anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q";

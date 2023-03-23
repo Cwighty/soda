@@ -14,7 +14,7 @@ public partial class MenuPageViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    private List<BaseTypeData> baseTypes;
+    private List<BaseType> baseTypes;
 
     [ObservableProperty]
     private List<BaseProduct> productsByBase;
@@ -23,10 +23,10 @@ public partial class MenuPageViewModel : BaseViewModel
     private List<BaseProduct> filteredProducts;
 
     [ObservableProperty]
-	private List<ProductData> products;
+	private List<Product> products;
 
-    private BaseTypeData selectedBaseType;
-    public BaseTypeData SelectedBaseType
+    private BaseType selectedBaseType;
+    public BaseType SelectedBaseType
     {
         get
         {
@@ -55,7 +55,7 @@ public partial class MenuPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task Navigate(List<ProductData> products)
+    private async Task Navigate(List<Product> products)
     {
         await navigationService
             .GoTo(
@@ -67,7 +67,7 @@ public partial class MenuPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task NavigateToDetail(ProductData product)
+    private async Task NavigateToDetail(Product product)
     {
         await navigationService
             .GoTo(

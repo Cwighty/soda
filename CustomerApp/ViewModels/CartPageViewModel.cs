@@ -10,7 +10,7 @@ public partial class CartPageViewModel : BaseViewModel
 {
     private readonly CacheService cache;
 
-    public ProductData IncomingProduct { get; set; }
+    public Product IncomingProduct { get; set; }
 
     [ObservableProperty]
     private ObservableCollection<Product> cartItems;
@@ -30,7 +30,7 @@ public partial class CartPageViewModel : BaseViewModel
             CartItems = items;
         }
         if (IncomingProduct != null)
-            CartItems.Add(IncomingProduct.ToProduct());
+            CartItems.Add(IncomingProduct);
         IncomingProduct = null;
         return Task.CompletedTask;
     }

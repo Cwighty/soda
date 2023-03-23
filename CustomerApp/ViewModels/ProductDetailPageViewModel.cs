@@ -9,9 +9,9 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     private readonly ProductService productService;
     private readonly NavigationService navigationService;
     [ObservableProperty]
-    private ProductData product;
+    private Product product;
     [ObservableProperty]
-    private ProductData customizedProduct;
+    private Product customizedProduct;
 
     [ObservableProperty]
     private List<Size> productSizes;
@@ -30,9 +30,9 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    private List<AddOnData> addOns;
+    private List<AddOn> addOns;
     [ObservableProperty]
-    private AddOnData selectedAddOn;
+    private AddOn selectedAddOn;
 
     public ProductDetailPageViewModel(ProductService productService, NavigationService navigationService)
     {
@@ -44,7 +44,7 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     public override async Task Initialize()
     {
         AddOns = await productService.GetAddOns();
-        ProductSizes = Product.Base.BaseType.Sizes.ToList().ToSizes();
+        ProductSizes = Product.Base.BaseType.Sizes.ToList();
         CustomizedProduct = Product;
     }
 
@@ -54,7 +54,7 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task ClearAddOn(AddOnData addOn)
+    private async Task ClearAddOn(AddOn addOn)
     {
         CustomizedProduct.AddOns.Remove(addOn);
         OnPropertyChanged(nameof(CustomizedProduct));

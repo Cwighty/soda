@@ -18,3 +18,12 @@ public class CategoryData : BaseModel
     [Reference(typeof(ProductData))]
     public List<ProductData> Products { get; set; }
 }
+
+public class Category
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public string ImageUrl { get; set; }
+    public List<Product> Products { get; set; }
+}

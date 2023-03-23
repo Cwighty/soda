@@ -3,11 +3,11 @@
 public class BaseProduct
 {
     public string Base { get; set; }
-    public List<ProductData> Products { get; set; }
+    public List<Product> Products { get; set; }
 
-    public BaseProduct(string name, List<ProductData> productDatas)
+    public BaseProduct(string name, List<Product> products)
     {
         Base = name;
-        Products = productDatas;
+        Products = products;
     }
 }

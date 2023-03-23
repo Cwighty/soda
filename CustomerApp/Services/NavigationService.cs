@@ -1,6 +1,4 @@
-﻿
-
-namespace CustomerApp.Services;
+﻿namespace CustomerApp.Services;
 
 public class NavigationService
 {

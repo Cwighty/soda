@@ -26,6 +26,10 @@ public class ProductData : BaseModel
 
 public class Product
 {
+    public Product()
+    {
+
+    }
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
@@ -39,25 +43,3 @@ public class Product
     public string Size => AddOns.Where(a => a.AddOnType.Name == "Size").FirstOrDefault()?.Name ?? "Small";
     public Decimal CalculatedPrice => AddOns.Sum(a => a.Price) + Base.Price;
 }
-
-public static class ProductDataExtensions
-{
-    public static List<Product> ToProducts (this List<ProductData> datas)
-    {
-        return datas.Select(d => d.ToProduct()).ToList();
-    }
-    public static Product ToProduct(this ProductData data)
-    {
-        return new Product
-        {
-            Id = data.Id,
-            Name = data.Name,
-            Description = data.Description,
-            SpecialPrice = data.SpecialPrice,
-            ImageUrl = data.ImageUrl,
-            Base = data.Base.ToBase(),
-            AddOns = data.AddOns.ToList().ToAddOns().ToObservableCollection()
-        };
-    }
-}
-

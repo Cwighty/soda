@@ -14,15 +14,10 @@ public class AddOnTypeData : BaseModel
 
 public class AddOnType
 {
+    public AddOnType()
+    {
+
+    }
     public int Id { get; set; }
     public string Name { get; set; }
 }
-
-public static class AddOnTypeExtensions {
-    public static AddOnType ToAddOn(this AddOnTypeData addOn)
-    {
-        return new AddOnType { Id = addOn.Id, Name = addOn.Name };
-    }
-
-}
-

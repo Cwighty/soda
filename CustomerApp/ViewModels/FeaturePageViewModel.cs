@@ -5,7 +5,7 @@ namespace CustomerApp.ViewModels;
 public partial class FeaturePageViewModel : BaseViewModel
 {
     [ObservableProperty] 
-    private List<CategoryData> _categorizedProducts;
+    private List<Category> _categorizedProducts;
 
     private readonly ProductService productService;
     private readonly NavigationService navigationService;
@@ -27,7 +27,7 @@ public partial class FeaturePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task NavigateToDetail(ProductData product)
+    private async Task NavigateToDetail(Product product)
     {
         await navigationService
             .GoTo(

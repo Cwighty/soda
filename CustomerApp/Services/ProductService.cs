@@ -1,46 +1,49 @@
-﻿using Postgrest;
+﻿using AutoMapper;
+using Postgrest;
 using Supabase;
 namespace CustomerApp.Services;
 
 public class ProductService
 {
     private readonly Supabase.Client client;
+    private readonly IMapper mapper;
 
-    public ProductService(Supabase.Client client)
+    public ProductService(Supabase.Client client, IMapper mapper)
 	{
         this.client = client;
+        this.mapper = mapper;
     }
 
-    public async Task<List<ProductData>> GetProducts()
+    public async Task<List<Product>> GetProducts()
     {
         var response = await client.From<ProductData>().Get();
-        return response.Models;
+        return mapper.Map<List<Product>>(response.Models);
     }
 
-    public async Task<List<CategoryData>> GetCategorizedProducts()
+    public async Task<List<Category>> GetCategorizedProducts()
     {
         var response = await client.From<CategoryData>().Get();
-        return response.Models;
+        return mapper.Map<List<Category>>(response.Models);
     }
 
-    public async Task<List<BaseTypeData>> GetBaseTypes()
+    public async Task<List<BaseType>> GetBaseTypes()
     {
         var response = await client.From<BaseTypeData>().Get();
-        return response.Models;
+        return mapper.Map<List<BaseType>>(response.Models);
     }
 
-    public async Task<List<BaseData>> GetBases()
+    public async Task<List<Base>> GetBases()
     {
         var response = await client.From<BaseData>().Get();
-        return response.Models;
+        return mapper.Map<List<Base>>(response.Models);
     }
 
-    public async Task<List<ProductData>> GetProductsByBase(int baseId)
+    public async Task<List<Product>> GetProductsByBase(int baseId)
     {
         var response = await client.From<ProductData>()
             .Filter("base_id", Constants.Operator.Equals, baseId)
             .Get();
-        return response.Models;
+        return mapper.Map<List<Product>>(response.Models);
     }
 
     public async Task<List<BaseProduct>> GetBaseProducts()
@@ -52,9 +55,9 @@ public class ProductService
         return baseProducts;
     }
 
-    public async Task<List<AddOnData>> GetAddOns()
+    public async Task<List<AddOn>> GetAddOns()
     {
         var response = await client.From<AddOnData>().Get();
-        return response.Models;
+        return mapper.Map<List<AddOn>>(response.Models);
     }
 }

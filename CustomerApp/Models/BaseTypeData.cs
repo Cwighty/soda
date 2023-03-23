@@ -16,16 +16,11 @@ public class BaseTypeData : BaseModel
 
 public class BaseType
 {
+    public BaseType()
+    {
+
+    }
     public int Id { get; set; }
     public string Name { get; set; }
     public List<Size> Sizes { get; set; }
 }
-
-public static class BaseTypeExtensions
-{
-    public static BaseType ToBaseType(this BaseTypeData type)
-    {
-        return new BaseType { Id = type.Id, Name = type.Name, Sizes = type.Sizes.ToSizes() };
-    }
-}
-

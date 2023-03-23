@@ -22,9 +22,13 @@ namespace CustomerApp.Models
     [ObservableObject]
     public partial class Size
     {
+        public Size()
+        {
+
+        }
         public string Name { get; set; }
         public Decimal Price { get; set; }
-        
+
         public string Img { get; set; }
         public string Path => IsSelected ? SelectedPath : UnSelectedPath;
 
@@ -42,18 +46,6 @@ namespace CustomerApp.Models
             UnSelectedPath = $"black_{img}";
             Name = size;
             Price = price;
-        }
-    }
-
-    public static class SizeExtensions
-    {
-        public static Size ToSize(this SizeData size)
-        {
-            return new Size(size.Name, size.Img, size.Price);
-        }
-
-        public static List<Size> ToSizes(this List<SizeData> sizes) {
-            return sizes.Select(s => s.ToSize()).ToList();
         }
     }
 }

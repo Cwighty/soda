@@ -7,7 +7,7 @@ public partial class HorizontalProductDisplay : ContentView
 {
     // Bindable properties have to be static to work
     //The bindable property must have the same name as its propery except for appending 'property'
-    public static BindableProperty ProductsProperty = BindableProperty.Create(nameof(Products), typeof(List<ProductData>), typeof(HorizontalProductDisplay), null, propertyChanged: OnProductsChanged);
+    public static BindableProperty ProductsProperty = BindableProperty.Create(nameof(Products), typeof(List<Product>), typeof(HorizontalProductDisplay), null, propertyChanged: OnProductsChanged);
     public static BindableProperty TitleProperty = BindableProperty.Create(nameof(Title), typeof(string), typeof(HorizontalProductDisplay), null, propertyChanged: OnTitleChanged);
     public static BindableProperty ShowAllCommandProperty = BindableProperty.Create(nameof(ShowAllCommand), typeof(ICommand), typeof(HorizontalProductDisplay), null, propertyChanged: ShowAllCommandChanged);
     public static BindableProperty ShowAllEnabledProperty = BindableProperty.Create(nameof(ShowAllEnabled), typeof(bool), typeof(HorizontalProductDisplay), true, propertyChanged: OnSeeAllEnabledChanged);
@@ -15,9 +15,9 @@ public partial class HorizontalProductDisplay : ContentView
 
   
 
-    public List<ProductData> Products
+    public List<Product> Products
     {
-        get => (List<ProductData>)GetValue(ProductsProperty);
+        get => (List<Product>)GetValue(ProductsProperty);
         set =>SetValue(ProductsProperty, value);
     }
     public string Title
@@ -46,7 +46,7 @@ public partial class HorizontalProductDisplay : ContentView
     private static void OnProductsChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var control = (HorizontalProductDisplay)bindable;
-        control.ProductsCollection.ItemsSource = (List<ProductData>)newValue;
+        control.ProductsCollection.ItemsSource = (List<Product>)newValue;
     }
     private static void OnTitleChanged(BindableObject bindable, object oldValue, object newValue)
     {

@@ -22,26 +22,14 @@ public class BaseData : BaseModel
 
 public class Base
 {
+    public Base()
+    {
+
+    }
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public decimal Price { get; set; }
     public int TypeId { get; set; }
     public BaseType BaseType { get; set; }
-}
-
-public static class BaseExtensions
-{
-    public static Base ToBase(this BaseData data)
-    {
-        return new Base
-        {
-            Id = data.Id,
-            Name = data.Name,
-            Description = data.Description,
-            Price = data.Price,
-            TypeId = data.TypeId,
-            BaseType = data.BaseType.ToBaseType()
-        };
-    }
 }
