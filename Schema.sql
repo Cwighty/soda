@@ -13,10 +13,10 @@ anon,
 authenticated,
 service_role;
 
-grant all privileges on all tables in schema public to postgres,
-anon,
-authenticated,
-service_role;
+--grant all privileges on all tables in schema public to postgres,
+--anon,
+--authenticated,
+--service_role;
 
 grant all privileges on all functions in schema public to postgres,
 anon,
@@ -45,9 +45,10 @@ service_role;
 
 CREATE TABLE
     customer (
-        id SERIAL PRIMARY KEY,
+        id uuid references auth.users,
         name VARCHAR(255),
-        email VARCHAR(255)
+        email VARCHAR(255),
+        primary key (id)
     );
 
 CREATE TABLE 
@@ -92,7 +93,7 @@ CREATE TABLE
 CREATE TABLE
     purchase (
         id SERIAL PRIMARY KEY,
-        customer_id INT,
+        customer_id uuid,
         created_at TIMESTAMP,
         status VARCHAR(255),
         FOREIGN KEY (customer_id) REFERENCES customer (id)
@@ -157,14 +158,6 @@ CREATE TABLE
         completed_at TIMESTAMP,
         FOREIGN KEY (purchase_id) REFERENCES purchase (id)
     );
-
--- Insert sample data into the customer table
-INSERT INTO
-    customer (name, email)
-VALUES
-    ('John Doe', 'johndoe@example.com'),
-    ('Jane Smith', 'janesmith@example.com'),
-    ('Bob Johnson', 'bobjohnson@example.com');
 
 INSERT INTO 
     size (name, price, img)
@@ -275,19 +268,19 @@ VALUES
     (3, 5, 1);
 
 -- Insert sample data into the order table
-INSERT INTO
-    purchase (customer_id, created_at, status)
-VALUES
-    (1, '2023-03-10 12:30:00', 'Processing'),
-    (2, '2023-03-10 13:30:00', 'Pending Payment');
+--INSERT INTO
+--    purchase (customer_id, created_at, status)
+--VALUES
+--    (1, '2023-03-10 12:30:00', 'Processing'),
+--    (2, '2023-03-10 13:30:00', 'Pending Payment');
 
 -- Insert sample data into the purchase_item table
-INSERT INTO
-    purchase_item (purchase_id, product_id, quantity)
-VALUES
-    (1, 1, 2),
-    (1, 2, 1),
-    (2, 3, 3);
+--INSERT INTO
+--    purchase_item (purchase_id, product_id, quantity)
+--VALUES
+--    (1, 1, 2),
+--    (1, 2, 1),
+--    (2, 3, 3);
 
 -- Insert sample data into the special table
 INSERT INTO
@@ -315,3 +308,16 @@ VALUES
     (2, 3),
     (3, 1),
     (3, 2);
+
+
+
+
+
+-- POLICIES
+ALTER TABLE customer ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable all access for customer owned tables" ON "public"."customer"
+AS PERMISSIVE FOR ALL
+TO public
+USING (auth.uid() = id)
+WITH CHECK (auth.uid() = id);

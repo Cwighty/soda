@@ -5,9 +5,7 @@
              x:Class="CustomerApp.Views.ProfilePage"
              Title="ProfilePage">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <Label Text="{Binding Customer.Name}" />
+
     </VerticalStackLayout>
 </views:BasePage>

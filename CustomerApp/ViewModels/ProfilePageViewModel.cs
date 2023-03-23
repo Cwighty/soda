@@ -2,9 +2,27 @@
 
 public partial class ProfilePageViewModel : BaseViewModel
 {
-    public override Task Initialize()
+    private readonly NavigationService navigationService;
+    private readonly UserService userService;
+    [ObservableProperty]
+    private Customer customer;
+
+    public ProfilePageViewModel(NavigationService navigationService, UserService userService)
     {
-        return Task.CompletedTask;
+        this.navigationService = navigationService;
+        this.userService = userService;
+    }
+    public async override Task Initialize()
+    {
+        if (!userService.IsLoggedIn())
+        {
+            await navigationService.GoTo(nameof(LoginPage));
+        }
+        else
+        {
+            Customer = await userService.GetCustomer();
+        }
+
     }
 
     public override Task Stop()

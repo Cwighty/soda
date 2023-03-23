@@ -12,6 +12,7 @@ public class MapperProfile : Profile
 		CreateMap<BaseData, Base>().ReverseMap();
 		CreateMap<BaseTypeData, BaseType>().ReverseMap();
 		CreateMap<CategoryData, Category>().ReverseMap();
+		CreateMap<CustomerData, Customer>().ReverseMap();
 		CreateMap<ProductData, Product>().ReverseMap();
 		CreateMap<SizeData, Size>().ReverseMap();
 	}

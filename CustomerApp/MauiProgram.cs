@@ -30,6 +30,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<PurchaseService>();
         builder.Services.AddSingleton<NavigationService>();
         builder.Services.AddSingleton<CacheService>();
+        builder.Services.AddSingleton<UserService>();
 
         IntializePages(builder);
 
@@ -55,5 +56,9 @@ public static class MauiProgram
         builder.Services.AddSingleton<ProductListPageViewModel>();
         builder.Services.AddSingleton<ProductDetailPage>();
         builder.Services.AddSingleton<ProductDetailPageViewModel>();
+        builder.Services.AddSingleton<RegisterPage>();
+        builder.Services.AddSingleton<RegisterPageViewModel>();
+        builder.Services.AddSingleton<LoginPage>();
+        builder.Services.AddSingleton<LoginPageViewModel>();
     }
 }
