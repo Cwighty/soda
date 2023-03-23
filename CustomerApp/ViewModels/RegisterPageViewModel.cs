@@ -1,13 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using Supabase;
-using Supabase.Gotrue;
-using Client = Supabase.Client;
 
 namespace CustomerApp.ViewModels;
 
 public partial class RegisterPageViewModel : BaseViewModel
 {
-    private readonly Client client;
+    private readonly UserService userService;
     private readonly NavigationService navigationService;
 
     [ObservableProperty]
@@ -19,9 +16,9 @@ public partial class RegisterPageViewModel : BaseViewModel
     [ObservableProperty]
     private string name;
 
-    public RegisterPageViewModel(Client client, NavigationService navigationService)
+    public RegisterPageViewModel(UserService userService, NavigationService navigationService)
     {
-        this.client = client;
+        this.userService = userService;
         this.navigationService = navigationService;
     }
     public override Task Initialize()
@@ -37,16 +34,7 @@ public partial class RegisterPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task CreateAccount()
     {
-        var response = await client.Auth.SignUp(Email, Password);
-        var model = new CustomerData
-        {
-            Id = response.User.Id,
-            Name = Name,
-            Email = Email
-        };
-        await client.From<CustomerData>().Insert(model);
-
+        await userService.Register(Email, Password, Name);
         await navigationService.GoTo("../../");
-        
     }
 }

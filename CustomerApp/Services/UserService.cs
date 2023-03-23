@@ -1,9 +1,4 @@
 ﻿using Client = Supabase.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 
 namespace CustomerApp.Services
@@ -38,6 +33,21 @@ namespace CustomerApp.Services
         {
             var response = await client.Auth.SignIn(email, password);
             Console.WriteLine(response.ToString());
+        }
+
+        public async Task Register(string email, string password, string name)
+        {
+            var response = await client.Auth.SignUp(email, password);
+            if (response != null)
+            {
+                var customer = new CustomerData
+                {
+                    Id = response.User.Id,
+                    Name = name,
+                    Email = email
+                };
+                await client.From<CustomerData>().Insert(customer);
+            }
         }
     }
 }
