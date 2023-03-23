@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
 namespace CustomerApp.ViewModels;
@@ -23,14 +21,18 @@ public partial class CartPageViewModel : BaseViewModel
         var items = cache.Get<ObservableCollection<Product>>(nameof(cartItems));
         if (items == null)
         {
-            CartItems = new ObservableCollection<Product>();
+            items = new ObservableCollection<Product>();
+            if (IncomingProduct != null)
+                items.Add(IncomingProduct);
+            CartItems = new (items);
         }
         else
         {
-            CartItems = items;
+            if (IncomingProduct != null)
+                items.Add(IncomingProduct);
+            CartItems = new (items);
         }
-        if (IncomingProduct != null)
-            CartItems.Add(IncomingProduct);
+        
         IncomingProduct = null;
         return Task.CompletedTask;
     }

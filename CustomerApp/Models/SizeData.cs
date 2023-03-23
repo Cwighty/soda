@@ -32,20 +32,11 @@ namespace CustomerApp.Models
         public string Img { get; set; }
         public string Path => IsSelected ? SelectedPath : UnSelectedPath;
 
-        public string SelectedPath { get; set; }
-        public string UnSelectedPath { get; set; }
+        public string SelectedPath => $"white_{Img}";
+        public string UnSelectedPath => $"black_{Img}";
 
         [NotifyPropertyChangedFor(nameof(Path))]
         [ObservableProperty]
         private bool isSelected;
-
-        public Size(string size, string img, Decimal price)
-        {
-            Img = img;
-            SelectedPath = $"white_{img}";
-            UnSelectedPath = $"black_{img}";
-            Name = size;
-            Price = price;
-        }
     }
 }
