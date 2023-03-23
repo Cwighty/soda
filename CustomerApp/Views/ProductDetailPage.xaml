@@ -75,7 +75,7 @@
                                                   VerticalOptions="End">
                                                 <Image Grid.Row="0"
                                                        VerticalOptions="CenterAndExpand"
-                                                       Source="{Binding Source={RelativeSource AncestorType={x:Type models:Size}, AncestorLevel=1}, Path=Img}">
+                                                       Source="{Binding Source={RelativeSource AncestorType={x:Type models:Size}, AncestorLevel=1}, Path=Path}">
                                                 </Image>
                                                 <Label Grid.Row="1"
                                                        Text="{Binding Source={RelativeSource AncestorType={x:Type models:Size}, AncestorLevel=1}, Path=Name}"

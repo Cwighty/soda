@@ -36,10 +36,9 @@ public class Product
     public decimal? SpecialPrice { get; set; }
     public string? ImageUrl { get; set; }
 
-    public Size SelectedSize { get; set; }
+    public Size Size { get; set; } = new Size() { Name = "Small" };
     public Base Base { get; set; }
     public ObservableCollection<AddOn> AddOns { get; set; }
 
-    public string Size => AddOns.Where(a => a.AddOnType.Name == "Size").FirstOrDefault()?.Name ?? "Small";
-    public Decimal CalculatedPrice => AddOns.Sum(a => a.Price) + Base.Price;
+    public Decimal CalculatedPrice => AddOns.Sum(a => a.Price) + Base.Price + Size.Price;
 }

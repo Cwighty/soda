@@ -1,12 +1,10 @@
-﻿
-
-namespace CustomerApp.ViewModels;
+﻿namespace CustomerApp.ViewModels;
 
 [QueryProperty(nameof(Products), nameof(Products))]
 public partial class ProductListPageViewModel : BaseViewModel
 {
     [ObservableProperty]
-    private List<ProductData> products;
+    private List<Product> products;
     public ProductListPageViewModel(ProductService productService)
     {
 

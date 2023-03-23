@@ -19,7 +19,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        Barrel.ApplicationId = "MonkeyCash2";
+        Barrel.ApplicationId = "MonkeyCash3";
 
         builder.Services.AddAutoMapper(typeof(MapperProfile));
 

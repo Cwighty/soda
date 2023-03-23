@@ -34,7 +34,7 @@
                                    VerticalOptions="Center"
                                    FontSize="Medium"
                                    />
-                            <Label Text="{Binding Size}"
+                            <Label Text="{Binding Size.Name}"
                                    Grid.Column="2"
                                    Grid.Row="0"
                                    VerticalOptions="Center"

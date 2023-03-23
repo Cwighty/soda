@@ -22,10 +22,11 @@ public partial class ProductDetailPageViewModel : BaseViewModel
         set
         {
             SetProperty(ref selectedProductSize, value);
-            foreach (var product in ProductSizes)
+            foreach (var size in ProductSizes)
             {
-                product.IsSelected = product == value;
+                size.IsSelected = size == value;
             }
+            CustomizedProduct.Size = value;
         }
     }
 
