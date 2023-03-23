@@ -4,7 +4,8 @@
                 xmlns:views="clr-namespace:CustomerApp.Views"
                 xmlns:vm="clr-namespace:CustomerApp.ViewModels"
                 x:Class="CustomerApp.Views.CartPage"
-                Title="CartPage">
+                Title="CartPage"
+                Shell.NavBarIsVisible="False">
     <VerticalStackLayout>
         <CollectionView ItemsSource="{Binding CartItems}">
             <CollectionView.ItemTemplate>

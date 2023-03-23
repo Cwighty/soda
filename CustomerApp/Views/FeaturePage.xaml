@@ -5,7 +5,8 @@
                 xmlns:controls="clr-namespace:CustomerApp.Views.Controls"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 x:Class="CustomerApp.Views.FeaturePage"
-                Title="FeaturePage">
+                Title="FeaturePage"
+                Shell.NavBarIsVisible="False">
     <StackLayout 
                  Margin="0,0,0,0">
         <ScrollView VerticalOptions="FillAndExpand">

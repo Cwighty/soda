@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:CustomerApp.Views"
-             x:Class="CustomerApp.Views.ProfilePage"
-             Title="ProfilePage">
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:CustomerApp.Views"
+                x:Class="CustomerApp.Views.ProfilePage"
+                Title="ProfilePage"
+                Shell.NavBarIsVisible="False">
     <VerticalStackLayout>
-        <Label Text="{Binding Customer.Name}" />
-
+        <VerticalStackLayout IsVisible="{Binding IsLoggedIn}">
+            <Label Text="{Binding Customer.Name}" />
+            <Button Text="Logout"
+                    Command="{Binding LogoutCommand}" />
+        </VerticalStackLayout>
+        <VerticalStackLayout IsVisible="{Binding IsNotLoggedIn}">
+            <Label Text="Please Log In To See Profile Info" />
+            <Button Text="Login"
+                    Command="{Binding LoginCommand}" />
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </views:BasePage>

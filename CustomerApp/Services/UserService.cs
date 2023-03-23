@@ -49,5 +49,10 @@ namespace CustomerApp.Services
                 await client.From<CustomerData>().Insert(customer);
             }
         }
+
+        public async Task Logout()
+        {
+            await client.Auth.SignOut();
+        }
     }
 }

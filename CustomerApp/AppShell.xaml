@@ -28,6 +28,4 @@
             <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" />
         </Tab>
     </TabBar>
-    
-
 </Shell>

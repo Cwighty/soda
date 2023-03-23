@@ -1,4 +1,6 @@
-﻿namespace CustomerApp.ViewModels;
+﻿using CommunityToolkit.Mvvm.Input;
+
+namespace CustomerApp.ViewModels;
 
 public partial class ProfilePageViewModel : BaseViewModel
 {
@@ -7,6 +9,12 @@ public partial class ProfilePageViewModel : BaseViewModel
     [ObservableProperty]
     private Customer customer;
 
+    [ObservableProperty]
+    private bool isLoggedIn;
+
+    [ObservableProperty]
+    private bool isNotLoggedIn;
+
     public ProfilePageViewModel(NavigationService navigationService, UserService userService)
     {
         this.navigationService = navigationService;
@@ -14,13 +22,16 @@ public partial class ProfilePageViewModel : BaseViewModel
     }
     public async override Task Initialize()
     {
-        if (!userService.IsLoggedIn())
+        if (userService.IsLoggedIn())
         {
-            await navigationService.GoTo(nameof(LoginPage));
+            IsLoggedIn = true;
+            IsNotLoggedIn= false;
+            Customer = await userService.GetCustomer();
         }
         else
         {
-            Customer = await userService.GetCustomer();
+            IsLoggedIn = false;
+            IsNotLoggedIn= true;
         }
 
     }
@@ -28,5 +39,18 @@ public partial class ProfilePageViewModel : BaseViewModel
     public override Task Stop()
     {
         return Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    private async Task Logout()
+    {
+        await userService.Logout();
+        await navigationService.GoTo("///FeaturePage");
+    }
+
+    [RelayCommand]
+    private async Task Login()
+    {
+        await navigationService.GoTo(nameof(LoginPage));
     }
 }

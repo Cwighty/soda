@@ -23,6 +23,8 @@ namespace CustomerApp.ViewModels
         }
         public override Task Initialize()
         {
+            Email = null;
+            Password = null;
             return Task.CompletedTask;
         }
 
@@ -35,7 +37,7 @@ namespace CustomerApp.ViewModels
         private async Task Login()
         {
             await userService.Login(Email, Password);
-            await navigationService.GoTo("../");
+            await navigationService.GoTo("///ProfilePage");
         }
 
         [RelayCommand]

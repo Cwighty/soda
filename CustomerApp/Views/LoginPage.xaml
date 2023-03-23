@@ -3,7 +3,8 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:CustomerApp.Views"
                 x:Class="CustomerApp.Views.LoginPage"
-                Title="LoginPage">
+                Title="LoginPage"
+                Shell.NavBarIsVisible="False">
     <VerticalStackLayout Padding="20"
                          Spacing="10">
         <Label Text="Welcome!"
