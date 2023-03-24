@@ -3,18 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerApp", "CustomerApp\CustomerApp.csproj", "{FB7CFF9D-5D23-44B0-B76B-D61C1221A36E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerApp", "CustomerApp\CustomerApp.csproj", "{FB7CFF9D-5D23-44B0-B76B-D61C1221A36E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreApp", "StoreApp\StoreApp.csproj", "{0CE166C2-59B3-4279-B29E-C4967B788275}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp", "StoreApp\StoreApp.csproj", "{0CE166C2-59B3-4279-B29E-C4967B788275}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{0BBCC752-E46E-46D3-ABDB-E941876E86A3}"
 	ProjectSection(SolutionItems) = preProject
 		Schema.sql = Schema.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SodaAPI", "SodaAPI\SodaAPI.csproj", "{A167563E-0D28-4873-8AED-03141342AA50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SodaAPI", "SodaAPI\SodaAPI.csproj", "{A167563E-0D28-4873-8AED-03141342AA50}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAppTests", "CustomerAppTests\CustomerAppTests.csproj", "{7DFC9345-F141-4CB5-BFE7-00657A2D9319}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DFC9345-F141-4CB5-BFE7-00657A2D9319}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DFC9345-F141-4CB5-BFE7-00657A2D9319}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DFC9345-F141-4CB5-BFE7-00657A2D9319}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DFC9345-F141-4CB5-BFE7-00657A2D9319}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
