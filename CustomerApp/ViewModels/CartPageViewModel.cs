@@ -18,7 +18,7 @@ public partial class CartPageViewModel : BaseViewModel
     }
     public override Task Initialize()
     {
-        var items = cache.Get<ObservableCollection<Product>>(nameof(cartItems));
+        var items = cache.Get<ObservableCollection<Product>>(nameof(CartItems));
         if (items == null)
         {
             items = new ObservableCollection<Product>();
