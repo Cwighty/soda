@@ -8,10 +8,23 @@ public partial class CartPageViewModel : BaseViewModel
 {
     private readonly CacheService cache;
 
-    public Product IncomingProduct { get; set; }
+    public Product IncomingProduct
+    {
+        get => incomingProduct; 
+        set
+        {
+            incomingProduct = value;
+            if (incomingProduct != null)
+            {
+                Initialize();
+            }
+        }
+    }
 
     [ObservableProperty]
     private ObservableCollection<Product> cartItems;
+    private Product incomingProduct;
+
     public CartPageViewModel(CacheService cache)
     {
         this.cache = cache;
@@ -24,15 +37,15 @@ public partial class CartPageViewModel : BaseViewModel
             items = new ObservableCollection<Product>();
             if (IncomingProduct != null)
                 items.Add(IncomingProduct);
-            CartItems = new (items);
+            CartItems = new(items);
         }
         else
         {
             if (IncomingProduct != null)
                 items.Add(IncomingProduct);
-            CartItems = new (items);
+            CartItems = new(items);
         }
-        
+
         IncomingProduct = null;
         return Task.CompletedTask;
     }
