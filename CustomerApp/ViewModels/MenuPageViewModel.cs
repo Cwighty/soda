@@ -4,10 +4,10 @@ namespace CustomerApp.ViewModels;
 
 public partial class MenuPageViewModel : BaseViewModel
 {
-    private readonly ProductService productService;
+    private readonly IProductService productService;
     private readonly NavigationService navigationService;
 
-    public MenuPageViewModel(ProductService productService, NavigationService navigationService)
+    public MenuPageViewModel(IProductService productService, NavigationService navigationService)
 	{
         this.productService = productService;
         this.navigationService = navigationService;

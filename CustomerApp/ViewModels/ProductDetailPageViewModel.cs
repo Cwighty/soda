@@ -6,7 +6,7 @@ namespace CustomerApp.ViewModels;
 [QueryProperty(nameof(Product), nameof(Product))]
 public partial class ProductDetailPageViewModel : BaseViewModel
 {
-    private readonly ProductService productService;
+    private readonly IProductService productService;
     private readonly NavigationService navigationService;
     [ObservableProperty]
     private Product product;
@@ -35,7 +35,7 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     [ObservableProperty]
     private AddOn selectedAddOn;
 
-    public ProductDetailPageViewModel(ProductService productService, NavigationService navigationService)
+    public ProductDetailPageViewModel(IProductService productService, NavigationService navigationService)
     {
         
         this.productService = productService;

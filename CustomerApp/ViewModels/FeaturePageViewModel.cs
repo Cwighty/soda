@@ -7,7 +7,7 @@ public partial class FeaturePageViewModel : BaseViewModel
     [ObservableProperty] 
     private List<Category> _categorizedProducts;
 
-    private readonly ProductService productService;
+    private readonly IProductService productService;
     private readonly NavigationService navigationService;
 
     public FeaturePageViewModel(IProductService productService, NavigationService navigationService)

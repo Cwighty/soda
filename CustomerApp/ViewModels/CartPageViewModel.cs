@@ -6,7 +6,7 @@ namespace CustomerApp.ViewModels;
 [QueryProperty(nameof(IncomingProduct), nameof(IncomingProduct))]
 public partial class CartPageViewModel : BaseViewModel
 {
-    private readonly CacheService cache;
+    private readonly ICacheService cache;
 
     public Product IncomingProduct
     {
@@ -25,7 +25,7 @@ public partial class CartPageViewModel : BaseViewModel
     private ObservableCollection<Product> cartItems;
     private Product incomingProduct;
 
-    public CartPageViewModel(CacheService cache)
+    public CartPageViewModel(ICacheService cache)
     {
         this.cache = cache;
     }

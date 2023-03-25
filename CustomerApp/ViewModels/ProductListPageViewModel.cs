@@ -5,7 +5,7 @@ public partial class ProductListPageViewModel : BaseViewModel
 {
     [ObservableProperty]
     private List<Product> products;
-    public ProductListPageViewModel(ProductService productService)
+    public ProductListPageViewModel()
     {
 
     }
