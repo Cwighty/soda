@@ -3,13 +3,13 @@ using Postgrest;
 using Supabase;
 namespace CustomerApp.Services;
 
-public class ProductService
+public class ProductService : IProductService
 {
     private readonly Supabase.Client client;
     private readonly IMapper mapper;
 
     public ProductService(Supabase.Client client, IMapper mapper)
-	{
+    {
         this.client = client;
         this.mapper = mapper;
     }
@@ -49,7 +49,8 @@ public class ProductService
     public async Task<List<BaseProduct>> GetBaseProducts()
     {
         var baseProducts = new List<BaseProduct>();
-        foreach (var b in await GetBases()) { 
+        foreach (var b in await GetBases())
+        {
             baseProducts.Add(new(b.Name, await GetProductsByBase(b.Id)));
         }
         return baseProducts;
@@ -59,5 +60,28 @@ public class ProductService
     {
         var response = await client.From<AddOnData>().Get();
         return mapper.Map<List<AddOn>>(response.Models);
+    }
+}
+
+public class CacheProductService
+{
+    private readonly IProductService productService;
+    private readonly ICacheService cacheService;
+
+    public CacheProductService(IProductService productService, ICacheService cacheService)
+    {
+        this.productService = productService;
+        this.cacheService = cacheService;
+    }
+
+    public async Task<List<Product>> GetProducts()
+    {
+        var products = cacheService.Get<List<Product>>(nameof(GetProducts));
+        if (products == null || products.Count == 0)
+        {
+            products = await productService.GetProducts();
+            cacheService.Add(nameof(GetProducts), products);
+        }
+        return products;
     }
 }

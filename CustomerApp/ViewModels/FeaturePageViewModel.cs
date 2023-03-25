@@ -10,7 +10,7 @@ public partial class FeaturePageViewModel : BaseViewModel
     private readonly ProductService productService;
     private readonly NavigationService navigationService;
 
-    public FeaturePageViewModel(ProductService productService, NavigationService navigationService)
+    public FeaturePageViewModel(IProductService productService, NavigationService navigationService)
     {
         this.productService = productService;
         this.navigationService = navigationService;

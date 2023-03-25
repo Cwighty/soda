@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomerApp.Services
 {
-    public class CacheService
+    public class CacheService : ICacheService
     {
         public void Add<T>(string key, T value)
         {
