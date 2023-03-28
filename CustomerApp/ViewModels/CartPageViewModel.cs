@@ -8,6 +8,7 @@ namespace CustomerApp.ViewModels;
 public partial class CartPageViewModel : BaseViewModel
 {
     private readonly ICacheService cache;
+    private readonly NavigationService navigationService;
 
     public Product IncomingProduct
     {
@@ -26,9 +27,10 @@ public partial class CartPageViewModel : BaseViewModel
     private List<Product> cartItems;
     private Product incomingProduct;
 
-    public CartPageViewModel(ICacheService cache)
+    public CartPageViewModel(ICacheService cache, NavigationService navigationService)
     {
         this.cache = cache;
+        this.navigationService = navigationService;
     }
     public override Task Initialize()
     {
@@ -80,7 +82,7 @@ public partial class CartPageViewModel : BaseViewModel
         }
         else if (action == "Continue As Guest")
         {
-            // Do something else
+           await navigationService.GoTo(nameof(PaymentPage));
         }
 
     }    
