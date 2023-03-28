@@ -6,15 +6,17 @@
                 x:Class="CustomerApp.Views.CartPage"
                 Title="CartPage"
                 Shell.NavBarIsVisible="False">
-    <VerticalStackLayout>
-        <CollectionView ItemsSource="{Binding CartItems}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Border>
-                        <Grid ColumnDefinitions="auto,auto,auto,*"
+    <StackLayout>
+
+        <VerticalStackLayout>
+            <CollectionView ItemsSource="{Binding CartItems}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border>
+                            <Grid ColumnDefinitions="auto,auto,auto,*"
                               RowDefinitions="auto,auto,auto"
                               Margin="10">
-                            <Frame Margin="10"
+                                <Frame Margin="10"
                                    BorderColor="Black"
                                    CornerRadius="50"
                                    HeightRequest="60"
@@ -23,36 +25,36 @@
                                    HorizontalOptions="Start"
                                    VerticalOptions="Center"
                                    Grid.RowSpan="2">
-                                <Image Source="soda_placeholder.jpeg"
+                                    <Image Source="soda_placeholder.jpeg"
                                        Aspect="AspectFill"
                                        Margin="-20"
                                        HeightRequest="100"
                                        WidthRequest="100" />
-                            </Frame>
-                            <Label Text="{Binding Name, StringFormat='{0} - '}"
+                                </Frame>
+                                <Label Text="{Binding Name, StringFormat='{0} - '}"
                                    Grid.Column="1"
                                    Grid.Row="0"
                                    VerticalOptions="Center"
                                    FontSize="Medium"
                                    />
-                            <Label Text="{Binding Size.Name}"
+                                <Label Text="{Binding Size.Name}"
                                    Grid.Column="2"
                                    Grid.Row="0"
                                    VerticalOptions="Center"
                                    FontSize="Medium"
                                    />
-                            <VerticalStackLayout Grid.Column="1"
+                                <VerticalStackLayout Grid.Column="1"
                                                  Grid.Row="1">
-                                <CollectionView ItemsSource="{Binding AddOns}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Label Text="{Binding Name}"
+                                    <CollectionView ItemsSource="{Binding AddOns}">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Label Text="{Binding Name}"
                                                    TextColor="{StaticResource Gray500}"/>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </VerticalStackLayout>
-                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartPageViewModel}}, Path=ClearCartItemCommand}"
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </VerticalStackLayout>
+                                <ImageButton Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CartPageViewModel}}, Path=ClearCartItemCommand}"
                                          CommandParameter="{Binding .}"
                                          Grid.Column="3"
                                          HorizontalOptions="End"
@@ -60,16 +62,32 @@
                                          MaximumWidthRequest="20"
                                          Source="clear.png"
                                          />
-                            <Label Text="{Binding CalculatedPrice, StringFormat='${0}'}"
+                                <Label Text="{Binding CalculatedPrice, StringFormat='${0}'}"
                                    Grid.Column="2"
                                    Grid.Row="1"
                                    VerticalOptions="Center"
                                    FontSize="Medium"
                                    FontAttributes="Bold"/>
-                        </Grid>
-                    </Border>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+        <Grid VerticalOptions="FillAndExpand" ColumnDefinitions="*,*">
+            <Button Text="Add More"
+                    BackgroundColor="{StaticResource White}"
+                    TextColor="{StaticResource Tertiary}"
+                    Grid.Column="0"
+                    Margin="20"
+                    VerticalOptions="EndAndExpand"
+                    />
+            <Button Text="Continue"
+                    Grid.Column="1"
+                    Margin="20"
+                    VerticalOptions="EndAndExpand"
+                    Command="{Binding ShowPopupCommand}"
+                    />
+        </Grid>
+    </StackLayout>
 </views:BasePage>

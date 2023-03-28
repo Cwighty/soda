@@ -110,7 +110,8 @@
                     <DataTemplate>
                         <Border>
                             <Grid ColumnDefinitions="auto,*"
-                                  Margin="10">
+                                  Margin="10"
+                                  >
                                 <Label Grid.Column="0"
                                        VerticalOptions="Center"
                                        Text="{Binding Name}" />

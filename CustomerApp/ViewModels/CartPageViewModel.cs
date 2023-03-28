@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 
 namespace CustomerApp.ViewModels;
@@ -22,7 +23,7 @@ public partial class CartPageViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    private ObservableCollection<Product> cartItems;
+    private List<Product> cartItems;
     private Product incomingProduct;
 
     public CartPageViewModel(ICacheService cache)
@@ -31,35 +32,57 @@ public partial class CartPageViewModel : BaseViewModel
     }
     public override Task Initialize()
     {
-        var items = cache.Get<ObservableCollection<Product>>(nameof(CartItems));
+        var items = cache.Get<List<Product>>(nameof(CartItems));
         if (items == null)
         {
-            items = new ObservableCollection<Product>();
-            if (IncomingProduct != null)
-                items.Add(IncomingProduct);
-            CartItems = new(items);
+            items = new List<Product>();
         }
-        else
+        if (IncomingProduct != null)
         {
-            if (IncomingProduct != null)
-                items.Add(IncomingProduct);
+            items.Add(IncomingProduct);
             CartItems = new(items);
         }
-
+        
         IncomingProduct = null;
         return Task.CompletedTask;
     }
 
     public override Task Stop()
     {
-        cache.Add(nameof(cartItems), cartItems);
+        if (CartItems != null)
+        {
+            cache.Add(nameof(CartItems), CartItems);
+        }
         return Task.CompletedTask;
     }
-
+    
     [RelayCommand]
     private void ClearCartItem(Product product)
     {
         CartItems.Remove(product);
         OnPropertyChanged(nameof(CartItems));
     }
+
+    [RelayCommand]
+    private async Task ShowPopup() {
+
+
+
+        var options = new string[] { "Sign In", "Create An Account", "Continue As Guest" };
+        var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
+        if (action == "Sign In")
+        {
+            // Do something
+        }
+        else if (action == "Create An Account")
+        {
+            // Do something else
+        }
+        else if (action == "Continue As Guest")
+        {
+            // Do something else
+        }
+
+    }    
+    
 }

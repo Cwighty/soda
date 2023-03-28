@@ -7,11 +7,11 @@ public class BasePage : ContentPage
     {
 
     }
-
-    protected override async void OnNavigatedTo(NavigatedToEventArgs args)
+    
+    protected override async void OnAppearing()
     {
         await ViewModel.Initialize();
-        base.OnNavigatedTo(args);
+        base.OnAppearing();
     }
     
 
