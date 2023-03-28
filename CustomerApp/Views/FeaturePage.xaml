@@ -7,8 +7,7 @@
                 x:Class="CustomerApp.Views.FeaturePage"
                 Title="FeaturePage"
                 Shell.NavBarIsVisible="False">
-    <StackLayout 
-                 Margin="0,0,0,0">
+    <Grid>
         <ScrollView VerticalOptions="FillAndExpand">
             <CollectionView ItemsSource="{Binding CategorizedProducts}">
                 <CollectionView.ItemTemplate>
@@ -23,5 +22,5 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </ScrollView>
-    </StackLayout>
+    </Grid>
 </views:BasePage>

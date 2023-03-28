@@ -23,7 +23,7 @@ public partial class CartPageViewModel : BaseViewModel
     }
 
     [ObservableProperty]
-    private List<Product> cartItems;
+    private ObservableCollection<Product> cartItems;
     private Product incomingProduct;
 
     public CartPageViewModel(ICacheService cache)
@@ -32,10 +32,10 @@ public partial class CartPageViewModel : BaseViewModel
     }
     public override Task Initialize()
     {
-        var items = cache.Get<List<Product>>(nameof(CartItems));
+        var items = cache.Get<ObservableCollection<Product>>(nameof(CartItems));
         if (items == null)
         {
-            items = new List<Product>();
+            items = new ObservableCollection<Product>();
         }
         if (IncomingProduct != null)
         {
