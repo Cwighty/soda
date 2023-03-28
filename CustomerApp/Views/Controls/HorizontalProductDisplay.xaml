@@ -8,10 +8,8 @@
         <!---Product List Header-->
         <StackLayout x:Name="ProductListHeader"
                      Orientation="Horizontal"
-                     HorizontalOptions="
-                        FillAndExpand"
-                     VerticalOptions="
-                        Start"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Start"
                      Margin="0,20,0,0">
             <Label x:Name="SectionLabel"
                    HorizontalOptions="StartAndExpand"
