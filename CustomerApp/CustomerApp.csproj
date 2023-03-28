@@ -57,6 +57,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\add.svg" />
 	  <None Remove="Resources\Images\black_drink_large.svg" />
 	  <None Remove="Resources\Images\black_drink_medium.svg" />
 	  <None Remove="Resources\Images\black_drink_small.svg" />
