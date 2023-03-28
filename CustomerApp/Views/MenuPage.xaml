@@ -8,7 +8,7 @@
                 x:Class="CustomerApp.Views.MenuPage"
                 Title="MenuPage"
                 Shell.NavBarIsVisible="False">
-    <StackLayout>
+    <Grid>
         <!---Category Chips-->
         <ScrollView Orientation="Horizontal"
                     VerticalOptions="Start"
@@ -88,5 +88,5 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </ScrollView>
-    </StackLayout>
+    </Grid>
 </views:BasePage>
