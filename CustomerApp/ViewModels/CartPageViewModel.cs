@@ -8,6 +8,7 @@ namespace CustomerApp.ViewModels;
 public partial class CartPageViewModel : BaseViewModel
 {
     private readonly ICacheService cache;
+    private readonly NavigationService navigationService;
 
     public Product IncomingProduct
     {
@@ -41,18 +42,10 @@ public partial class CartPageViewModel : BaseViewModel
     }
     private Product incomingProduct;
 
-    [ObservableProperty]
-    private Decimal subTotal;
-
-    [ObservableProperty]
-    public Decimal tax;
-
-    [ObservableProperty]
-    public Decimal total;
-
     public CartPageViewModel(ICacheService cache)
     {
         this.cache = cache;
+        this.navigationService = navigationService;
     }
 
     private void CartItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -116,7 +109,7 @@ public partial class CartPageViewModel : BaseViewModel
         }
         else if (action == "Continue As Guest")
         {
-            // Do something else
+           await navigationService.GoTo(nameof(PaymentPage));
         }
 
     }    
