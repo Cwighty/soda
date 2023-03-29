@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using System;
 using System.Collections.ObjectModel;
 
 namespace CustomerApp.ViewModels;
@@ -41,8 +40,14 @@ public partial class CartPageViewModel : BaseViewModel
         }
     }
     private Product incomingProduct;
+    [ObservableProperty]
+    private decimal subTotal;
+    [ObservableProperty]
+    private decimal tax;
+    [ObservableProperty]
+    private decimal total;
 
-    public CartPageViewModel(ICacheService cache)
+    public CartPageViewModel(ICacheService cache, NavigationService navigationService)
     {
         this.cache = cache;
         this.navigationService = navigationService;
@@ -113,5 +118,4 @@ public partial class CartPageViewModel : BaseViewModel
         }
 
     }    
-    
 }
