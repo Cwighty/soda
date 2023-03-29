@@ -22,14 +22,51 @@ public partial class CartPageViewModel : BaseViewModel
         }
     }
 
-    [ObservableProperty]
     private ObservableCollection<Product> cartItems;
+    public ObservableCollection<Product> CartItems
+    {
+        get => cartItems;
+        set
+        {
+            SetProperty(ref cartItems, value);
+            var subTotal = 0m;
+            foreach (var item in CartItems)
+            {
+                subTotal += item.CalculatedPrice;
+            }
+            SubTotal = subTotal;
+            Tax = SubTotal * 0.07m;
+            Total = SubTotal + Tax;
+        }
+    }
     private Product incomingProduct;
+
+    [ObservableProperty]
+    private Decimal subTotal;
+
+    [ObservableProperty]
+    public Decimal tax;
+
+    [ObservableProperty]
+    public Decimal total;
 
     public CartPageViewModel(ICacheService cache)
     {
         this.cache = cache;
     }
+
+    private void CartItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        var subTotal = 0m;
+        foreach (var item in CartItems)
+        {
+            subTotal += item.CalculatedPrice;
+        }
+        SubTotal = subTotal;
+        Tax = SubTotal * 0.07m;
+        Total = SubTotal + Tax;
+    }
+
     public override Task Initialize()
     {
         var items = cache.Get<ObservableCollection<Product>>(nameof(CartItems));
@@ -41,8 +78,9 @@ public partial class CartPageViewModel : BaseViewModel
         {
             items.Add(IncomingProduct);
             CartItems = new(items);
+            CartItems.CollectionChanged += CartItems_CollectionChanged;
         }
-        
+
         IncomingProduct = null;
         return Task.CompletedTask;
     }
@@ -64,10 +102,8 @@ public partial class CartPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task ShowPopup() {
-
-
-
+    private async Task ShowPopup()
+    {
         var options = new string[] { "Sign In", "Create An Account", "Continue As Guest" };
         var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
         if (action == "Sign In")
