@@ -9,6 +9,7 @@ namespace CustomerApp.ViewModels
         private DateTime expirationDate = DateTime.Now;
         private string cVV;
         private string cardholderName;
+        private readonly NavigationService navigationService;
 
         [Display(Name = "Card Number")]
         [Required(ErrorMessage = "Please enter a valid credit card number.")]
@@ -43,6 +44,11 @@ namespace CustomerApp.ViewModels
             set => SetProperty(ref cardholderName, value);
         }
 
+        public PaymentPageViewModel(NavigationService navigationService)
+        {
+            this.navigationService = navigationService;
+        }
+
         public override Task Initialize()
         {
             return Task.CompletedTask;
@@ -72,6 +78,8 @@ namespace CustomerApp.ViewModels
             }
 
             // TODO: Submit the payment
+
+            await navigationService.GoTo(nameof(OrderConfirmationPage));
         }
     }
 }
