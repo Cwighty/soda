@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:CustomerApp.Shared"
+                x:Class="CustomerApp.Features.Login.RegisterPage"
+                Title="RegisterPage"
+                Shell.NavBarIsVisible="False">
+    <VerticalStackLayout Spacing="20"
+                 Margin="20">
+        <Label Text="New Account"
+               FontSize="Large"
+               HorizontalOptions="Center" />
+        <Entry Text="{Binding Name}"
+               Placeholder="Name" />
+        <Entry Text="{Binding Email}"
+               Placeholder="Email" />
+        <Entry Text="{Binding Password}"
+               Placeholder="Password"
+               IsPassword="True"/>
+        <Button Text="Create Account"
+                Command="{Binding CreateAccountCommand}" />
+    </VerticalStackLayout>
+</views:BasePage>

@@ -3,29 +3,31 @@
     x:Class="CustomerApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:views="clr-namespace:CustomerApp.Views"
+    xmlns:menu="clr-namespace:CustomerApp.Features.Menu"
+    xmlns:cart="clr-namespace:CustomerApp.Features.Cart"
+    xmlns:profile="clr-namespace:CustomerApp.Features.Profile"
     Shell.FlyoutBehavior="Disabled">
 
     <TabBar>
         <Tab Title="Featured"
              Icon="home.png"
              Route="FeaturePage">
-            <ShellContent ContentTemplate="{DataTemplate views:FeaturePage}" />
+            <ShellContent ContentTemplate="{DataTemplate menu:FeaturePage}" />
         </Tab>
         <Tab Title="Menu"
              Icon="black_drink_small.png"
              Route="MenuPage">
-            <ShellContent ContentTemplate="{DataTemplate views:MenuPage}" />
+            <ShellContent ContentTemplate="{DataTemplate menu:MenuPage}" />
         </Tab>
         <Tab Title="Cup Holder"
              Icon="cup_holder.png"
              Route="CartPage">
-            <ShellContent ContentTemplate="{DataTemplate views:CartPage}" />
+            <ShellContent ContentTemplate="{DataTemplate cart:CartPage}" />
         </Tab>
         <Tab Title="Profile"
              Icon="profile.png"
              Route="ProfilePage">
-            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}" />
+            <ShellContent ContentTemplate="{DataTemplate profile:ProfilePage}" />
         </Tab>
     </TabBar>
 </Shell>

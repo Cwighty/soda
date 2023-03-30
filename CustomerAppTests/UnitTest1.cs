@@ -1,5 +1,5 @@
-using CustomerApp.Models;
-using CustomerApp.Services;
+using CustomerApp.Shared.Models;
+using CustomerApp.Shared.Services;
 using FluentAssertions;
 using Moq;
 

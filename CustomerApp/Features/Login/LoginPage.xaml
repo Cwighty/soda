@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:CustomerApp.Shared"
+                x:Class="CustomerApp.Features.Login.LoginPage"
+                Title="LoginPage"
+                Shell.NavBarIsVisible="False">
+    <VerticalStackLayout Padding="20"
+                         Spacing="10">
+        <Label Text="Welcome!"
+               FontSize="Large"
+               HorizontalOptions="Center" />
+        <Label Text="Email:" />
+        <Entry Text="{Binding Email}"
+               Placeholder="Enter email" />
+        <Label Text="Password:" />
+        <Entry Text="{Binding Password}"
+               Placeholder="Enter password"
+               IsPassword="True" />
+        <Button Text="Login"
+                Command="{Binding LoginCommand}"
+                HorizontalOptions="Center" />
+        <Button Text="Register"
+                Command="{Binding GoToRegisterCommand}"
+                HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</views:BasePage>

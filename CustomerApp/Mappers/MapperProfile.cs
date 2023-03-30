@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Size = CustomerApp.Models.Size;
+using Size = CustomerApp.Shared.Models.Size;
 
 namespace CustomerApp.Mappers;
 
