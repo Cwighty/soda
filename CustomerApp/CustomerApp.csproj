@@ -66,6 +66,7 @@
 	  <None Remove="Resources\Images\drink.svg" />
 	  <None Remove="Resources\Images\home.svg" />
 	  <None Remove="Resources\Images\profile.svg" />
+	  <None Remove="Resources\Images\right_arrow.svg" />
 	  <None Remove="Resources\Images\soda_placeholder.jpeg" />
 	  <None Remove="Resources\Images\white_drink_large.svg" />
 	  <None Remove="Resources\Images\white_drink_medium.svg" />
@@ -118,6 +119,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Features\Menu\ProductDetailPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Features\Profile\ProfileDetailsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Features\Profile\ProfilePage.xaml">

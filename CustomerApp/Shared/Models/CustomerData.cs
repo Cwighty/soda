@@ -12,6 +12,8 @@ public class CustomerData : BaseModel
     public string Name { get; set; }
     [Column("email")]
     public string Email { get; set; }
+    [Column("phone")]
+    public string Phone { get; set; }
 }
 
 public class Customer
@@ -19,4 +21,5 @@ public class Customer
     public string Id { get; set; }
     public string Name { get; set; }
     public string Email { get; set; }
+    public string Phone { get; set; }
 }

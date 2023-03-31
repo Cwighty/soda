@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:CustomerApp.Shared"
+                xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+                x:Class="CustomerApp.Features.Profile.ProfileDetailsPage"
+                Shell.NavBarIsVisible="False"
+                >
+    <ContentPage.Resources>
+
+    </ContentPage.Resources>
+    <StackLayout>
+        <Label Text="Customer Details"
+               Style="{StaticResource LabelHeaderStyle}"/>
+    <StackLayout Margin="20">
+        <Label Text="Name" />
+        <Entry Text="{Binding Customer.Name, Mode=TwoWay}" />
+        <Label Text="Phone Number" />
+        <Entry Text="{Binding Customer.Phone, Mode=TwoWay}" Keyboard="Telephone">
+            <Entry.Behaviors>
+                <toolkit:EventToCommandBehavior Command="{Binding ValidatePhoneNumberCommand}"/>
+            </Entry.Behaviors>
+        </Entry>
+        <Label Text="Email" />
+        <Entry Text="{Binding Customer.Email}"
+               IsEnabled="False" />
+        <Button Text="Save"
+                WidthRequest="120"
+                Margin="10"
+                Command="{Binding UpdateDetailsCommand}"
+                CommandParameter="{Binding Source={x:Reference phoneNumberEntry}, Path=Text}"
+                IsEnabled="{Binding IsPhoneNumberValid}" />
+    </StackLayout>
+    </StackLayout>
+</views:BasePage>

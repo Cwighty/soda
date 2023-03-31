@@ -5,16 +5,60 @@
                 x:Class="CustomerApp.Features.Profile.ProfilePage"
                 Title="ProfilePage"
                 Shell.NavBarIsVisible="False">
-    <VerticalStackLayout>
-        <VerticalStackLayout IsVisible="{Binding IsLoggedIn}">
-            <Label Text="{Binding Customer.Name}" />
-            <Button Text="Logout"
-                    Command="{Binding LogoutCommand}" />
-        </VerticalStackLayout>
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize"
+                    Value="Small" />
+            <Setter Property="Margin"
+                    Value="0, 5" />
+        </Style>
+    </ContentPage.Resources>
+    <VerticalStackLayout Spacing="20"
+                         Margin="10,0">
+        <Label Text="Profile"
+               Style="{StaticResource LabelHeaderStyle}" />
+        <Frame Padding="10"
+               IsVisible="{Binding IsLoggedIn}">
+            <Grid ColumnDefinitions="auto, *"
+                  RowDefinitions="*,*,*">
+                <Label Text="Edit"
+                       Grid.Row="0"
+                       Grid.Column="1"
+                       TextColor="{StaticResource Tertiary}"
+                       HorizontalOptions="End"
+                       BackgroundColor="Transparent">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding EditDetailsCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
+                <Label Text="{Binding Customer.Name}"
+                       Grid.Row="0"
+                       Grid.Column="0" />
+                <Label Text="{Binding Customer.Email, StringFormat='Email: {0}'}"
+                       Grid.Row="1" />
+                <Label Text="{Binding Customer.Phone, StringFormat='Phone: {0}', FallbackValue='Phone: Not Provided', TargetNullValue='Phone: Not Provided'}"
+                       Grid.Row="2" />
+
+            </Grid>
+        </Frame>
+        <Frame IsVisible="{Binding IsLoggedIn}"
+               Padding="10">
+            <Grid ColumnDefinitions="auto,*">
+                <Label Text="Order History" />
+                <Image Source="right_arrow.png"
+                       Grid.Column="1"
+                       HorizontalOptions="End"
+                       WidthRequest="20" />
+            </Grid>
+        </Frame>
         <VerticalStackLayout IsVisible="{Binding IsNotLoggedIn}">
             <Label Text="Please Log In To See Profile Info" />
             <Button Text="Login"
                     Command="{Binding LoginCommand}" />
         </VerticalStackLayout>
+        <Button Text="Logout"
+                IsVisible="{Binding IsLoggedIn}"
+                Command="{Binding LogoutCommand}"
+                WidthRequest="120" />
     </VerticalStackLayout>
 </views:BasePage>

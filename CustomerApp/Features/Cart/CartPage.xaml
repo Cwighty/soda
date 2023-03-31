@@ -8,9 +8,7 @@
                 Shell.NavBarIsVisible="False">
     <Grid RowDefinitions="auto,*,auto,auto">
         <Label Text="Order Up!"
-               Grid.Row="0"
-               FontSize="Large"
-               FontAttributes="Bold" />
+               Style="{StaticResource LabelHeaderStyle}" />
         <CollectionView ItemsSource="{Binding CartItems}"
                         Grid.Row="1">
             <CollectionView.ItemTemplate>
@@ -122,7 +120,11 @@
                     Grid.Column="0"
                     Grid.Row="3"
                     Margin="20"
-                    VerticalOptions="EndAndExpand" />
+                    VerticalOptions="EndAndExpand">
+                <Button.Shadow>
+                    <Shadow Brush="Transparent"/>
+                </Button.Shadow>
+            </Button>
             <Button Text="Continue"
                     Grid.Column="1"
                     Grid.Row="3"

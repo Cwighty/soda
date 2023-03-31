@@ -13,7 +13,7 @@ anon,
 authenticated,
 service_role;
 
---grant all privileges on all tables in schema public to postgres,
+--grant all privileges on all tables in schema public to postgres
 --anon,
 --authenticated,
 --service_role;
@@ -48,6 +48,7 @@ CREATE TABLE
         id uuid references auth.users,
         name VARCHAR(255),
         email VARCHAR(255),
+        phone VARCHAR(255),
         primary key (id)
     );
 
@@ -321,3 +322,21 @@ AS PERMISSIVE FOR ALL
 TO public
 USING (auth.uid() = id)
 WITH CHECK (auth.uid() = id);
+
+
+
+
+
+-- TRIGGERS
+CREATE or replace function delete_user()
+	returns void
+LANGUAGE SQL SECURITY DEFINER
+AS $$
+	--delete from public.profiles where id = auth.uid();
+	delete from auth.users where id = auth.uid();
+$$;
+
+CREATE TRIGGER delete_user_trigger
+AFTER DELETE ON customer
+FOR EACH ROW
+EXECUTE FUNCTION delete_user();

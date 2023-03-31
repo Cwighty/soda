@@ -54,5 +54,18 @@ namespace CustomerApp.Shared.Services
         {
             await client.Auth.SignOut();
         }
+
+        public async Task UpdateCustomer(Customer customer)
+        {
+            var customerData = mapper.Map<CustomerData>(customer);
+            await client.From<CustomerData>().Where(c => c.Id == customer.Id).Update(customerData);
+        }
+
+        public async Task DeleteAccount()
+        {
+            var customer = await GetCustomer();
+            await client.From<CustomerData>().Where(c => c.Id == customer.Id).Delete();
+            await client.Rpc("delete_user", null);
+        }
     }
 }

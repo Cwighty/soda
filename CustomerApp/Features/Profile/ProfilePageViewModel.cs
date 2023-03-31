@@ -1,7 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using CustomerApp.Features.Login;
-
-namespace CustomerApp.Features.Profile;
+﻿namespace CustomerApp.Features.Profile;
 
 public partial class ProfilePageViewModel : BaseViewModel
 {
@@ -53,5 +50,24 @@ public partial class ProfilePageViewModel : BaseViewModel
     private async Task Login()
     {
         await navigationService.GoTo(nameof(LoginPage));
+    }
+
+    [RelayCommand]
+    private async Task EditDetails()
+    {
+        await navigationService.GoTo(nameof(ProfileDetailsPage));
+    }
+
+    [RelayCommand]
+    private async Task DeleteAccount()
+    {
+        var choice = await App.Current.MainPage.DisplayAlert("Delete Account", "Are you sure?", "Yes", "No");
+        if (choice == true)
+        {
+            await userService.DeleteAccount();
+            await navigationService.GoTo($"///{nameof(FeaturePage)}");
+            IsLoggedIn= false;
+            IsNotLoggedIn= true;
+        }
     }
 }
