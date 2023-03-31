@@ -6,9 +6,6 @@
                 x:Class="CustomerApp.Features.Profile.ProfileDetailsPage"
                 Shell.NavBarIsVisible="False"
                 >
-    <ContentPage.Resources>
-
-    </ContentPage.Resources>
     <StackLayout>
         <Label Text="Customer Details"
                Style="{StaticResource LabelHeaderStyle}"/>
@@ -24,12 +21,43 @@
         <Label Text="Email" />
         <Entry Text="{Binding Customer.Email}"
                IsEnabled="False" />
-        <Button Text="Save"
+    </StackLayout>
+            <Label Text="Communication Preferences"
+                   Style="{StaticResource LabelHeaderStyle}" />
+        <Grid RowDefinitions="*,*,*" ColumnDefinitions="auto,*" Margin="20">
+            <Grid.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="VerticalOptions"
+                            Value="Center" />
+                </Style>
+                <Style TargetType="Switch">
+                    <Setter Property="VerticalOptions"
+                            Value="Center" />
+                </Style>
+            </Grid.Resources>
+            <Label Text="Text"
+                   Grid.Row="0"
+                   Grid.Column="0" />
+            <Switch HorizontalOptions="End"
+                    Grid.Row="0"
+                    Grid.Column="1" />
+            <Label Text="Email"
+                   Grid.Row="1"
+                   Grid.Column="0" />
+            <Switch HorizontalOptions="End"
+                    Grid.Row="1"
+                    Grid.Column="1" />
+            <Label Text="Push"
+                   Grid.Row="2"
+                   Grid.Column="0" />
+            <Switch HorizontalOptions="End"
+                    Grid.Row="2"
+                    Grid.Column="1" />
+        </Grid>
+        <Button Text="Save Changes"
                 WidthRequest="120"
-                Margin="10"
                 Command="{Binding UpdateDetailsCommand}"
                 CommandParameter="{Binding Source={x:Reference phoneNumberEntry}, Path=Text}"
                 IsEnabled="{Binding IsPhoneNumberValid}" />
-    </StackLayout>
     </StackLayout>
 </views:BasePage>
