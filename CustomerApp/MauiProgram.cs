@@ -64,5 +64,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<PaymentPageViewModel>();
         builder.Services.AddSingleton<ProfileDetailsPage>();
         builder.Services.AddSingleton<ProfileDetailsPageViewModel>();
+        builder.Services.AddSingleton<OrderHistoryPage>();
+        builder.Services.AddSingleton<OrderHistoryPageViewModel>();
     }
 }
