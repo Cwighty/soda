@@ -328,15 +328,15 @@ WITH CHECK (auth.uid() = id);
 
 
 -- TRIGGERS
-CREATE or replace function delete_user()
-	returns void
-LANGUAGE SQL SECURITY DEFINER
-AS $$
-	--delete from public.profiles where id = auth.uid();
-	delete from auth.users where id = auth.uid();
-$$;
-
-CREATE TRIGGER delete_user_trigger
-AFTER DELETE ON customer
-FOR EACH ROW
-EXECUTE FUNCTION delete_user();
+--CREATE or replace function delete_user()
+--	returns void
+--LANGUAGE SQL SECURITY DEFINER
+--AS $$
+--	--delete from public.profiles where id = auth.uid();
+--	delete from auth.users where id = auth.uid();
+--$$;
+--
+--CREATE TRIGGER delete_user_trigger
+--AFTER DELETE ON customer
+--FOR EACH ROW
+--EXECUTE FUNCTION delete_user();
