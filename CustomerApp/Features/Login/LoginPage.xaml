@@ -4,7 +4,7 @@
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 x:Class="CustomerApp.Features.Login.LoginPage"
                 Title="LoginPage"
-                Shell.NavBarIsVisible="False">
+                Shell.NavBarIsVisible="True">
     <VerticalStackLayout Padding="20"
                          Spacing="10">
         <Label Text="Welcome!"

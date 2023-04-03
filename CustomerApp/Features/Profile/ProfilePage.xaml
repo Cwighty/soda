@@ -4,7 +4,8 @@
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 x:Class="CustomerApp.Features.Profile.ProfilePage"
                 Title="ProfilePage"
-                Shell.NavBarIsVisible="False">
+                Shell.NavBarIsVisible="False"
+                >
     <ContentPage.Resources>
         <Style TargetType="Label">
             <Setter Property="FontSize"
