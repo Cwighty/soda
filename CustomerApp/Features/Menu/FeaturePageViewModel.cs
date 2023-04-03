@@ -37,4 +37,17 @@ public partial class FeaturePageViewModel : BaseViewModel
                     ["Product"] = product
                 });
     }
+
+    [RelayCommand]
+    private async Task GoToCart()
+    {
+        await navigationService.GoTo("///CartPage");
+    }
+
+
+    [RelayCommand]
+    private async Task GoToProfile()
+    {
+        await navigationService.GoTo("///ProfilePage");
+    }
 }

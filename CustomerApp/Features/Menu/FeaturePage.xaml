@@ -7,8 +7,20 @@
                 x:Class="CustomerApp.Features.Menu.FeaturePage"
                 Title="FeaturePage"
                 Shell.NavBarIsVisible="False">
-    <Grid>
-        <ScrollView VerticalOptions="FillAndExpand">
+    <Grid RowDefinitions="auto, *">
+        <Grid ColumnDefinitions="*,auto,auto" Grid.Row="0">
+            <Label Text="Welcome!"
+               Style="{StaticResource LabelHeaderStyle}"
+                   Grid.Column="0"/>
+            <ImageButton Source="cup_holder.png"
+                         Grid.Column="1"
+                         Command="{Binding GoToCartCommand}" />
+            <ImageButton Source="profile.png"
+                         Grid.Column="2" 
+                         Command="{Binding GoToProfileCommand}"
+                         /> 
+        </Grid>
+        <ScrollView VerticalOptions="FillAndExpand" Grid.Row="1">
             <CollectionView ItemsSource="{Binding CategorizedProducts}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
