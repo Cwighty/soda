@@ -121,7 +121,7 @@ public partial class CartPageViewModel : BaseViewModel
                     new Uri(url),
                     new Uri("soda://success"));
 
-                Console.WriteLine();
+                await navigationService.GoTo(nameof(OrderProcessedPage));
             }
             catch (Exception e)
             {

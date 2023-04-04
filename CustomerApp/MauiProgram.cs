@@ -28,7 +28,6 @@ public static class MauiProgram
         var anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5YWZ3aGtjaWZ4b2dzdHZmc3VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODA1Nzk2MjIsImV4cCI6MTk5NjE1NTYyMn0.IjDLttzrFOYyYRGqFodGHjtu6NbjpH7idZRLglovEzE";
         builder.Services.AddSingleton(new Supabase.Client(supabaseURL, anonKey));
         builder.Services.AddSingleton<IProductService, ProductService>();
-        builder.Services.AddSingleton<PurchaseService>();
         builder.Services.AddSingleton<NavigationService>();
         builder.Services.AddSingleton<ICacheService, CacheService>();
         builder.Services.AddSingleton<UserService>();
@@ -68,5 +67,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ProfileDetailsPageViewModel>();
         builder.Services.AddSingleton<OrderHistoryPage>();
         builder.Services.AddSingleton<OrderHistoryPageViewModel>();
+        builder.Services.AddSingleton<OrderProcessedPage>();
+        builder.Services.AddSingleton<OrderProcessedPageViewModel>();
     }
 }
