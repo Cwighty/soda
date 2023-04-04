@@ -26,19 +26,21 @@ namespace CustomerApp.Shared.Services
 
         public bool IsLoggedIn()
         {
-            return client.Auth.CurrentUser != null;
+            return client.Auth.CurrentSession != null;
         }
 
         public async Task Login(string email, string password)
         {
-            var url = await client.Auth.SignIn(Supabase.Gotrue.Constants.Provider.Google);
+            var url = await client.Auth.SignIn(Supabase.Gotrue.Constants.Provider.Google, "https://www.googleapis.com/auth/userinfo.email");
             try
             {
                 WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                     new Uri(url),
                     new Uri("soda://"));
 
+                
                 string accessToken = authResult?.AccessToken;
+                client.Auth.SetAuth(accessToken);
 
                 // Do something with the token
             }
@@ -63,6 +65,8 @@ namespace CustomerApp.Shared.Services
                 await client.From<CustomerData>().Insert(customer);
             }
         }
+
+       
 
         public async Task Logout()
         {
