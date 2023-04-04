@@ -1,10 +1,19 @@
 ﻿namespace CustomerApp.Features.Profile;
 
-public class OrderHistoryPageViewModel : BaseViewModel
+public partial class OrderHistoryPageViewModel : BaseViewModel
 {
-    public override Task Initialize()
+    private readonly OrderService orderService;
+
+    [ObservableProperty]
+    private List<Purchase> purchases;
+
+    public OrderHistoryPageViewModel(OrderService orderService)
     {
-        return Task.CompletedTask;
+        this.orderService = orderService;
+    }
+    public async override Task Initialize()
+    {
+        Purchases = await orderService.GetPurchaseHistory();
     }
 
     public override Task Stop()

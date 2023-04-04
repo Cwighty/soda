@@ -18,7 +18,7 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
-        Barrel.ApplicationId = "MonkeyCash3";
+        Barrel.ApplicationId = "MonkeyCash4";
 
         builder.Services.AddAutoMapper(typeof(MapperProfile));
 
@@ -30,6 +30,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<NavigationService>();
         builder.Services.AddSingleton<ICacheService, CacheService>();
         builder.Services.AddSingleton<UserService>();
+        builder.Services.AddSingleton<OrderService>();
 
         IntializePages(builder);
 

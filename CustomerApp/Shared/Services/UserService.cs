@@ -31,7 +31,7 @@ namespace CustomerApp.Shared.Services
 
         public async Task Login(string email, string password)
         {
-            var url = await client.Auth.SignIn(Supabase.Gotrue.Constants.Provider.Google, "https://www.googleapis.com/auth/userinfo.email");
+            var url = await client.Auth.SignIn(Supabase.Gotrue.Constants.Provider.Google, "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile");
             try
             {
                 WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(

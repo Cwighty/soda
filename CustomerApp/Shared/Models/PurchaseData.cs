@@ -9,11 +9,20 @@ public class PurchaseData : BaseModel
     [PrimaryKey("id", false)]
     public int Id { get; set; }
     [Column("customer_id")]
-    public int CustomerId { get; set; }
+    public string CustomerId { get; set; }
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
     [Column("status")]
     public string Status { get; set; }
     [Reference(typeof(CustomerData))]
     public CustomerData Customer { get; set; }
+}
+
+public class Purchase
+{
+    public int Id { get; set; }
+    public string CustomerId { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public string Status { get; set; }
+    public Customer Customer { get; set; }
 }
