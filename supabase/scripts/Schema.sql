@@ -45,7 +45,7 @@ service_role;
 
 CREATE TABLE
     customer (
-        id uuid references auth.users,
+        id uuid references auth.users On delete CASCADE,
         name VARCHAR(255),
         email VARCHAR(255),
         phone VARCHAR(255),
@@ -96,6 +96,7 @@ CREATE TABLE
         id SERIAL PRIMARY KEY,
         customer_id uuid,
         created_at TIMESTAMP,
+        completed_at TIMESTAMP,
         status VARCHAR(255),
         FOREIGN KEY (customer_id) REFERENCES customer (id)
     );
@@ -149,15 +150,6 @@ CREATE TABLE
         PRIMARY KEY (product_id, addon_id),
         FOREIGN KEY (product_id) REFERENCES product (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
-    );
-
-CREATE TABLE
-    purchase_history (
-        id SERIAL PRIMARY KEY,
-        purchase_id INT,
-        status VARCHAR(255),
-        completed_at TIMESTAMP,
-        FOREIGN KEY (purchase_id) REFERENCES purchase (id)
     );
 
 INSERT INTO 
@@ -323,20 +315,26 @@ TO public
 USING (auth.uid() = id)
 WITH CHECK (auth.uid() = id);
 
+ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow access for authenticated user for purchase table" ON "public"."purchase"
+AS PERMISSIVE FOR SELECT
+TO public
+USING ((auth.uid() = customer_id))
+
 
 
 
 
 -- TRIGGERS
---CREATE or replace function delete_user()
---	returns void
---LANGUAGE SQL SECURITY DEFINER
---AS $$
---	--delete from public.profiles where id = auth.uid();
---	delete from auth.users where id = auth.uid();
---$$;
---
---CREATE TRIGGER delete_user_trigger
---AFTER DELETE ON customer
---FOR EACH ROW
---EXECUTE FUNCTION delete_user();
+create function public.handle_new_user() 
+returns trigger as $$
+begin
+  insert into public.customer (id, name, email)
+  values (new.id, split_part(new.email, '@', '1'), new.email);
+  return new;
+end;
+$$ language plpgsql security definer;
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();

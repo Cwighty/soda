@@ -7,11 +7,6 @@ public partial class ProfilePageViewModel : BaseViewModel
     [ObservableProperty]
     private Customer customer;
 
-    [ObservableProperty]
-    private bool isLoggedIn;
-
-    [ObservableProperty]
-    private bool isNotLoggedIn;
 
     public ProfilePageViewModel(NavigationService navigationService, UserService userService)
     {
@@ -22,14 +17,11 @@ public partial class ProfilePageViewModel : BaseViewModel
     {
         if (userService.IsLoggedIn())
         {
-            IsLoggedIn = true;
-            IsNotLoggedIn = false;
             Customer = await userService.GetCustomer();
         }
         else
         {
-            IsLoggedIn = false;
-            IsNotLoggedIn = true;
+            await Login();
         }
 
     }
@@ -66,8 +58,12 @@ public partial class ProfilePageViewModel : BaseViewModel
         {
             await userService.DeleteAccount();
             await navigationService.GoTo($"///{nameof(FeaturePage)}");
-            IsLoggedIn= false;
-            IsNotLoggedIn= true;
         }
+    }
+
+    [RelayCommand]
+    private async Task OrderHistory()
+    {
+        await navigationService.GoTo(nameof(OrderHistoryPage));
     }
 }
