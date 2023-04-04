@@ -31,8 +31,22 @@ namespace CustomerApp.Shared.Services
 
         public async Task Login(string email, string password)
         {
-            var response = await client.Auth.SignIn(email, password);
-            Console.WriteLine(response.ToString());
+            var url = await client.Auth.SignIn(Supabase.Gotrue.Constants.Provider.Google);
+            try
+            {
+                WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
+                    new Uri(url),
+                    new Uri("soda://"));
+
+                string accessToken = authResult?.AccessToken;
+
+                // Do something with the token
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+            //var response = await client.Auth.SignIn(email, password);
         }
 
         public async Task Register(string email, string password, string name)

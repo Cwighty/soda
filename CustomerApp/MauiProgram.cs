@@ -2,7 +2,6 @@
 using CustomerApp.Mappers;
 using Microsoft.Extensions.Logging;
 using MonkeyCache.FileStore;
-
 namespace CustomerApp;
 
 public static class MauiProgram
@@ -23,8 +22,8 @@ public static class MauiProgram
 
         builder.Services.AddAutoMapper(typeof(MapperProfile));
 
-        var supabaseURL = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:8000" : "http://localhost:8000";
-        var anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJzZXJ2aWNlX3JvbGUiLAogICAgImlzcyI6ICJzdXBhYmFzZS1kZW1vIiwKICAgICJpYXQiOiAxNjQxNzY5MjAwLAogICAgImV4cCI6IDE3OTk1MzU2MDAKfQ.DaYlNEoUrrEn2Ig7tqibS-PHK5vgusbcbo7X36XVt4Q";
+        var supabaseURL = "https://dyafwhkcifxogstvfsuc.supabase.co";
+        var anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5YWZ3aGtjaWZ4b2dzdHZmc3VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODA1Nzk2MjIsImV4cCI6MTk5NjE1NTYyMn0.IjDLttzrFOYyYRGqFodGHjtu6NbjpH7idZRLglovEzE";
         builder.Services.AddSingleton(new Supabase.Client(supabaseURL, anonKey));
         builder.Services.AddSingleton<IProductService, ProductService>();
         builder.Services.AddSingleton<PurchaseService>();
