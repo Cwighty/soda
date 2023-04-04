@@ -16,6 +16,8 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("Montserrat-Thin.ttf", "MontserratThin");
+                fonts.AddFont("Poppins-Bold.ttf", "PoppinsBold");
             });
 
         Barrel.ApplicationId = "MonkeyCash4";
