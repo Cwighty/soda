@@ -7,11 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerApp", "CustomerApp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp", "StoreApp\StoreApp.csproj", "{0CE166C2-59B3-4279-B29E-C4967B788275}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SodaAPI", "SodaAPI\SodaAPI.csproj", "{A167563E-0D28-4873-8AED-03141342AA50}"
-EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAppTests", "CustomerAppTests\CustomerAppTests.csproj", "{7DFC9345-F141-4CB5-BFE7-00657A2D9319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerAppTests", "CustomerAppTests\CustomerAppTests.csproj", "{7DFC9345-F141-4CB5-BFE7-00657A2D9319}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Supabase", "Supabase", "{B4AA283B-E305-401C-9933-F987FD5DE366}"
 	ProjectSection(SolutionItems) = preProject
@@ -35,10 +33,6 @@ Global
 		{0CE166C2-59B3-4279-B29E-C4967B788275}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CE166C2-59B3-4279-B29E-C4967B788275}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CE166C2-59B3-4279-B29E-C4967B788275}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A167563E-0D28-4873-8AED-03141342AA50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A167563E-0D28-4873-8AED-03141342AA50}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A167563E-0D28-4873-8AED-03141342AA50}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A167563E-0D28-4873-8AED-03141342AA50}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBDBDAF4-A990-4438-AFA0-D8E210457DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU

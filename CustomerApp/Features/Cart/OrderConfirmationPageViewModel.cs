@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using System;
 
 namespace CustomerApp.Features.Cart;
 
@@ -33,6 +34,7 @@ public partial class OrderConfirmationPageViewModel : BaseViewModel
     [RelayCommand]
     public async Task Confirm()
     {
+        
         await navigationService.GoTo(nameof(OrderProcessedPage));
     }
 }
