@@ -114,7 +114,19 @@ public partial class CartPageViewModel : BaseViewModel
         }
         else if (action == "Continue As Guest")
         {
-           await navigationService.GoTo(nameof(PaymentPage));
+            var url = "https://10.0.2.2:7140/checkout.html";
+            try
+            {
+                WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
+                    new Uri(url),
+                    new Uri("soda://success"));
+
+                await navigationService.GoTo(nameof(OrderProcessedPage));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 
     }    

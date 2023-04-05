@@ -13,13 +13,12 @@
                      Margin="0,20,0,0">
             <Label x:Name="SectionLabel"
                    HorizontalOptions="StartAndExpand"
-                   FontFamily="RalewayMedium"
                    FontSize="22"
+                   FontFamily="PoppinsBold"
                    TextColor="Black" />
             <Label x:Name="ShowAllLabel"
                    Text="Show All"
                    HorizontalOptions="EndAndExpand"
-                   FontFamily="RalewayMedium"
                    FontSize="22"
                    TextColor="{StaticResource Primary}" />
         </StackLayout>
@@ -36,23 +35,14 @@
                     <VerticalStackLayout>
                         <Border Padding="0"
                                 Margin="15,10,5,5"
-                                WidthRequest="240"
+                                WidthRequest="175"
                                 BackgroundColor="{StaticResource Tertiary}"
                                 Stroke="Gray"
                                 StrokeThickness="0"
                                 StrokeShape="RoundRectangle 15">
                             <Border.Shadow>
-
-                                <OnPlatform x:TypeArguments="Shadow">
-                                    <On Platform="Android, WinUI">
-                                        <Shadow Radius="25"
-                                                Opacity="0.2"></Shadow>
-                                    </On>
-                                    <On Platform="iOS,MacCatalyst">
-                                        <Shadow Radius="5"
-                                                Opacity="0.2"></Shadow>
-                                    </On>
-                                </OnPlatform>
+                                <Shadow Radius="25"
+                                        Opacity="0.2" />
                             </Border.Shadow>
                             <Grid RowDefinitions="Auto,Auto,Auto">
                                 <Border Grid.Row="0"
@@ -65,45 +55,16 @@
                                     </Border.StrokeShape>
                                     <Image Source="soda_placeholder.jpeg"
                                            Aspect="Center"
-                                           HeightRequest="180" />
+                                           HeightRequest="150" />
                                 </Border>
                                 <Label Grid.Row="1"
                                        HorizontalOptions="FillAndExpand"
                                        Text="{Binding Name}"
-                                       FontFamily="RalewayMedium"
-                                       FontSize="19"
+                                       FontSize="Small"
+                                       FontFamily="PoppinsBold"
                                        TextColor="{StaticResource White}"
                                        LineBreakMode="NoWrap"
                                        Margin="10,10,10,10" />
-                                <StackLayout Grid.Row="2"
-                                             Orientation="Horizontal"
-                                             Margin="10,0,10,15">
-                                    <Label Text="{Binding SpecialPrice, StringFormat='${0}'}"
-                                           FontSize="25"
-                                           FontFamily="PoppinsRegular"
-                                           TextColor="{StaticResource White}"
-                                           HorizontalOptions="StartAndExpand" />
-                                    <ImageButton HorizontalOptions="End"
-                                                 Source="love_filled.png"
-                                                 Padding="5"
-                                                 Command="{Binding ProductFavCommand}"
-                                                 CommandParameter="{Binding .}">
-                                        <ImageButton.Triggers>
-                                            <DataTrigger TargetType="ImageButton"
-                                                         Binding="{Binding ProductIsFav}"
-                                                         Value="True">
-                                                <Setter Property="Source"
-                                                        Value="love_filled.png" />
-                                            </DataTrigger>
-                                            <DataTrigger TargetType="ImageButton"
-                                                         Binding="{Binding ProductIsFav}"
-                                                         Value="False">
-                                                <Setter Property="Source"
-                                                        Value="love_default.png" />
-                                            </DataTrigger>
-                                        </ImageButton.Triggers>
-                                    </ImageButton>
-                                </StackLayout>
                             </Grid>
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={x:Reference ProductDisplay}, Path=DetailsCommand}"

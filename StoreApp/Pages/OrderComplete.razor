@@ -1,0 +1,19 @@
+﻿@page "/ordercomplete"
+@inject NavigationManager nav
+@using Microsoft.AspNetCore.Mvc;
+<h3>OrderComplete</h3>
+
+<h1>@RedirectStatus</h1>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "redirect_status")]
+    public string RedirectStatus { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (RedirectStatus == "succeeded"){
+            nav.NavigateTo("soda://success");
+        }
+    }
+}

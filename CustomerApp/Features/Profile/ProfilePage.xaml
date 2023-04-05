@@ -18,8 +18,7 @@
                          Margin="10,0">
         <Label Text="Profile"
                Style="{StaticResource LabelHeaderStyle}" />
-        <Frame Padding="10"
-               IsVisible="{Binding IsLoggedIn}">
+        <Frame Padding="10">
             <Grid ColumnDefinitions="auto, *"
                   RowDefinitions="*,*,*">
                 <Label Text="Edit"
@@ -32,7 +31,7 @@
                         <TapGestureRecognizer Command="{Binding EditDetailsCommand}" />
                     </Label.GestureRecognizers>
                 </Label>
-                <Label Text="{Binding Customer.Name}"
+                <Label Text="{Binding Customer.Name, StringFormat='Name: {0}'}"
                        Grid.Row="0"
                        Grid.Column="0" />
                 <Label Text="{Binding Customer.Email, StringFormat='Email: {0}'}"
@@ -42,7 +41,7 @@
 
             </Grid>
         </Frame>
-        <Frame IsVisible="{Binding IsLoggedIn}"
+        <Frame
                Padding="10">
             <Grid ColumnDefinitions="auto,*">
                 <Label Text="Order History" />
@@ -51,14 +50,11 @@
                        HorizontalOptions="End"
                        WidthRequest="20" />
             </Grid>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OrderHistoryCommand}" />
+            </Frame.GestureRecognizers>
         </Frame>
-        <VerticalStackLayout IsVisible="{Binding IsNotLoggedIn}">
-            <Label Text="Please Log In To See Profile Info" />
-            <Button Text="Login"
-                    Command="{Binding LoginCommand}" />
-        </VerticalStackLayout>
         <Button Text="Logout"
-                IsVisible="{Binding IsLoggedIn}"
                 Command="{Binding LogoutCommand}"
                 WidthRequest="120" />
     </VerticalStackLayout>

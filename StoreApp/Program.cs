@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using StoreApp.Data;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+StripeConfiguration.ApiKey = "sk_test_51MtGBEAFXrVhUejTIZLmyGU6SgDXRyN8xGfhrEIBsahMyi3WkuQNAXWn4O1JcxrDKjjZFtBlyRizyUJ6p5PDqurH00J3ekVcYz";
 
 var app = builder.Build();
 
@@ -21,9 +24,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseStaticFiles();
+
 
 app.UseRouting();
+app.UseStaticFiles();
+app.MapControllers();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
