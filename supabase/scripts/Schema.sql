@@ -97,6 +97,7 @@ CREATE TABLE
         customer_id uuid,
         created_at TIMESTAMP,
         completed_at TIMESTAMP,
+        price_paid DECIMAL(10, 2),
         status VARCHAR(255),
         FOREIGN KEY (customer_id) REFERENCES customer (id)
     );
@@ -105,10 +106,13 @@ CREATE TABLE
     purchase_item (
         id SERIAL PRIMARY KEY,
         purchase_id INT,
-        product_id INT,
-        quantity INT,
+        product_id INT null,
+        base_id INT,
+        size_id INT,
         FOREIGN KEY (purchase_id) REFERENCES purchase (id),
-        FOREIGN KEY (product_id) REFERENCES product (id)
+        FOREIGN KEY (product_id) REFERENCES product (id),
+        FOREIGN KEY (base_id) REFERENCES base (id),
+        foreign key (size_id) references size(id)
     );
 
 CREATE TABLE
@@ -141,12 +145,20 @@ CREATE TABLE
         price DECIMAL(10, 2),
         addon_type_id INT REFERENCES addon_type(id)
     );
+   
+CREATE TABLE
+    purchase_item_addon (
+        id SERIAL PRIMARY KEY,
+        purchase_item_id INT,
+        addon_id INT,
+        FOREIGN KEY (purchase_item_id) REFERENCES purchase_item (id),
+        FOREIGN KEY (addon_id) REFERENCES addon (id)
+    );
 
 CREATE TABLE
     product_addon (
         product_id INT,
         addon_id INT,
-        quantity INT,
         PRIMARY KEY (product_id, addon_id),
         FOREIGN KEY (product_id) REFERENCES product (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
@@ -250,30 +262,15 @@ VALUES
 
 -- sample data for the product_addon table
 INSERT INTO
-    product_addon (product_id, addon_id, quantity)
+    product_addon (product_id, addon_id)
 VALUES
-    (1, 1, 1),
-    (1, 2, 1),
-    (2, 1, 1),
-    (2, 3, 1),
-    (3, 2, 2),
-    (3, 4, 1),
-    (3, 5, 1);
-
--- Insert sample data into the order table
---INSERT INTO
---    purchase (customer_id, created_at, status)
---VALUES
---    (1, '2023-03-10 12:30:00', 'Processing'),
---    (2, '2023-03-10 13:30:00', 'Pending Payment');
-
--- Insert sample data into the purchase_item table
---INSERT INTO
---    purchase_item (purchase_id, product_id, quantity)
---VALUES
---    (1, 1, 2),
---    (1, 2, 1),
---    (2, 3, 3);
+    (1, 1),
+    (1, 2),
+    (2, 1),
+    (2, 3),
+    (3, 2),
+    (3, 4),
+    (3, 5);
 
 -- Insert sample data into the special table
 INSERT INTO
@@ -320,7 +317,7 @@ ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow access for authenticated user for purchase table" ON "public"."purchase"
 AS PERMISSIVE FOR SELECT
 TO public
-USING ((auth.uid() = customer_id))
+USING ((auth.uid() = customer_id));
 
 
 

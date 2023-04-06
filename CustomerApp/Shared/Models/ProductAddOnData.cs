@@ -12,8 +12,6 @@ public class ProductAddOnData : BaseModel
     public int ProductId { get; set; }
     [Column("addon_id")]
     public int AddOnId { get; set; }
-    [Column("quantity")]
-    public int Quantity { get; set; }
     [Reference(typeof(ProductData))]
     public ProductData Product { get; set; }
     [Reference(typeof(AddOnData))]

@@ -40,5 +40,4 @@ public class Product
     public Base Base { get; set; }
     public ObservableCollection<AddOn> AddOns { get; set; }
 
-    public Decimal CalculatedPrice => AddOns.Sum(a => a.Price) + Base.Price + Size.Price;
 }

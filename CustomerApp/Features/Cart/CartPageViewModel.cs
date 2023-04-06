@@ -8,10 +8,11 @@ public partial class CartPageViewModel : BaseViewModel
 {
     private readonly ICacheService cache;
     private readonly NavigationService navigationService;
+    private readonly IMapper mapper;
 
     public Product IncomingProduct
     {
-        get => incomingProduct; 
+        get => incomingProduct;
         set
         {
             incomingProduct = value;
@@ -22,8 +23,8 @@ public partial class CartPageViewModel : BaseViewModel
         }
     }
 
-    private ObservableCollection<Product> cartItems;
-    public ObservableCollection<Product> CartItems
+    private ObservableCollection<PurchaseItem> cartItems;
+    public ObservableCollection<PurchaseItem> CartItems
     {
         get => cartItems;
         set
@@ -47,10 +48,11 @@ public partial class CartPageViewModel : BaseViewModel
     [ObservableProperty]
     private decimal total;
 
-    public CartPageViewModel(ICacheService cache, NavigationService navigationService)
+    public CartPageViewModel(ICacheService cache, NavigationService navigationService, IMapper mapper)
     {
         this.cache = cache;
         this.navigationService = navigationService;
+        this.mapper = mapper;
     }
 
     private void CartItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -67,17 +69,19 @@ public partial class CartPageViewModel : BaseViewModel
 
     public override Task Initialize()
     {
-        var items = cache.Get<ObservableCollection<Product>>(nameof(CartItems));
+        var items = cache.Get<ObservableCollection<PurchaseItem>>(nameof(CartItems));
         if (items == null)
         {
-            items = new ObservableCollection<Product>();
+            items = new ObservableCollection<PurchaseItem>();
         }
         if (IncomingProduct != null)
         {
-            items.Add(IncomingProduct);
-            CartItems = new(items);
-            CartItems.CollectionChanged += CartItems_CollectionChanged;
+            PurchaseItem newPurchase = new();
+            mapper.Map(incomingProduct, newPurchase);
+            items.Add(newPurchase);
         }
+        CartItems = new(items);
+        CartItems.CollectionChanged += CartItems_CollectionChanged;
 
         IncomingProduct = null;
         return Task.CompletedTask;
@@ -91,11 +95,11 @@ public partial class CartPageViewModel : BaseViewModel
         }
         return Task.CompletedTask;
     }
-    
+
     [RelayCommand]
-    private void ClearCartItem(Product product)
+    private void ClearCartItem(PurchaseItem item)
     {
-        CartItems.Remove(product);
+        CartItems.Remove(item);
         OnPropertyChanged(nameof(CartItems));
     }
 
@@ -129,5 +133,5 @@ public partial class CartPageViewModel : BaseViewModel
             }
         }
 
-    }    
+    }
 }

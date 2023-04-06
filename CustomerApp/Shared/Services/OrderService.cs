@@ -7,7 +7,7 @@ public class OrderService
     private readonly IMapper mapper;
     private readonly UserService userService;
 
-    public OrderService(Client client,IMapper mapper, UserService userService)
+    public OrderService(Client client, IMapper mapper, UserService userService)
     {
         this.client = client;
         this.mapper = mapper;
@@ -23,10 +23,11 @@ public class OrderService
     {
         var customer = await userService.GetCustomer();
 
-        var newPurchase = new PurchaseData { 
-         CustomerId = customer?.Id,
-         CreatedAt = DateTime.UtcNow,
-         Status = "STARTED"
+        var newPurchase = new PurchaseData
+        {
+            CustomerId = customer?.Id,
+            CreatedAt = DateTime.UtcNow,
+            Status = "STARTED"
         };
         var purchase = await client.From<PurchaseData>().Insert(newPurchase);
 
