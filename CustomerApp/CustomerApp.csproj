@@ -139,6 +139,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\SodaShared\SodaShared.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Update="Features\Menu\MenuPage.xaml.cs">
 	    <DependentUpon>MenuPage.xaml</DependentUpon>
 	  </Compile>

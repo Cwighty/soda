@@ -14,13 +14,3 @@ public class BaseTypeData : BaseModel
     public List<SizeData> Sizes { get; set; }
 }
 
-public class BaseType
-{
-    public BaseType()
-    {
-
-    }
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public List<Size> Sizes { get; set; }
-}

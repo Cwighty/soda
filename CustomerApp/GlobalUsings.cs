@@ -15,6 +15,7 @@ global using CommunityToolkit.Mvvm.Input;
 global using CustomerApp.Features.Menu;
 global using CustomerApp.Features.Menu.Controls;
 global using CustomerApp.Features.Cart;
+global using SodaShared.Models;
 
 
 

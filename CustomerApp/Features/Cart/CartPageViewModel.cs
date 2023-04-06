@@ -135,6 +135,8 @@ public partial class CartPageViewModel : BaseViewModel
 
     }
 
+
+
     [RelayCommand]
     private async Task GoToMenu()
     {

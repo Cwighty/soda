@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Size = CustomerApp.Shared.Models.Size;
+﻿using Size = SodaShared.Models.Size;
 
 namespace CustomerApp.Mappers;
 

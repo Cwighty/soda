@@ -11,13 +11,3 @@ public class AddOnTypeData : BaseModel
     [Column("name")]
     public string Name { get; set; }
 }
-
-public class AddOnType
-{
-    public AddOnType()
-    {
-
-    }
-    public int Id { get; set; }
-    public string Name { get; set; }
-}

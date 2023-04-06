@@ -1,4 +1,4 @@
-﻿using Size = CustomerApp.Shared.Models.Size;
+﻿using Size = SodaShared.Models.Size;
 
 namespace CustomerApp.Features.Menu;
 
