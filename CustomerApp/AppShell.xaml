@@ -6,8 +6,11 @@
     xmlns:menu="clr-namespace:CustomerApp.Features.Menu"
     xmlns:cart="clr-namespace:CustomerApp.Features.Cart"
     xmlns:profile="clr-namespace:CustomerApp.Features.Profile"
-    Shell.FlyoutBehavior="Disabled">
-
+    Shell.FlyoutBehavior="Disabled"
+       Shell.NavBarIsVisible="True"
+       Shell.BackgroundColor="Transparent"
+       Shell.ForegroundColor="Black"
+    >
     <TabBar>
         <Tab Title="Featured"
              Icon="home.png"
@@ -30,4 +33,5 @@
             <ShellContent ContentTemplate="{DataTemplate profile:ProfilePage}" />
         </Tab>
     </TabBar>
+    
 </Shell>

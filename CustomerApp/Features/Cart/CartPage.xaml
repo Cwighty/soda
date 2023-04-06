@@ -11,6 +11,14 @@
                Style="{StaticResource LabelHeaderStyle}" />
         <CollectionView ItemsSource="{Binding CartItems}"
                         Grid.Row="1">
+            <CollectionView.EmptyView>
+                <Grid RowDefinitions="*,*"
+                      HorizontalOptions="Center"
+                      VerticalOptions="CenterAndExpand">
+                    <Label Text="No Items" Grid.Row="0" FontSize="Large" HorizontalOptions="Center" Margin="10"/>
+                    <Button Text="Visit The Menu" Grid.Row="1" WidthRequest="150" VerticalOptions="Center" Command="{Binding GoToMenuCommand}"/>
+                </Grid>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Grid ColumnDefinitions="auto,auto,auto,*"
@@ -119,7 +127,8 @@
         <Grid Grid.Row="3"
               VerticalOptions="FillAndExpand"
               ColumnDefinitions="*,*"
-              RowDefinitions="auto,auto,auto,auto">
+              RowDefinitions="auto,auto,auto,auto"
+              IsVisible="False">
             <Button Text="Add More"
                     BackgroundColor="{StaticResource White}"
                     TextColor="{StaticResource Tertiary}"

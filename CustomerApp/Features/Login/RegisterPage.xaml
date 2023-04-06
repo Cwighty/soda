@@ -4,7 +4,7 @@
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 x:Class="CustomerApp.Features.Login.RegisterPage"
                 Title="RegisterPage"
-                Shell.NavBarIsVisible="False">
+                Shell.NavBarIsVisible="True">
     <VerticalStackLayout Spacing="20"
                  Margin="20">
         <Label Text="New Account"
