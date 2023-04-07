@@ -140,7 +140,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\SodaShared\SodaShared.csproj" />
+	  <ProjectReference Include="..\SodaShared\SodaShared.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

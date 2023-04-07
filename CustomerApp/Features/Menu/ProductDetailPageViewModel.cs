@@ -54,14 +54,14 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task ClearAddOn(AddOn addOn)
+    private void ClearAddOn(AddOn addOn)
     {
         CustomizedProduct.AddOns.Remove(addOn);
         OnPropertyChanged(nameof(CustomizedProduct));
     }
 
     [RelayCommand]
-    private async Task AddAddOn()
+    private void AddAddOn()
     {
         if (SelectedAddOn != null)
         {
