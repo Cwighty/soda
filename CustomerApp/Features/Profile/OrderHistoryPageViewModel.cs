@@ -2,12 +2,12 @@
 
 public partial class OrderHistoryPageViewModel : BaseViewModel
 {
-    private readonly OrderService orderService;
+    private readonly PurchaseService orderService;
 
     [ObservableProperty]
     private List<Purchase> purchases;
 
-    public OrderHistoryPageViewModel(OrderService orderService)
+    public OrderHistoryPageViewModel(PurchaseService orderService)
     {
         this.orderService = orderService;
     }

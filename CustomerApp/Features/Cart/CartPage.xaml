@@ -128,7 +128,7 @@
               VerticalOptions="FillAndExpand"
               ColumnDefinitions="*,*"
               RowDefinitions="auto,auto,auto,auto"
-              IsVisible="False">
+              >
             <Button Text="Add More"
                     BackgroundColor="{StaticResource White}"
                     TextColor="{StaticResource Tertiary}"

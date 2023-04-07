@@ -12,6 +12,7 @@ namespace StoreApp.Controllers
     [ApiController]
     public class PaymentIntentApiController : Controller
     {
+       
         [HttpPost]
         public ActionResult Create(PaymentIntentCreateRequest request)
         {

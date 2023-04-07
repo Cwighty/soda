@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Maui;
-using CustomerApp.Mappers;
 using Microsoft.Extensions.Logging;
 using MonkeyCache.FileStore;
+using SodaShared.Mappers;
+
 namespace CustomerApp;
 
 public static class MauiProgram
@@ -31,7 +32,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<NavigationService>();
         builder.Services.AddSingleton<ICacheService, CacheService>();
         builder.Services.AddSingleton<UserService>();
-        builder.Services.AddSingleton<OrderService>();
+        builder.Services.AddSingleton<PurchaseService>();
+        builder.Services.AddHttpClient(
+            "StoreAPI", client => client.BaseAddress = new Uri("http://10.0.2.2:7140")
+        );
 
         IntializePages(builder);
 

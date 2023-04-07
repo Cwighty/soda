@@ -148,9 +148,9 @@ CREATE TABLE
    
 CREATE TABLE
     purchase_item_addon (
-        id SERIAL PRIMARY KEY,
         purchase_item_id INT,
         addon_id INT,
+        PRIMARY KEY (purchase_item_id, addon_id),
         FOREIGN KEY (purchase_item_id) REFERENCES purchase_item (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
     );
@@ -312,12 +312,12 @@ TO public
 USING (auth.uid() = id)
 WITH CHECK (auth.uid() = id);
 
-ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Allow access for authenticated user for purchase table" ON "public"."purchase"
-AS PERMISSIVE FOR SELECT
-TO public
-USING ((auth.uid() = customer_id));
+--ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
+--
+--CREATE POLICY "Allow access for authenticated user for purchase table" ON "public"."purchase"
+--AS PERMISSIVE FOR SELECT
+--TO public
+--USING ((auth.uid() = customer_id));
 
 
 

@@ -9,6 +9,7 @@ public partial class CartPageViewModel : BaseViewModel
     private readonly ICacheService cache;
     private readonly NavigationService navigationService;
     private readonly IMapper mapper;
+    private readonly PurchaseService purchaseService;
 
     public Product IncomingProduct
     {
@@ -48,11 +49,17 @@ public partial class CartPageViewModel : BaseViewModel
     [ObservableProperty]
     private decimal total;
 
-    public CartPageViewModel(ICacheService cache, NavigationService navigationService, IMapper mapper)
+    public CartPageViewModel(
+        ICacheService cache, 
+        NavigationService navigationService, 
+        IMapper mapper, 
+        PurchaseService purchaseService
+        )
     {
         this.cache = cache;
         this.navigationService = navigationService;
         this.mapper = mapper;
+        this.purchaseService = purchaseService;
     }
 
     private void CartItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -118,7 +125,8 @@ public partial class CartPageViewModel : BaseViewModel
         }
         else if (action == "Continue As Guest")
         {
-            var url = "https://10.0.2.2:7140/checkout.html";
+            var clientId = await purchaseService.Checkout(CartItems.ToList());
+            var url = "https://clj4547d-7140.usw2.devtunnels.ms/checkout.html";
             try
             {
                 WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
