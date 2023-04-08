@@ -24,7 +24,7 @@ public partial class MenuPageViewModel : BaseViewModel
 
     [ObservableProperty]
     private List<Product> products;
-
+   
     private BaseType selectedBaseType;
     public BaseType SelectedBaseType
     {
@@ -44,9 +44,17 @@ public partial class MenuPageViewModel : BaseViewModel
 
     public override async Task Initialize()
     {
-        BaseTypes = await productService.GetBaseTypes();
-        ProductsByBase = await productService.GetBaseProducts();
-        SelectedBaseType = BaseTypes.First();
+        try
+        {
+            IsBusy = true;
+            BaseTypes = await productService.GetBaseTypes();
+            ProductsByBase = await productService.GetBaseProducts();
+            SelectedBaseType = BaseTypes.First();
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     public override Task Stop()
