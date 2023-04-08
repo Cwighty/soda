@@ -23,28 +23,42 @@ public class CheckoutController : Controller
     [HttpPost("items")]
     public async Task<ActionResult> CheckoutItemsAsync(List<PurchaseItem> purchaseItems)
     {
+        if (purchaseItems.Count == 0)
+        {
+            return Json(new { error = "No items in cart" });
+        }
         // Calculate the price
-        var totalPrice = 20;
+        var totalPrice = 2000;
 
         // Create a new order in database
+        var purchaseItemsDatas = mapper.Map<List<PurchaseItemData>>(purchaseItems);
         var purchase = new PurchaseData() {
             CreatedAt = DateTime.UtcNow,
             PricePaid = totalPrice,
-            Status = "IN PROGRESS",
+            Status = "IN PROGRESS"
         };
 
-        var newPurchase = await client.From<PurchaseData>().Insert(purchase, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
-        var test = await client.From<PurchaseData>().Get();
-        var test1 = test.Models.Last();
+        var newPurchase = await client.From<PurchaseData>()
+            .Insert(purchase, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
 
-
-        var purchaseItemsDatas = mapper.Map<List<PurchaseItemData>>(purchaseItems);
-
-        var orderId = newPurchase.Models.FirstOrDefault()?.Id;
-        if (orderId == null)
+        var purchaseId = newPurchase.Models.FirstOrDefault().Id;
+        if (purchaseId == null)
         {
             return Json(new { error = "Error creating order" });
         }
+
+        var sizes = (await client.From<SizeData>().Get()).Models;
+
+        foreach (var item in purchaseItemsDatas)
+        {
+            item.PurchaseId = purchaseId;
+            item.SizeId = sizes.Where(s => s.Name == item.Size.Name).FirstOrDefault().Id;
+            await client.From<PurchaseItemData>()
+                .Insert(item);
+        }
+
+        var test = await client.From<PurchaseWithItemsData>().Get();
+
 
 
 
@@ -61,6 +75,6 @@ public class CheckoutController : Controller
         });
 
         //return payment intent key and order id
-        return Json(new { clientSecret = paymentIntent.ClientSecret, orderNumber =  orderId});
+        return Json(new { clientSecret = paymentIntent.ClientSecret, orderNumber =  purchaseId});
     }
 }

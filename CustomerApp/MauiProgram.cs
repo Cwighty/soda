@@ -1,7 +1,12 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 using MonkeyCache.FileStore;
 using SodaShared.Mappers;
+using Supabase;
+using System;
+using System.Reflection;
 
 namespace CustomerApp;
 
@@ -21,20 +26,33 @@ public static class MauiProgram
                 fonts.AddFont("Poppins-Bold.ttf", "PoppinsBold");
             });
 
+        LoadAppsettingsIntoConfig(builder);
+
         Barrel.ApplicationId = "MonkeyCash4";
+        var supabaseURL = builder.Configuration["SupabaseURL"];
+        var anonKey = builder.Configuration["SupabaseAnonKey"];
 
         builder.Services.AddAutoMapper(typeof(MapperProfile));
 
-        var supabaseURL = "https://dyafwhkcifxogstvfsuc.supabase.co";
-        var anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImR5YWZ3aGtjaWZ4b2dzdHZmc3VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODA1Nzk2MjIsImV4cCI6MTk5NjE1NTYyMn0.IjDLttzrFOYyYRGqFodGHjtu6NbjpH7idZRLglovEzE";
-        builder.Services.AddSingleton(new Supabase.Client(supabaseURL, anonKey));
+        var options = new SupabaseOptions
+        {
+            AutoRefreshToken = true,
+            AutoConnectRealtime = true,
+        };
+        builder.Services.AddSingleton(new Supabase.Client(supabaseURL, anonKey, options));
         builder.Services.AddSingleton<IProductService, ProductService>();
         builder.Services.AddSingleton<NavigationService>();
         builder.Services.AddSingleton<ICacheService, CacheService>();
         builder.Services.AddSingleton<UserService>();
         builder.Services.AddSingleton<PurchaseService>();
+
+        var storeApiUrl = builder.Configuration["StoreAPI"];
+        if (string.IsNullOrEmpty(storeApiUrl))
+        {
+            storeApiUrl = Environment.GetEnvironmentVariable("VS_TUNNEL_URL");
+        }
         builder.Services.AddHttpClient(
-            "StoreAPI", client => client.BaseAddress = new Uri("http://10.0.2.2:7140")
+            "StoreAPI", client => client.BaseAddress = new Uri(storeApiUrl)
         );
 
         IntializePages(builder);
@@ -45,6 +63,18 @@ public static class MauiProgram
 #endif
 
         return builder.Build();
+    }
+    
+    private static void LoadAppsettingsIntoConfig(MauiAppBuilder builder)
+    {
+        var a = Assembly.GetExecutingAssembly();
+        using var stream = a.GetManifestResourceStream("CustomerApp.appsettings.json");
+
+        var config = new ConfigurationBuilder()
+            .AddJsonStream(stream)
+            .Build();
+
+        builder.Configuration.AddConfiguration(config);
     }
 
     private static void IntializePages(MauiAppBuilder builder)

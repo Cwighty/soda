@@ -6,6 +6,8 @@ namespace SodaShared.Models.Data;
 [Table("size")]
 public class SizeData : BaseModel
 {
+    [Column("id")]
+    public int Id { get; set; }
     [Column("name")]
     public string Name { get; set; }
     [Column("price")]

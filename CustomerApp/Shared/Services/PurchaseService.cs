@@ -1,5 +1,6 @@
 ﻿namespace CustomerApp.Shared.Services;
 
+using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -11,13 +12,21 @@ public class PurchaseService
     private readonly IMapper mapper;
     private readonly UserService userService;
     private readonly HttpClient httpClient;
+    private readonly IConfiguration config;
 
-    public PurchaseService(Client client, IMapper mapper, UserService userService, HttpClient httpClient)
+    public PurchaseService(
+        Client client, 
+        IMapper mapper, 
+        UserService userService, 
+        HttpClient httpClient, 
+        IConfiguration config
+        )
     {
         this.client = client;
         this.mapper = mapper;
         this.userService = userService;
         this.httpClient = httpClient;
+        this.config = config;
     }
     public async Task<List<Purchase>> GetPurchaseHistory()
     {
@@ -44,11 +53,13 @@ public class PurchaseService
 
     }
 
-    public async Task<string> Checkout(List<PurchaseItem> cartItems)
+    public async Task<CheckoutInitiationResponse> Checkout(List<PurchaseItem> cartItems)
     {
-        var url = "https://clj4547d-7140.usw2.devtunnels.ms/checkout/items";
+        var storeAPI = config["StoreAPI"];
+        var url = $"{storeAPI}checkout/items";
         var res = await httpClient.PostAsJsonAsync(url, cartItems);
-        var test = res.Content.ReadAsStringAsync().Result;
-        return res.Content.ToString();
+        var content = await res.Content.ReadAsStringAsync();
+        var checkoutInitiationResponse = JsonSerializer.Deserialize<CheckoutInitiationResponse>(content);
+        return checkoutInitiationResponse;
     }
 }

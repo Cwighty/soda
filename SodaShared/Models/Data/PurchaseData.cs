@@ -18,10 +18,18 @@ public class PurchaseData : BaseModel
     public decimal PricePaid { get; set; }
     [Column("status")]
     public string Status { get; set; }
-    [Reference(typeof(CustomerData))]
-    public CustomerData Customer { get; set; }
+    
+}
 
+public class PurchaseWithItemsData : PurchaseData
+{
     [Reference(typeof(PurchaseItemData))]
     public List<PurchaseItemData>? PurchaseItems { get; set; }
+}
+
+public class PurchaseWithCustomerData : PurchaseData
+{
+    [Reference(typeof(CustomerData))]
+    public CustomerData Customer { get; set; }
 }
 
