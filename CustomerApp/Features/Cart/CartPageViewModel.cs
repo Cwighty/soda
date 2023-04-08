@@ -93,6 +93,7 @@ public partial class CartPageViewModel : BaseViewModel
         }
         CartItems = new(items);
         CartItems.CollectionChanged += CartItems_CollectionChanged;
+        cache.Add(nameof(CartItems), CartItems);
 
         IncomingProduct = null;
         return Task.CompletedTask;
@@ -100,10 +101,6 @@ public partial class CartPageViewModel : BaseViewModel
 
     public override Task Stop()
     {
-        if (CartItems != null)
-        {
-            cache.Add(nameof(CartItems), CartItems);
-        }
         return Task.CompletedTask;
     }
 
@@ -131,7 +128,7 @@ public partial class CartPageViewModel : BaseViewModel
         {
             var initiation = await purchaseService.Checkout(CartItems.ToList());
             var storeAPI = config["StoreAPI"];
-            var url = $"{storeAPI}checkout.html?intent={initiation.ClientSecret}";
+            var url = $"{storeAPI}confirm?intent={initiation.ClientSecret}&orderid={initiation.OrderNumber}";
             try
             {
                 WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(

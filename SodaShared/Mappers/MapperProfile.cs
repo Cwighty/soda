@@ -21,5 +21,7 @@ public class MapperProfile : Profile
 			.ForMember(dest => dest.Product, opt => opt.MapFrom(src => src))
 			.ReverseMap();
 		CreateMap<Product, Product>().ReverseMap();
-	}
+        CreateMap<PurchaseWithItemsData, Purchase>()
+			.ReverseMap();
+    }
 }
