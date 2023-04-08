@@ -9,8 +9,13 @@
     <Grid RowDefinitions="auto,*,auto,auto">
         <Label Text="Order Up!"
                Style="{StaticResource LabelHeaderStyle}" />
+        <ActivityIndicator IsRunning="{Binding IsBusy}"
+                           IsVisible="{Binding IsBusy}"
+                           VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="CenterAndExpand" />
         <CollectionView ItemsSource="{Binding CartItems}"
-                        Grid.Row="1">
+                        Grid.Row="1"
+                        IsVisible="{Binding IsNotBusy}">
             <CollectionView.EmptyView>
                 <Grid RowDefinitions="*,*"
                       HorizontalOptions="Center"

@@ -15,10 +15,19 @@ public partial class FeaturePageViewModel : BaseViewModel
         this.productService = productService;
         this.navigationService = navigationService;
     }
+
     public override async Task Initialize()
     {
-        var categoryProducts = await productService.GetCategorizedProducts();
-        CategorizedProducts = categoryProducts;
+        try
+        {
+            IsBusy = true;
+            var categoryProducts = await productService.GetCategorizedProducts();
+            CategorizedProducts = categoryProducts;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     public override Task Stop()

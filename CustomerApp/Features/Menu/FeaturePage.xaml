@@ -8,31 +8,36 @@
                 Title="FeaturePage"
                 Shell.NavBarIsVisible="False">
     <Grid RowDefinitions="auto, *">
-        <Grid ColumnDefinitions="*,auto,auto" Grid.Row="0">
+        <Grid ColumnDefinitions="*,auto,auto"
+              Grid.Row="0">
             <Label Text="Welcome!"
-               Style="{StaticResource LabelHeaderStyle}"
-                   Grid.Column="0"/>
+                   Style="{StaticResource LabelHeaderStyle}"
+                   Grid.Column="0" />
             <ImageButton Source="cup_holder.png"
                          Grid.Column="1"
                          Command="{Binding GoToCartCommand}" />
             <ImageButton Source="profile.png"
-                         Grid.Column="2" 
-                         Command="{Binding GoToProfileCommand}"
-                         /> 
+                         Grid.Column="2"
+                         Command="{Binding GoToProfileCommand}" />
         </Grid>
-        <ScrollView VerticalOptions="FillAndExpand" Grid.Row="1">
-            <CollectionView ItemsSource="{Binding CategorizedProducts}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <controls:HorizontalProductDisplay 
-                            Title="{Binding Name}"
-                            Products="{Binding Products}"
-                            ShowAllEnabled="False"
-                            DetailsCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:FeaturePageViewModel}}, Path=NavigateToDetailCommand}"
-                            />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+        <ScrollView VerticalOptions="FillAndExpand"
+                    Grid.Row="1">
+            <StackLayout>
+                <ActivityIndicator IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}"
+                                   VerticalOptions="CenterAndExpand"
+                                   HorizontalOptions="CenterAndExpand" />
+                <CollectionView ItemsSource="{Binding CategorizedProducts}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <controls:HorizontalProductDisplay Title="{Binding Name}"
+                                                               Products="{Binding Products}"
+                                                               ShowAllEnabled="False"
+                                                               DetailsCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:FeaturePageViewModel}}, Path=NavigateToDetailCommand}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
         </ScrollView>
     </Grid>
 </views:BasePage>

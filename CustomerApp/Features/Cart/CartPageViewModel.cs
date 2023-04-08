@@ -80,23 +80,31 @@ public partial class CartPageViewModel : BaseViewModel
 
     public override Task Initialize()
     {
-        var items = cache.Get<ObservableCollection<PurchaseItem>>(nameof(CartItems));
-        if (items == null)
+        try
         {
-            items = new ObservableCollection<PurchaseItem>();
-        }
-        if (IncomingProduct != null)
-        {
-            PurchaseItem newPurchase = new();
-            mapper.Map(incomingProduct, newPurchase);
-            items.Add(newPurchase);
-        }
-        CartItems = new(items);
-        CartItems.CollectionChanged += CartItems_CollectionChanged;
-        cache.Add(nameof(CartItems), CartItems);
+            IsBusy = true;
+            var items = cache.Get<ObservableCollection<PurchaseItem>>(nameof(CartItems));
+            if (items == null)
+            {
+                items = new ObservableCollection<PurchaseItem>();
+            }
+            if (IncomingProduct != null)
+            {
+                PurchaseItem newPurchase = new();
+                mapper.Map(incomingProduct, newPurchase);
+                items.Add(newPurchase);
+            }
+            CartItems = new(items);
+            CartItems.CollectionChanged += CartItems_CollectionChanged;
+            cache.Add(nameof(CartItems), CartItems);
 
-        IncomingProduct = null;
-        return Task.CompletedTask;
+            IncomingProduct = null;
+            return Task.CompletedTask;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     public override Task Stop()

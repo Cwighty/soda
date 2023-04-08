@@ -15,7 +15,11 @@
                    />
         </Grid>
         <Grid Grid.Row="1">
-            <ScrollView>
+            <ActivityIndicator IsRunning="{Binding IsBusy}"
+                               IsVisible="{Binding IsBusy}"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand" />
+            <ScrollView IsVisible="{Binding IsNotBusy}">
                 <CollectionView ItemsSource="{Binding FilteredProducts}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -29,11 +33,12 @@
                 </CollectionView>
             </ScrollView>
         </Grid>
-            <Grid 
+        <Grid 
                   Grid.Row="2">
                 <!---Category Chips-->
                 <ScrollView Orientation="Horizontal"
-                            VerticalOptions="Start"
+                        IsVisible="{Binding IsNotBusy}"
+                        VerticalOptions="Start"
                             VerticalScrollBarVisibility="Never"
                             HorizontalScrollBarVisibility="Never"
                             BackgroundColor="Transparent">

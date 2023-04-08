@@ -7,13 +7,14 @@ public partial class ProductDetailPageViewModel : BaseViewModel
 {
     private readonly IProductService productService;
     private readonly NavigationService navigationService;
+    
     [ObservableProperty]
     private Product product;
     [ObservableProperty]
     private Product customizedProduct;
-
     [ObservableProperty]
     private List<Size> productSizes;
+    
     private Size selectedProductSize;
     public Size SelectedProductSize
     {
@@ -43,9 +44,17 @@ public partial class ProductDetailPageViewModel : BaseViewModel
 
     public override async Task Initialize()
     {
-        AddOns = await productService.GetAddOns();
-        ProductSizes = Product.Base.BaseType.Sizes.ToList();
-        CustomizedProduct = Product;
+        try
+        {
+            IsBusy = true;
+            AddOns = await productService.GetAddOns();
+            ProductSizes = Product.Base.BaseType.Sizes.ToList();
+            CustomizedProduct = Product;
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
 
     public override Task Stop()
