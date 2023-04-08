@@ -311,6 +311,13 @@ TO public
 USING (auth.uid() = id)
 WITH CHECK (auth.uid() = id);
 
+ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable read access for customer owned records" ON "public"."purchase"
+FOR SELECT
+TO public
+USING (auth.uid() = customer_id);
+
 --ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
 --
 --CREATE POLICY "Allow access for authenticated user for purchase table" ON "public"."purchase"
