@@ -12,6 +12,6 @@ public class PurchaseItem
     public Base Base { get; set; }
     public Size Size { get; set; }
     public List<AddOn> AddOns { get; set; }
-    public Decimal CalculatedPrice => AddOns.Sum(a => a.Price) + Base.Price + Size.Price;
+    public Decimal CalculatedPrice => (AddOns?.Sum(a => a.Price) ?? 0) + Base.Price + Size.Price;
     public string Name => Product?.Name ?? Base.Name;
 }
