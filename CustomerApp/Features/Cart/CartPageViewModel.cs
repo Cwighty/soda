@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 
 namespace CustomerApp.Features.Cart;
@@ -10,6 +11,7 @@ public partial class CartPageViewModel : BaseViewModel
     private readonly NavigationService navigationService;
     private readonly IMapper mapper;
     private readonly PurchaseService purchaseService;
+    private readonly IConfiguration config;
 
     public Product IncomingProduct
     {
@@ -53,13 +55,15 @@ public partial class CartPageViewModel : BaseViewModel
         ICacheService cache, 
         NavigationService navigationService, 
         IMapper mapper, 
-        PurchaseService purchaseService
+        PurchaseService purchaseService,
+        IConfiguration config
         )
     {
         this.cache = cache;
         this.navigationService = navigationService;
         this.mapper = mapper;
         this.purchaseService = purchaseService;
+        this.config = config;
     }
 
     private void CartItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -125,8 +129,9 @@ public partial class CartPageViewModel : BaseViewModel
         }
         else if (action == "Continue As Guest")
         {
-            var clientId = await purchaseService.Checkout(CartItems.ToList());
-            var url = "https://clj4547d-7140.usw2.devtunnels.ms/checkout.html";
+            var initiation = await purchaseService.Checkout(CartItems.ToList());
+            var storeAPI = config["StoreAPI"];
+            var url = $"{storeAPI}checkout.html?intent={initiation.ClientSecret}";
             try
             {
                 WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(

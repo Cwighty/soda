@@ -16,6 +16,8 @@ public class PurchaseItemData : BaseModel
     public int BaseId { get; set; }
     [Column("size_id")]
     public int SizeId { get; set; }
+
+    [Reference(typeof(PurchaseData))]
     public PurchaseData? Purchase { get; set; }
     [Reference(typeof(ProductData))]
     public ProductData? Product { get; set; }

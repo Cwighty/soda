@@ -94,12 +94,11 @@ CREATE TABLE
 CREATE TABLE
     purchase (
         id SERIAL PRIMARY KEY,
-        customer_id uuid,
+        customer_id uuid null,
         created_at TIMESTAMP,
         completed_at TIMESTAMP,
         price_paid DECIMAL(10, 2),
-        status VARCHAR(255),
-        FOREIGN KEY (customer_id) REFERENCES customer (id)
+        status VARCHAR(255)
     );
 
 CREATE TABLE

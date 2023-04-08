@@ -12,11 +12,11 @@ public partial class Size
     public string Name { get; set; }
     public Decimal Price { get; set; }
 
-    public string Img { get; set; }
-    public string Path => IsSelected ? SelectedPath : UnSelectedPath;
+    public string? Img { get; set; }
+    public string? Path => IsSelected ? SelectedPath : UnSelectedPath;
 
-    public string SelectedPath => $"white_{Img}";
-    public string UnSelectedPath => $"black_{Img}";
+    public string? SelectedPath => $"white_{Img}";
+    public string? UnSelectedPath => $"black_{Img}";
 
     [NotifyPropertyChangedFor(nameof(Path))]
     [ObservableProperty]
