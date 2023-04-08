@@ -13,6 +13,7 @@ public partial class CartPageViewModel : BaseViewModel
     private readonly PurchaseService purchaseService;
     private readonly IConfiguration config;
 
+    private Product incomingProduct;
     public Product IncomingProduct
     {
         get => incomingProduct;
@@ -41,15 +42,18 @@ public partial class CartPageViewModel : BaseViewModel
             SubTotal = subTotal;
             Tax = SubTotal * 0.07m;
             Total = SubTotal + Tax;
+            OnPropertyChanged(nameof(IsNotEmpty));
         }
     }
-    private Product incomingProduct;
+
     [ObservableProperty]
     private decimal subTotal;
     [ObservableProperty]
     private decimal tax;
     [ObservableProperty]
     private decimal total;
+
+    public bool IsNotEmpty => CartItems.Count > 0;
 
     public CartPageViewModel(
         ICacheService cache, 
@@ -109,6 +113,7 @@ public partial class CartPageViewModel : BaseViewModel
 
     public override Task Stop()
     {
+        cache.Add(nameof(CartItems), CartItems);
         return Task.CompletedTask;
     }
 
@@ -116,7 +121,9 @@ public partial class CartPageViewModel : BaseViewModel
     private void ClearCartItem(PurchaseItem item)
     {
         CartItems.Remove(item);
+        cache.Add(nameof(CartItems), CartItems);
         OnPropertyChanged(nameof(CartItems));
+        OnPropertyChanged(nameof(IsNotEmpty));
     }
 
     [RelayCommand]
