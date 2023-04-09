@@ -34,32 +34,58 @@ public class PurchaseService
         return mapper.Map<List<Purchase>>(response.Models);
     }
 
-    public async Task InitializePurchase(List<Product> products)
-    {
-        var customer = await userService.GetCustomer();
-
-        var newPurchase = new PurchaseData
-        {
-            CustomerId = customer?.Id,
-            CreatedAt = DateTime.UtcNow,
-            Status = "STARTED"
-        };
-
-        foreach (var item in products)
-        {
-
-        }
-
-
-    }
-
-    public async Task<CheckoutInitiationResponse> Checkout(List<PurchaseItem> cartItems)
+    public async Task<CheckoutInitiationResponse> InitiateCheckout(List<PurchaseItem> cartItems)
     {
         var storeAPI = config["StoreAPI"];
         var url = $"{storeAPI}checkout/items";
-        var res = await httpClient.PostAsJsonAsync(url, cartItems);
-        var content = await res.Content.ReadAsStringAsync();
-        var checkoutInitiationResponse = JsonSerializer.Deserialize<CheckoutInitiationResponse>(content);
-        return checkoutInitiationResponse;
+        var customer = await userService.GetCustomer();
+
+        var purchase = new Purchase
+        {
+            Id = 0,
+            CustomerId = customer?.Id,
+            CreatedAt = DateTime.UtcNow,
+            Status = "STARTED",
+            PurchaseItems = cartItems,
+        };
+        
+        var res = await httpClient.PostAsJsonAsync(url, purchase);
+        if (res.IsSuccessStatusCode)
+        {
+            var content = await res.Content.ReadAsStringAsync();
+            var checkoutInitiationResponse = JsonSerializer.Deserialize<CheckoutInitiationResponse>(content);
+            return checkoutInitiationResponse;
+        }
+        throw new Exception();
+    }
+
+    public async Task<int?> CheckoutOnline(List<PurchaseItem> cartItems)
+    {
+        var initiation = await InitiateCheckout(cartItems.ToList());
+        var storeAPI = config["StoreAPI"];
+        var url = $"{storeAPI}confirm?intent={initiation.ClientSecret}&orderid={initiation.OrderNumber}";
+        try
+        {
+            WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
+                new Uri(url),
+                new Uri("soda://success"));
+            return initiation.OrderNumber;
+        }
+        catch
+        {
+            await CancelOrder(initiation.OrderNumber);
+            return null;
+        }
+    }
+
+    public async Task CancelOrder(int orderNumber)
+    {
+        var order = await client.From<PurchaseData>()
+            .Where(p => p.Id == orderNumber)
+            .Single();
+        
+        order.Status = "CANCELED";
+
+        await order.Update<PurchaseData>();
     }
 }
