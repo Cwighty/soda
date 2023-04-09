@@ -21,25 +21,27 @@ public class CheckoutController : Controller
     }
 
     [HttpPost("items")]
-    public async Task<ActionResult> CheckoutItemsAsync(List<PurchaseItem> purchaseItems)
+    public async Task<ActionResult> CheckoutItemsAsync(Purchase purchase)
     {
-        if (purchaseItems.Count == 0)
+        if (purchase == null)
+        {
+            return Json(new { error = "No purchase data" });
+        }
+        if (purchase.PurchaseItems.Count == 0)
         {
             return Json(new { error = "No items in cart" });
         }
+        
         // Calculate the price
-        var totalPrice = 2000;
+        var totalPrice = 20;
 
-        // Create a new order in database
-        var purchaseItemsDatas = mapper.Map<List<PurchaseItemData>>(purchaseItems);
-        var purchase = new PurchaseData() {
-            CreatedAt = DateTime.UtcNow,
-            PricePaid = totalPrice,
-            Status = "IN PROGRESS"
-        };
+        purchase.CreatedAt = DateTime.UtcNow;
+        purchase.PricePaid = totalPrice;
+        purchase.Status = "IN PROGRESS";
 
+        var newPurchaseData = mapper.Map<PurchaseData>(purchase);
         var newPurchase = await client.From<PurchaseData>()
-            .Insert(purchase, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
+            .Insert(newPurchaseData, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
 
         var purchaseId = newPurchase.Models.FirstOrDefault().Id;
         if (purchaseId == null)
@@ -49,7 +51,8 @@ public class CheckoutController : Controller
 
         var sizes = (await client.From<SizeData>().Get()).Models;
 
-        foreach (var item in purchaseItemsDatas)
+        var purchaseDataItems = mapper.Map<List<PurchaseItemData>>(purchase.PurchaseItems);
+        foreach (var item in purchaseDataItems)
         {
             item.PurchaseId = purchaseId;
             item.SizeId = sizes.Where(s => s.Name == item.Size.Name).FirstOrDefault().Id;
@@ -57,16 +60,11 @@ public class CheckoutController : Controller
                 .Insert(item);
         }
 
-        var test = await client.From<PurchaseWithItemsData>().Get();
-
-
-
-
         // Create a new payment intent
         var paymentIntentService = new PaymentIntentService();
         var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
         {
-            Amount = totalPrice,
+            Amount = totalPrice * 100,
             Currency = "usd",
             AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
             {
@@ -77,4 +75,5 @@ public class CheckoutController : Controller
         //return payment intent key and order id
         return Json(new { clientSecret = paymentIntent.ClientSecret, orderNumber =  purchaseId});
     }
+
 }

@@ -12,7 +12,7 @@ public partial class CartPageViewModel : BaseViewModel
     private readonly IMapper mapper;
     private readonly PurchaseService purchaseService;
     private readonly IConfiguration config;
-
+    private readonly UserService userService;
     private Product incomingProduct;
     public Product IncomingProduct
     {
@@ -53,14 +53,15 @@ public partial class CartPageViewModel : BaseViewModel
     [ObservableProperty]
     private decimal total;
 
-    public bool IsNotEmpty => CartItems.Count > 0;
+    public bool IsNotEmpty => CartItems?.Count > 0;
 
     public CartPageViewModel(
-        ICacheService cache, 
-        NavigationService navigationService, 
-        IMapper mapper, 
+        ICacheService cache,
+        NavigationService navigationService,
+        IMapper mapper,
         PurchaseService purchaseService,
-        IConfiguration config
+        IConfiguration config,
+        UserService userService
         )
     {
         this.cache = cache;
@@ -68,6 +69,7 @@ public partial class CartPageViewModel : BaseViewModel
         this.mapper = mapper;
         this.purchaseService = purchaseService;
         this.config = config;
+        this.userService = userService;
     }
 
     private void CartItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -129,34 +131,27 @@ public partial class CartPageViewModel : BaseViewModel
     [RelayCommand]
     private async Task ShowPopup()
     {
-        var options = new string[] { "Sign In", "Create An Account", "Continue As Guest" };
-        var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
-        if (action == "Sign In")
+        if (!userService.IsLoggedIn())
         {
-            // Do something
-        }
-        else if (action == "Create An Account")
-        {
-            // Do something else
-        }
-        else if (action == "Continue As Guest")
-        {
-            var initiation = await purchaseService.Checkout(CartItems.ToList());
-            var storeAPI = config["StoreAPI"];
-            var url = $"{storeAPI}confirm?intent={initiation.ClientSecret}&orderid={initiation.OrderNumber}";
-            try
+            var options = new string[] { "Sign In", "Create An Account", "Continue As Guest" };
+            var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
+            if (action == "Sign In")
             {
-                WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
-                    new Uri(url),
-                    new Uri("soda://success"));
-
-                await navigationService.GoTo(nameof(OrderProcessedPage));
+                await navigationService.GoTo("///ProfilePage");
+                return;
             }
-            catch (Exception e)
+            else if (action == "Create An Account")
             {
-                Console.WriteLine(e);
+                await navigationService.GoTo("///ProfilePage");
+                return;
             }
         }
+        try
+        {
+            await purchaseService.CheckoutOnline(CartItems.ToList());
+            await navigationService.GoTo(nameof(OrderProcessedPage));
+        }
+        catch (Exception ex) { }
 
     }
 

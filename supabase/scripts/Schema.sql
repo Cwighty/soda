@@ -318,6 +318,15 @@ FOR SELECT
 TO public
 USING (auth.uid() = customer_id);
 
+CREATE POLICY "Enable update access for customer owned records" ON "public"."purchase"
+FOR UPDATE USING (
+  auth.uid() = customer_id and status <> 'COMPLETED'
+) WITH CHECK (
+  auth.uid() = customer_id and status <> 'COMPLETED'
+);
+
+
+
 --ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
 --
 --CREATE POLICY "Allow access for authenticated user for purchase table" ON "public"."purchase"
