@@ -5,10 +5,8 @@ namespace SodaShared.Models;
 [ObservableObject]
 public partial class Size
 {
-    public Size()
-    {
+    public int Id { get; set; }
 
-    }
     public string Name { get; set; }
     public Decimal Price { get; set; }
 
