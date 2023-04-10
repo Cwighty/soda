@@ -31,9 +31,9 @@ public class CheckoutController : Controller
         {
             return Json(new { error = "No items in cart" });
         }
-        
+
         // Calculate the price
-        var totalPrice = 20;
+        decimal totalPrice = await CalculatePrice(purchase);
 
         purchase.CreatedAt = DateTime.UtcNow;
         purchase.PricePaid = totalPrice;
@@ -64,7 +64,7 @@ public class CheckoutController : Controller
         var paymentIntentService = new PaymentIntentService();
         var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
         {
-            Amount = totalPrice * 100,
+            Amount = (long)totalPrice * 100,
             Currency = "usd",
             AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
             {
@@ -73,7 +73,31 @@ public class CheckoutController : Controller
         });
 
         //return payment intent key and order id
-        return Json(new { clientSecret = paymentIntent.ClientSecret, orderNumber =  purchaseId});
+        return Json(new { clientSecret = paymentIntent.ClientSecret, orderNumber = purchaseId });
     }
 
+    private async Task<decimal> CalculatePrice(Purchase purchase)
+    {
+        Decimal totalPrice = 0;
+        foreach (var item in purchase.PurchaseItems)
+        {
+            // Sum up addons
+            foreach (var addon in item.AddOns)
+            {
+                var lookUpAddon = await client.From<AddOnData>().Where(a => a.Id == addon.Id).Single();
+                totalPrice += lookUpAddon!.Price;
+            }
+            // Sum up bases
+            var based = await client.From<BaseData>().Where(b => b.Id == item.BaseId).Single();
+            totalPrice += based!.Price;
+            // Sum up size options
+            var size = await client.From<SizeData>().Where(s => s.Id  == item.SizeId).Single();
+            totalPrice += size!.Price;
+        }
+
+        // Add in tax
+        var totalWithTax = totalPrice * 1.07M;
+
+        return totalWithTax;
+    }
 }
