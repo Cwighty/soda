@@ -13,20 +13,23 @@
                      Margin="0,20,0,0">
             <Label x:Name="SectionLabel"
                    HorizontalOptions="StartAndExpand"
-                   FontSize="22"
+                   FontSize="Medium"
                    FontFamily="PoppinsBold"
-                   TextColor="Black" />
+                   TextColor="{StaticResource Black}"
+                   Margin="15,0,0,0"/>
             <Label x:Name="ShowAllLabel"
                    Text="Show All"
                    HorizontalOptions="EndAndExpand"
-                   FontSize="22"
-                   TextColor="{StaticResource Primary}" />
+                   FontSize="Medium"
+                   FontFamily="MontserratRegular"
+                   TextColor="{StaticResource Primary}"
+                   Margin="0,0,15,0"/>
         </StackLayout>
         <!---Products Collection View-->
         <CollectionView x:Name="ProductsCollection"
                         SelectionMode="None"
                         VerticalOptions="FillAndExpand"
-                        Margin="-10,0,0,0">
+                        Margin="0,0,0,0">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
@@ -35,7 +38,7 @@
                     <VerticalStackLayout>
                         <Border Padding="0"
                                 Margin="15,10,5,5"
-                                WidthRequest="175"
+                                WidthRequest="150"
                                 BackgroundColor="{StaticResource Tertiary}"
                                 Stroke="Gray"
                                 StrokeThickness="0"
@@ -55,7 +58,7 @@
                                     </Border.StrokeShape>
                                     <Image Source="soda_placeholder.jpeg"
                                            Aspect="Center"
-                                           HeightRequest="150" />
+                                           HeightRequest="125" />
                                 </Border>
                                 <Label Grid.Row="1"
                                        HorizontalOptions="FillAndExpand"

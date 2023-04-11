@@ -89,7 +89,7 @@
                                                            x:Name="CategoryLabel"
                                                            HorizontalTextAlignment="Center"
                                                            VerticalTextAlignment="End"
-                                                           FontFamily="RalewayRegular"
+                                                           FontFamily="MontserratRegular"
                                                            FontSize="16" />
                                                 </Grid>
                                             </Border>
