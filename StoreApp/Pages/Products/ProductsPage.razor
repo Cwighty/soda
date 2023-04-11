@@ -1,0 +1,32 @@
+﻿@page "/products"
+@using SodaShared.Models;
+@using SodaShared.Services;
+<h3>Products</h3>
+@if (Products != null)
+{
+    @foreach (var product in Products)
+    {
+        <p>@product.Name</p>
+    }
+}
+else
+{
+    <h3>Loading...</h3>
+}
+
+@code {
+
+    public List<Product> Products { get; set; }
+
+
+    [Inject] public  ProductCRUDService ProductService { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Products = await ProductService.GetProducts();
+    }
+
+}
+

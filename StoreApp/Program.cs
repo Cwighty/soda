@@ -28,6 +28,7 @@ var options = new SupabaseOptions
 };
 builder.Services.AddSingleton(new Supabase.Client(supabaseURL, serviceRoleKey, options));
 builder.Services.AddSingleton<OrderService>();
+builder.Services.AddSingleton<ProductCRUDService>();
 
 var app = builder.Build();
 
