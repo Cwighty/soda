@@ -116,6 +116,7 @@
 	  <None Remove="Resources\Images\black_drink_small.svg" />
 	  <None Remove="Resources\Images\cart_filled.svg" />
 	  <None Remove="Resources\Images\clear.svg" />
+	  <None Remove="Resources\Images\coffee_cup.svg" />
 	  <None Remove="Resources\Images\cup_holder.png" />
 	  <None Remove="Resources\Images\drink.svg" />
 	  <None Remove="Resources\Images\home.svg" />

@@ -13,7 +13,7 @@
             <Label Text="Welcome!"
                    Style="{StaticResource LabelHeaderStyle}"
                    Grid.Column="0" />
-            <ImageButton Source="cup_holder.png"
+            <ImageButton Source="coffee_cup.png"
                          Grid.Column="1"
                          MaximumWidthRequest="40"
                          MaximumHeightRequest="40"

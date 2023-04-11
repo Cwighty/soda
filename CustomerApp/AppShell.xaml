@@ -23,7 +23,7 @@
             <ShellContent ContentTemplate="{DataTemplate menu:MenuPage}" />
         </Tab>
         <Tab Title="Cup Holder"
-             Icon="cup_holder.png"
+             Icon="coffee_cup.png"
              Route="CartPage">
             <ShellContent ContentTemplate="{DataTemplate cart:CartPage}" />
         </Tab>
