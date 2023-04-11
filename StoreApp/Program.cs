@@ -1,4 +1,5 @@
 using SodaShared.Mappers;
+using SodaShared.Services;
 using StoreApp.Data;
 using Stripe;
 using Supabase;
@@ -26,6 +27,7 @@ var options = new SupabaseOptions
     AutoConnectRealtime = true,
 };
 builder.Services.AddSingleton(new Supabase.Client(supabaseURL, serviceRoleKey, options));
+builder.Services.AddSingleton<OrderService>();
 
 var app = builder.Build();
 

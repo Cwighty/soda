@@ -21,4 +21,9 @@
     <ProjectReference Include="..\SodaShared\SodaShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\Menu\" />
+    <Folder Include="Pages\Products\" />
+  </ItemGroup>
+
 </Project>

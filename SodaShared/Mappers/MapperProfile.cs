@@ -23,6 +23,6 @@ public class MapperProfile : Profile
 		CreateMap<Product, Product>().ReverseMap();
         CreateMap<PurchaseWithItemsData, Purchase>()
 			.ReverseMap();
-		CreateMap<Purchase, PurchaseWithItemsAndAddOnsData>().ReverseMap();
+		CreateMap<PurchaseWithItemsAndAddOnsData, Purchase>();
     }
 }
