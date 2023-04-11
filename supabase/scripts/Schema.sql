@@ -97,7 +97,8 @@ CREATE TABLE
         customer_id uuid null,
         created_at TIMESTAMP,
         completed_at TIMESTAMP,
-        price_paid DECIMAL(10, 2),
+        subtotal DECIMAL(10, 2),
+        tax_collected DECIMAL(10, 2),
         status VARCHAR(255)
     );
 

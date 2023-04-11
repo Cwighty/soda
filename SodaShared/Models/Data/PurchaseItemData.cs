@@ -25,8 +25,11 @@ public class PurchaseItemData : BaseModel
     public BaseData Base { get; set; }
     [Reference(typeof(SizeData))]
     public SizeData Size { get; set; }
-    //[Reference(typeof(AddOnData))]
-    //public List<AddOnData> AddOns { get; set; }
+}
 
+public class PurchaseItemDataWithAddOns : PurchaseItemData
+{
+    [Reference(typeof(AddOnData))]
+    public List<AddOnData> AddOns { get; set; }
 }
 

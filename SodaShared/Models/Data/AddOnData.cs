@@ -15,4 +15,3 @@ public class AddOnData : BaseModel
     [Reference(typeof(AddOnTypeData))]
     public AddOnTypeData AddOnType { get; set; }
 }
-

@@ -28,7 +28,7 @@ public static class MauiProgram
 
         LoadAppsettingsIntoConfig(builder);
 
-        Barrel.ApplicationId = "MonkeyCash4";
+        Barrel.ApplicationId = "MonkeyCash1";
         var supabaseURL = builder.Configuration["SupabaseURL"];
         var anonKey = builder.Configuration["SupabaseAnonKey"];
 

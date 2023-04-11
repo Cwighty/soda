@@ -33,33 +33,25 @@ public class CheckoutController : Controller
         }
 
         // Calculate the price
-        decimal totalPrice = await CalculatePrice(purchase);
+        decimal totalPrice = await CalculatePriceBeforeTax(purchase);
 
         purchase.CreatedAt = DateTime.UtcNow;
-        purchase.PricePaid = totalPrice;
+        purchase.SubTotal = totalPrice;
+        purchase.TaxCollected = totalPrice * 0.07M;
         purchase.Status = "IN PROGRESS";
 
-        var newPurchaseData = mapper.Map<PurchaseData>(purchase);
-        var newPurchase = await client.From<PurchaseData>()
-            .Insert(newPurchaseData, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
+        var purchaseId = await SavePurchase(purchase);
 
-        var purchaseId = newPurchase.Models.FirstOrDefault().Id;
-        if (purchaseId == null)
-        {
-            return Json(new { error = "Error creating order" });
-        }
+        await SavePurchaseItemsWithAddOns(purchaseId, purchase.PurchaseItems);
 
-        var sizes = (await client.From<SizeData>().Get()).Models;
+        PaymentIntent paymentIntent = CreatePaymentIntent(totalPrice);
 
-        var purchaseDataItems = mapper.Map<List<PurchaseItemData>>(purchase.PurchaseItems);
-        foreach (var item in purchaseDataItems)
-        {
-            item.PurchaseId = purchaseId;
-            item.SizeId = sizes.Where(s => s.Name == item.Size.Name).FirstOrDefault().Id;
-            await client.From<PurchaseItemData>()
-                .Insert(item);
-        }
+        //return payment intent key and order id
+        return Json(new { clientSecret = paymentIntent.ClientSecret, orderNumber = purchaseId });
+    }
 
+    private static PaymentIntent CreatePaymentIntent(decimal totalPrice)
+    {
         // Create a new payment intent
         var paymentIntentService = new PaymentIntentService();
         var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
@@ -71,12 +63,45 @@ public class CheckoutController : Controller
                 Enabled = true,
             },
         });
-
-        //return payment intent key and order id
-        return Json(new { clientSecret = paymentIntent.ClientSecret, orderNumber = purchaseId });
+        return paymentIntent;
     }
 
-    private async Task<decimal> CalculatePrice(Purchase purchase)
+    private async Task SavePurchaseItemsWithAddOns(int purchaseId, List<PurchaseItem> purchaseItems)
+    {
+        var sizes = (await client.From<SizeData>().Get()).Models;
+        foreach (var item in purchaseItems)
+        {
+            var newPurchaseItemData = mapper.Map<PurchaseItemData>(item);
+            newPurchaseItemData.PurchaseId = purchaseId;
+            newPurchaseItemData.SizeId = sizes.Where(s => s.Name == item.Size.Name).FirstOrDefault().Id;
+            var newItem = await client.From<PurchaseItemData>()
+                .Insert(newPurchaseItemData, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
+            
+            var itemId = newItem.Models.FirstOrDefault()!.Id;
+            foreach (var addon in item.AddOns)
+            {
+                var newAddon = new PurchaseItemAddOnData
+                {
+                    PurchaseItemId = itemId,
+                    AddOnId = addon.Id
+                };
+                await client.From<PurchaseItemAddOnData>()
+                    .Insert(newAddon);
+            }
+        }
+    }
+
+    private async Task<int> SavePurchase(Purchase purchase)
+    {
+        var newPurchaseData = mapper.Map<PurchaseData>(purchase);
+        var newPurchase = await client.From<PurchaseData>()
+            .Insert(newPurchaseData, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
+
+        var purchaseId = newPurchase.Models.FirstOrDefault()!.Id;
+        return purchaseId;
+    }
+
+    private async Task<decimal> CalculatePriceBeforeTax(Purchase purchase)
     {
         Decimal totalPrice = 0;
         foreach (var item in purchase.PurchaseItems)
@@ -95,9 +120,6 @@ public class CheckoutController : Controller
             totalPrice += size!.Price;
         }
 
-        // Add in tax
-        var totalWithTax = totalPrice * 1.07M;
-
-        return totalWithTax;
+        return totalPrice;
     }
 }
