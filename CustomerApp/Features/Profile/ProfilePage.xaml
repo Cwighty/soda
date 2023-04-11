@@ -4,47 +4,41 @@
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 x:Class="CustomerApp.Features.Profile.ProfilePage"
                 Title="ProfilePage"
-                Shell.NavBarIsVisible="False"
-                >
-    <ContentPage.Resources>
-        <Style TargetType="Label">
-            <Setter Property="FontSize"
-                    Value="Small" />
-            <Setter Property="Margin"
-                    Value="0, 5" />
-        </Style>
-    </ContentPage.Resources>
+                Shell.NavBarIsVisible="False">
     <VerticalStackLayout Spacing="20"
-                         Margin="10,0">
+                         Margin="15">
         <Label Text="Profile"
-               Style="{StaticResource LabelHeaderStyle}" />
+               Style="{StaticResource LabelHeaderStyle}"
+               Margin="0"/>
         <Frame Padding="10">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding EditDetailsCommand}" />
+            </Frame.GestureRecognizers>
             <Grid ColumnDefinitions="auto, *"
                   RowDefinitions="*,*,*">
-                <Label Text="Edit"
-                       Grid.Row="0"
+                <Image Source="right_arrow.png"
                        Grid.Column="1"
-                       TextColor="{StaticResource Tertiary}"
+                       Grid.RowSpan="3"
                        HorizontalOptions="End"
-                       BackgroundColor="Transparent">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding EditDetailsCommand}" />
-                    </Label.GestureRecognizers>
-                </Label>
+                       WidthRequest="20" />
                 <Label Text="{Binding Customer.Name, StringFormat='Name: {0}'}"
                        Grid.Row="0"
-                       Grid.Column="0" />
+                       Grid.Column="0"
+                       FontFamily="MontserratRegular"/>
                 <Label Text="{Binding Customer.Email, StringFormat='Email: {0}'}"
-                       Grid.Row="1" />
+                       Grid.Row="1"
+                       FontFamily="MontserratRegular" />
                 <Label Text="{Binding Customer.Phone, StringFormat='Phone: {0}', FallbackValue='Phone: Not Provided', TargetNullValue='Phone: Not Provided'}"
-                       Grid.Row="2" />
+                       Grid.Row="2"
+                       FontFamily="MontserratRegular" />
 
             </Grid>
         </Frame>
         <Frame
                Padding="10">
             <Grid ColumnDefinitions="auto,*">
-                <Label Text="Order History" />
+                <Label Text="Order History"
+                       FontFamily="MontserratRegular" />
                 <Image Source="right_arrow.png"
                        Grid.Column="1"
                        HorizontalOptions="End"
