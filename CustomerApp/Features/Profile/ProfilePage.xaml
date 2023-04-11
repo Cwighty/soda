@@ -24,12 +24,15 @@
                 <Label Text="{Binding Customer.Name, StringFormat='Name: {0}'}"
                        Grid.Row="0"
                        Grid.Column="0"
+                       Margin="0,5"
                        FontFamily="MontserratRegular"/>
                 <Label Text="{Binding Customer.Email, StringFormat='Email: {0}'}"
                        Grid.Row="1"
+                       Margin="0,5"
                        FontFamily="MontserratRegular" />
                 <Label Text="{Binding Customer.Phone, StringFormat='Phone: {0}', FallbackValue='Phone: Not Provided', TargetNullValue='Phone: Not Provided'}"
                        Grid.Row="2"
+                       Margin="0,5"
                        FontFamily="MontserratRegular" />
 
             </Grid>
