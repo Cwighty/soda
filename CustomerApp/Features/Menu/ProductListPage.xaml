@@ -7,7 +7,7 @@
                 x:Class="CustomerApp.Features.Menu.Controls.ProductListPage"
                 Title="ProductListPage"
                 Shell.NavBarIsVisible="False">
-    <VerticalStackLayout>
+    <VerticalStackLayout Margin="15,0">
         <CollectionView ItemsSource="{Binding Products}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
