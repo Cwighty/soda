@@ -53,6 +53,9 @@ public partial class CartPageViewModel : BaseViewModel
     [ObservableProperty]
     private decimal total;
 
+    [ObservableProperty]
+    private TimeSpan pickUpTime = DateTime.Now.TimeOfDay + TimeSpan.FromMinutes(15);
+
     public bool IsNotEmpty => CartItems?.Count > 0;
 
     public CartPageViewModel(
@@ -146,13 +149,15 @@ public partial class CartPageViewModel : BaseViewModel
                 return;
             }
         }
-        try
-        {
-            await purchaseService.CheckoutOnline(CartItems.ToList());
-            await navigationService.GoTo(nameof(OrderProcessedPage));
-        }
-        catch (Exception ex) { }
-
+        var orderId = await purchaseService.CheckoutOnline(CartItems.ToList(), DateTime.Now + PickUpTime);
+        cache.Empty();
+        CartItems = new();
+        await navigationService.GoTo(
+            nameof(OrderProcessedPage),
+            new Dictionary<string, object>()
+            {
+                ["OrderId"] = orderId
+            });
     }
 
 

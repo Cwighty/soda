@@ -97,6 +97,7 @@ CREATE TABLE
         customer_id uuid null,
         created_at TIMESTAMP,
         completed_at TIMESTAMP,
+        pick_up_time TIMESTAMP,
         subtotal DECIMAL(10, 2),
         tax_collected DECIMAL(10, 2),
         status VARCHAR(255)
@@ -317,7 +318,7 @@ ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Enable read access for customer owned records" ON "public"."purchase"
 FOR SELECT
 TO public
-USING (auth.uid() = customer_id);
+USING (auth.uid() = customer_id or customer_id is null);
 
 CREATE POLICY "Enable update access for customer owned records" ON "public"."purchase"
 FOR UPDATE USING (

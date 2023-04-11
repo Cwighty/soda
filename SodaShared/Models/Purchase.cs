@@ -6,6 +6,7 @@ public class Purchase
     public string? CustomerId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? CompletedAt { get; set; }
+    public DateTime? PickUpTime { get; set; }
     public decimal? SubTotal { get; set; }
     public decimal? TaxCollected { get; set; }
     public string Status { get; set; }

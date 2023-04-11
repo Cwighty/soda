@@ -39,7 +39,8 @@
                         VerticalOptions="Start"
                         VerticalScrollBarVisibility="Never"
                         HorizontalScrollBarVisibility="Never"
-                        BackgroundColor="Transparent">
+                        BackgroundColor="Transparent"
+                        Margin="15,0">
                 <HorizontalStackLayout Spacing="10"
                                        RadioButtonGroup.GroupName="Categories"
                                        RadioButtonGroup.SelectedValue="{Binding SelectedBaseType}"

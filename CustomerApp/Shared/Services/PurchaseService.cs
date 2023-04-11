@@ -15,10 +15,10 @@ public class PurchaseService
     private readonly IConfiguration config;
 
     public PurchaseService(
-        Client client, 
-        IMapper mapper, 
-        UserService userService, 
-        HttpClient httpClient, 
+        Client client,
+        IMapper mapper,
+        UserService userService,
+        HttpClient httpClient,
         IConfiguration config
         )
     {
@@ -34,7 +34,7 @@ public class PurchaseService
         return mapper.Map<List<Purchase>>(response.Models);
     }
 
-    public async Task<CheckoutInitiationResponse> InitiateCheckout(List<PurchaseItem> cartItems)
+    public async Task<CheckoutInitiationResponse> InitiateCheckout(List<PurchaseItem> cartItems, DateTime pickUpTime)
     {
         var storeAPI = config["StoreAPI"];
         var url = $"{storeAPI}checkout/items";
@@ -47,8 +47,9 @@ public class PurchaseService
             CreatedAt = DateTime.UtcNow,
             Status = "STARTED",
             PurchaseItems = cartItems,
+            PickUpTime = pickUpTime
         };
-        
+
         var res = await httpClient.PostAsJsonAsync(url, purchase);
         if (res.IsSuccessStatusCode)
         {
@@ -59,9 +60,9 @@ public class PurchaseService
         throw new Exception();
     }
 
-    public async Task<int?> CheckoutOnline(List<PurchaseItem> cartItems)
+    public async Task<int?> CheckoutOnline(List<PurchaseItem> cartItems, DateTime pickUpTime)
     {
-        var initiation = await InitiateCheckout(cartItems.ToList());
+        var initiation = await InitiateCheckout(cartItems.ToList(), pickUpTime);
         var storeAPI = config["StoreAPI"];
         var url = $"{storeAPI}confirm?intent={initiation.ClientSecret}&orderid={initiation.OrderNumber}";
         try
@@ -69,6 +70,8 @@ public class PurchaseService
             WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                 new Uri(url),
                 new Uri("soda://success"));
+            /*            authResult.Properties.TryGetValue("orderid", out var processOrderId);
+                        return int.Parse(processOrderId);*/
             return initiation.OrderNumber;
         }
         catch
@@ -83,9 +86,17 @@ public class PurchaseService
         var order = await client.From<PurchaseData>()
             .Where(p => p.Id == orderNumber)
             .Single();
-        
+
         order.Status = "CANCELED";
 
         await order.Update<PurchaseData>();
+    }
+
+    public async Task<Purchase> GetPurchaseById(int orderId)
+    {
+        var purchase = await client.From<PurchaseData>()
+            .Where(p => p.Id == orderId)
+            .Single();
+        return mapper.Map<Purchase>(purchase);
     }
 }

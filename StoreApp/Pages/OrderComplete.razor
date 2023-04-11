@@ -1,4 +1,4 @@
-﻿@page "/ordercomplete"
+﻿@page "/ordercomplete/{OrderId}"
 @inject NavigationManager nav
 @using Microsoft.AspNetCore.Mvc;
 <h3>Redirecting...</h3>
@@ -7,10 +7,13 @@
     [SupplyParameterFromQuery(Name = "redirect_status")]
     public string RedirectStatus { get; set; }
 
+    [Parameter]
+    public string OrderId { get; set; }
+
     protected override void OnAfterRender(bool firstRender)
     {
         if (RedirectStatus == "succeeded"){
-            nav.NavigateTo("soda://success");
+            nav.NavigateTo($"soda://success?orderid={OrderId}");
         }
     }
 }

@@ -115,6 +115,7 @@
 	  <None Remove="Resources\Images\black_drink_medium.svg" />
 	  <None Remove="Resources\Images\black_drink_small.svg" />
 	  <None Remove="Resources\Images\cart_filled.svg" />
+	  <None Remove="Resources\Images\checkmark_circle.svg" />
 	  <None Remove="Resources\Images\clear.svg" />
 	  <None Remove="Resources\Images\coffee_cup.svg" />
 	  <None Remove="Resources\Images\cup_holder.png" />
@@ -125,6 +126,7 @@
 	  <None Remove="Resources\Images\profile.svg" />
 	  <None Remove="Resources\Images\right_arrow.svg" />
 	  <None Remove="Resources\Images\soda_placeholder.jpeg" />
+	  <None Remove="Resources\Images\star.svg" />
 	  <None Remove="Resources\Images\user_filled.svg" />
 	  <None Remove="Resources\Images\white_drink_large.svg" />
 	  <None Remove="Resources\Images\white_drink_medium.svg" />
