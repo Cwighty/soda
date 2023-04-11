@@ -146,18 +146,15 @@ public partial class CartPageViewModel : BaseViewModel
                 return;
             }
         }
-        try
-        {
-            var orderId = await purchaseService.CheckoutOnline(CartItems.ToList());
-            await navigationService.GoTo(
-                nameof(OrderProcessedPage),
-                new Dictionary<string, object>()
-                {
-                    ["OrderId"] = orderId
-                });
-        }
-        catch (Exception ex) { }
-
+        var orderId = await purchaseService.CheckoutOnline(CartItems.ToList());
+        cache.Empty();
+        CartItems = new();
+        await navigationService.GoTo(
+            nameof(OrderProcessedPage),
+            new Dictionary<string, object>()
+            {
+                ["OrderId"] = orderId
+            });
     }
 
 

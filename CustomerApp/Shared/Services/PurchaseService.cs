@@ -69,8 +69,9 @@ public class PurchaseService
             WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                 new Uri(url),
                 new Uri("soda://success"));
-            authResult.Properties.TryGetValue("orderid", out var processOrderId);
-            return int.Parse(processOrderId);
+            /*            authResult.Properties.TryGetValue("orderid", out var processOrderId);
+                        return int.Parse(processOrderId);*/
+            return initiation.OrderNumber;
         }
         catch
         {
