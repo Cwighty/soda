@@ -10,27 +10,36 @@
                Grid.Row="0"
                Style="{StaticResource LabelHeaderStyle}" />
         <CollectionView ItemsSource="{Binding Purchases}"
-                        Grid.Row="1">
+                        Grid.Row="1"
+                        Margin="15,0">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Padding="10"
-                           Margin="10">
+                    <StackLayout>
                         <Grid RowDefinitions="auto,auto,auto"
-                              ColumnDefinitions="auto,*">
+                              ColumnDefinitions="auto,*"
+                              RowSpacing="10"
+                              Margin="10,20">
                             <Image Source="black_drink_large.png"
                                    Grid.RowSpan="3"
-                                   Margin="0,0,15,0"/>
+                                   Margin="0,0,15,0" />
                             <Label Text="{Binding Id, StringFormat='Order: {0}'}"
                                    Grid.Row="0"
-                                   Grid.Column="1"/>
+                                   Grid.Column="1"
+                                   FontFamily="MontserratRegular" />
                             <Label Text="{Binding CreatedAt, StringFormat='Date: {0}'}"
                                    Grid.Row="1"
-                                   Grid.Column="1" />
+                                   Grid.Column="1"
+                                   FontFamily="MontserratRegular" />
                             <Label Text="{Binding Status, StringFormat='Status: {0}'}"
                                    Grid.Row="2"
-                                   Grid.Column="1" />
+                                   Grid.Column="1"
+                                   FontFamily="MontserratRegular" />
                         </Grid>
-                    </Frame>
+                        <BoxView Color="{StaticResource Gray200}"
+                                 Margin="0,0,0,0"
+                                 HeightRequest=".5"
+                                 HorizontalOptions="Fill" />
+                    </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
