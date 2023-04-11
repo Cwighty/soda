@@ -5,15 +5,27 @@ public partial class OrderProcessedPageViewModel : BaseViewModel
 {
     [ObservableProperty]
     private int orderId;
-    private readonly NavigationService navigationService;
+    [ObservableProperty]
+    private Purchase purchase;
 
-    public OrderProcessedPageViewModel(NavigationService navigationService)
+    [ObservableProperty]
+    private string pickUpTimeRange;
+
+    private readonly NavigationService navigationService;
+    private readonly PurchaseService purchaseService;
+
+    public OrderProcessedPageViewModel(NavigationService navigationService, PurchaseService purchaseService)
     {
         this.navigationService = navigationService;
+        this.purchaseService = purchaseService;
     }
-    public override Task Initialize()
+    public override async Task Initialize()
     {
-        return Task.CompletedTask;
+        if(OrderId != 0)
+        {
+            Purchase = await purchaseService.GetPurchaseById(OrderId);
+            PickUpTimeRange = $"{Purchase.PickUpTime?.ToString("h:mm tt")} - {(Purchase.PickUpTime + TimeSpan.FromMinutes(15))?.ToString("h:mm tt")}";
+        }
     }
 
     public override Task Stop()

@@ -29,7 +29,7 @@
         <Label Text="PICKUP TIME"
                FontSize="Medium"
                FontFamily="MontserratRegular" />
-        <Label Text="{Binding PickupTime}"
+        <Label Text="{Binding PickUpTimeRange}"
                FontSize="32"
                FontFamily="WorkSansBold"
                FontAttributes="Bold"

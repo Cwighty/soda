@@ -14,6 +14,8 @@ public class PurchaseData : BaseModel
     public DateTime CreatedAt { get; set; }
     [Column("completed_at")]
     public DateTime? CompletedAt { get; set; }
+    [Column("pick_up_time")]
+    public DateTime? PickUpTime { get; set; }
     [Column("subtotal")]
     public decimal SubTotal { get; set; }
     [Column("tax_collected")]
