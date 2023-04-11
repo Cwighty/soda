@@ -16,13 +16,14 @@ public class MapperProfile : Profile
 		CreateMap<SizeData, Size>().ReverseMap();
 		CreateMap<PurchaseData, Purchase>().ReverseMap();
 		CreateMap<PurchaseItemData, PurchaseItem>().ReverseMap();
-		CreateMap<Product, PurchaseItem>()
+        CreateMap<Product, PurchaseItem>()
 			.ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id))
 			.ForMember(dest => dest.Product, opt => opt.MapFrom(src => src))
 			.ReverseMap();
 		CreateMap<Product, Product>().ReverseMap();
         CreateMap<PurchaseWithItemsData, Purchase>()
 			.ReverseMap();
+        CreateMap<PurchaseItemDataWithAddOns, PurchaseItem>().ReverseMap();
 		CreateMap<PurchaseWithItemsAndAddOnsData, Purchase>();
     }
 }
