@@ -10,6 +10,7 @@
                 <table class="table table-striped">
                     <thead class="thead-dark">
                         <tr>
+                            <th>Order Id</th>
                             <th>Status</th>
                             <th>Date Created</th>
                             <th>Sub Total Paid</th>
@@ -22,27 +23,28 @@
                         @foreach (var statusGroup in Purchases.GroupBy(p => p.Status).OrderByDescending(g => g.Key.ToLower() == "completed"))
                         {
                             <tr>
-                                <td colspan="6" class="status">@statusGroup.Key</td>
+                                <td colspan="6" class="status"><b>@statusGroup.Key</b></td>
                             </tr>
                             @foreach (var purchase in statusGroup.OrderByDescending(p => p.CompletedAt).ThenByDescending(p => p.CreatedAt))
                             {
                                 <tr>
+                                    <td>@purchase.Id</td>
                                     <td>@purchase.Status</td>
                                     <td>@purchase.CreatedAt</td>
-                                    <td>@purchase.SubTotal</td>
+                                    <td>@purchase.SubTotal?.ToString("C")</td>
                                     <td>@purchase.Customer?.Name</td>
                                     <td>
                                         <ul>
                                             @foreach (var item in purchase.PurchaseItems)
                                             {
                                                 <li>
-                                                    @item.Name - @item.CalculatedPrice
+                                                    @item.Base.Price.ToString("C") - @item.Name
                                                     @if (item.AddOns != null && item.AddOns.Any())
                                                     {
                                                         <ul>
                                                             @foreach (var addon in item.AddOns)
                                                             {
-                                                                <li>@addon.Name - @addon.Price</li>
+                                                                <li>@addon.Price.ToString("C") - @addon.Name</li>
                                                             }
                                                         </ul>
                                                     }

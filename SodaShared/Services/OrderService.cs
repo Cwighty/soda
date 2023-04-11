@@ -24,6 +24,7 @@ public class OrderService
         
         var order = await client.From<PurchaseData>().Where(p => p.Id == orderId).Single();
         order!.Status = "COMPLETED";
+        order!.CompletedAt = DateTime.Now;
         await client.From<PurchaseData>().Update(order);
 
         //send notifications

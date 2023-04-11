@@ -4,63 +4,76 @@
 @using SodaShared.Models.Data
 @inject Supabase.Client client
 @inject IMapper mapper
-    <head>
-     <style>
-        .total-price {
-            background-color: #f5f5f5;
-            border-radius: 6px;
-            color: #32325d;
-            font-size: 1.5rem;
-            font-weight: 600;
-            padding: 1rem;
-            margin: 2rem 0;
-            margin-bottom: 0;
-        }
 
-        .total-price span {
-            color: #6b7c93;
-            font-size: 1rem;
-            font-weight: 400;
-        }
-    </style>
-</head>
-<h1 class="text-center">Confirm Your Order!</h1>
+<div class="container">
+    <h1 class="text-center">Confirm Your Order!</h1>
 
-@if (Purchase != null)
-{
-    <div class="">
+    @if (Purchase != null)
+    {
         <div class="row">
-            <div class="col-md-12 p-0 m-0">
-                <table class="table mx-2 my-0">
+            <div class="col-md-8">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>Item</th>
-                            <th>Price</th>
+                            <th scope="col">Item</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Purchase.PurchaseItems)
-                        {
-                            <tr>
-                                <td>@item.Name</td>
-                                <td>@item.CalculatedPrice.ToString("C")</td>
-                            </tr>
-                        }
+                    <td>
+                        <ul>
+                                @foreach (var item in Purchase.PurchaseItems)
+                                {
+                                <li>
+                                        @item.Base.Price.ToString("C") - @item.Name
+                                        @if (item.AddOns != null && item.AddOns.Any())
+                                        {
+                                        <ul>
+                                                @foreach (var addon in item.AddOns)
+                                                {
+                                                <li>@addon.Price.ToString("C") - @addon.Name</li>
+                                                }
+                                        </ul>
+                                        }
+                                </li>
+                                }
+                        </ul>
+                    </td>
                     </tbody>
                 </table>
-                <div class="total-price my-0">Tax: <span>@Purchase.TaxCollected?.ToString("C")</span></div>
-                <div class="total-price my-0">Total Price: <span>@TotalPrice?.ToString("C")</span></div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-1">
+                    <div class="card-body">
+                        <h5 class="card-title">Order Summary</h5>
+                        <div class="total-price">
+                            <span>Subtotal:</span>
+                            <span class="float-end">@Purchase.SubTotal?.ToString("C")</span>
+                        </div>
+                        <div class="total-price">
+                            <span>Tax:</span>
+                            <span class="float-end">@Purchase.TaxCollected?.ToString("C")</span>
+                        </div>
+                        <div class="total-price">
+                            <span>Total Price:</span>
+                            <span class="float-end">@TotalPrice?.ToString("C")</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-                <div class="m-0">
-                <iframe class="my-0" style="height:100vh; width:85vw;" scrolling="no" src="/checkout.html?intent=@Intent&orderid=@OrderId#payment-form"></iframe>
-                </div>
-    </div>
-}
-else
-{
-    <h3> Loading... </h3>
-}
+
+        <div class="row">
+            <div class="col-md-12">
+                <iframe class="my-2" style="height: 100vh; width: 100%;" scrolling="no" src="/checkout.html?intent=@Intent#payment-form"></iframe>
+            </div>
+        </div>
+    }
+    else
+    {
+        <h3>Loading...</h3>
+    }
+</div>
+
 
 @code {
     [Parameter]
