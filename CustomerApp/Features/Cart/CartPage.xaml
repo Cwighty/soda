@@ -164,7 +164,7 @@
                     <Shadow Brush="Transparent"/>
                 </Button.Shadow>
             </Button>
-            <Button Text="Continue"
+            <Button Text="Checkout"
                     Grid.Column="1"
                     Grid.Row="3"
                     Margin="20"
