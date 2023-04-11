@@ -39,7 +39,6 @@
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
-    <MauiImage Update="Resources\Images\cup_holder.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\home.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\profile.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\black_drink_large.svg" BaseSize="40,40" />
@@ -115,13 +114,17 @@
 	  <None Remove="Resources\Images\black_drink_large.svg" />
 	  <None Remove="Resources\Images\black_drink_medium.svg" />
 	  <None Remove="Resources\Images\black_drink_small.svg" />
+	  <None Remove="Resources\Images\cart_filled.svg" />
 	  <None Remove="Resources\Images\clear.svg" />
-	  <None Remove="Resources\Images\cup_holder.svg" />
+	  <None Remove="Resources\Images\cup_holder.png" />
 	  <None Remove="Resources\Images\drink.svg" />
 	  <None Remove="Resources\Images\home.svg" />
+	  <None Remove="Resources\Images\home_filled.svg" />
+	  <None Remove="Resources\Images\menu_filled.svg" />
 	  <None Remove="Resources\Images\profile.svg" />
 	  <None Remove="Resources\Images\right_arrow.svg" />
 	  <None Remove="Resources\Images\soda_placeholder.jpeg" />
+	  <None Remove="Resources\Images\user_filled.svg" />
 	  <None Remove="Resources\Images\white_drink_large.svg" />
 	  <None Remove="Resources\Images\white_drink_medium.svg" />
 	  <None Remove="Resources\Images\white_drink_outline.svg" />

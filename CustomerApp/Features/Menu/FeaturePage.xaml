@@ -15,9 +15,13 @@
                    Grid.Column="0" />
             <ImageButton Source="cup_holder.png"
                          Grid.Column="1"
+                         MaximumWidthRequest="40"
+                         MaximumHeightRequest="40"
                          Command="{Binding GoToCartCommand}" />
-            <ImageButton Source="profile.png"
+            <ImageButton Source="user_filled.png"
                          Grid.Column="2"
+                         MaximumWidthRequest="40"
+                         MaximumHeightRequest="40"
                          Command="{Binding GoToProfileCommand}" />
         </Grid>
         <ScrollView VerticalOptions="FillAndExpand"

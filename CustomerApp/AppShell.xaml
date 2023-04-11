@@ -13,12 +13,12 @@
     >
     <TabBar>
         <Tab Title="Featured"
-             Icon="home.png"
+             Icon="home_filled.png"
              Route="FeaturePage">
             <ShellContent ContentTemplate="{DataTemplate menu:FeaturePage}" />
         </Tab>
         <Tab Title="Menu"
-             Icon="black_drink_small.png"
+             Icon="menu_filled.png"
              Route="MenuPage">
             <ShellContent ContentTemplate="{DataTemplate menu:MenuPage}" />
         </Tab>
@@ -28,7 +28,7 @@
             <ShellContent ContentTemplate="{DataTemplate cart:CartPage}" />
         </Tab>
         <Tab Title="Profile"
-             Icon="profile.png"
+             Icon="user_filled.png"
              Route="ProfilePage">
             <ShellContent ContentTemplate="{DataTemplate profile:ProfilePage}" />
         </Tab>
