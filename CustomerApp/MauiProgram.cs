@@ -22,8 +22,9 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                fonts.AddFont("Montserrat-Thin.ttf", "MontserratThin");
+                fonts.AddFont("Montserrat-Regular.ttf", "MontserratRegular");
                 fonts.AddFont("Poppins-Bold.ttf", "PoppinsBold");
+                fonts.AddFont("WorkSans-Bold.tff", "WorkSansBold");
             });
 
         LoadAppsettingsIntoConfig(builder);

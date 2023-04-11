@@ -20,8 +20,16 @@
                 <Grid RowDefinitions="*,*"
                       HorizontalOptions="Center"
                       VerticalOptions="CenterAndExpand">
-                    <Label Text="No Items" Grid.Row="0" FontSize="Large" HorizontalOptions="Center" Margin="10"/>
-                    <Button Text="Visit The Menu" Grid.Row="1" WidthRequest="150" VerticalOptions="Center" Command="{Binding GoToMenuCommand}"/>
+                    <Label Text="No Items"
+                           Grid.Row="0"
+                           FontSize="Large"
+                           HorizontalOptions="Center"
+                           Margin="10" />
+                    <Button Text="Visit The Menu"
+                            Grid.Row="1"
+                            VerticalOptions="Center"
+                            HorizontalOptions="CenterAndExpand"
+                            Command="{Binding GoToMenuCommand}" />
                 </Grid>
             </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
@@ -47,26 +55,35 @@
                         <Label Text="{Binding Name, StringFormat='{0} -'}"
                                Grid.Column="1"
                                Grid.Row="0"
+                               Padding="1,0,0,5"
                                VerticalOptions="Center"
-                               FontSize="Medium" />
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               FontFamily="WorkSansBold" />
                         <Label Text="{Binding Size.Name}"
                                Grid.Column="2"
                                Grid.Row="0"
-                               Padding="5,0,0,0"
+                               Padding="5,0,0,5"
                                VerticalOptions="Center"
-                               FontSize="Medium" />
+                               FontAttributes="Bold"
+                               FontSize="15"
+                               FontFamily="WorkSansBold" />
                         <CollectionView ItemsSource="{Binding AddOns}"
                                         Grid.Column="1"
                                         Grid.ColumnSpan="3"
                                         Grid.Row="1">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid WidthRequest="250">
+                                    <Grid WidthRequest="250"
+                                          Margin="2">
                                         <Label Text="{Binding Name}"
-                                               TextColor="{StaticResource Gray500}" />
-                                        <Label Text="{Binding Price}"
                                                TextColor="{StaticResource Gray500}"
-                                               HorizontalOptions="End"/>
+                                               FontFamily="MontserratRegular" />
+                                        <Label Text="{Binding Price, StringFormat='${0}'}"
+                                               TextColor="{StaticResource Gray500}"
+                                               HorizontalOptions="End"
+                                               HorizontalTextAlignment="End"
+                                               FontFamily="MontserratRegular" />
                                     </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -84,7 +101,9 @@
                                HorizontalOptions="End"
                                Margin="0,0,40,0"
                                FontSize="Medium"
-                               FontAttributes="Bold" />
+                               FontAttributes="Bold"
+                               FontFamily="WorkSansBold"
+                               TextColor="{StaticResource Tertiary}" />
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
@@ -92,49 +111,55 @@
         <Grid Grid.Row="2"
               ColumnDefinitions="*,*"
               RowDefinitions="auto,auto,auto"
+              RowSpacing="10"
               Margin="40,20">
             <Label Text="Subtotal"
                    Grid.Column="0"
                    Grid.Row="0"
                    VerticalOptions="Center"
-                   TextColor="{StaticResource Gray500}"/>
+                   TextColor="{StaticResource Gray500}"
+                   FontFamily="MontserratRegular" />
             <Label Text="Tax"
                    Grid.Column="0"
                    Grid.Row="1"
                    VerticalOptions="Center"
-                   TextColor="{StaticResource Gray500}"/>
+                   TextColor="{StaticResource Gray500}"
+                   FontFamily="MontserratRegular" />
             <Label Text="Total"
                    Grid.Column="0"
                    Grid.Row="2"
                    VerticalOptions="Center"
                    FontSize="Large"
-                   FontAttributes="Bold"/>
+                   FontAttributes="Bold"
+                   FontFamily="WorkSansBold" />
             <Label Text="{Binding SubTotal, StringFormat='{0:C}', FallbackValue='$0.00'}"
                    Grid.Column="1"
                    Grid.Row="0"
                    VerticalOptions="Center"
                    HorizontalOptions="End"
-                   TextColor="{StaticResource Gray500}"/>
+                   TextColor="{StaticResource Gray500}"
+                   FontFamily="MontserratRegular" />
             <Label Text="{Binding Tax, StringFormat='{0:C}', FallbackValue='$0.00'}"
                    Grid.Column="1"
                    Grid.Row="1"
                    VerticalOptions="Center"
                    HorizontalOptions="End"
-                   TextColor="{StaticResource Gray500}"/>
+                   TextColor="{StaticResource Gray500}"
+                   FontFamily="MontserratRegular" />
             <Label Text="{Binding Total, StringFormat='{0:C}', FallbackValue='$0.00'}"
                    Grid.Column="1"
                    Grid.Row="2"
                    VerticalOptions="Center"
                    HorizontalOptions="End"
                    FontSize="Large"
-                   FontAttributes="Bold"/>
+                   FontAttributes="Bold"
+                   FontFamily="WorkSansBold" />
         </Grid>
         <Grid Grid.Row="3"
               VerticalOptions="FillAndExpand"
               ColumnDefinitions="*,*"
               RowDefinitions="auto,auto,auto,auto"
-              IsVisible="{Binding IsNotEmpty}"
-              >
+              IsVisible="{Binding IsNotEmpty}">
             <Button Text="Add More"
                     BackgroundColor="{StaticResource White}"
                     TextColor="{StaticResource Tertiary}"
@@ -143,10 +168,10 @@
                     Margin="20"
                     VerticalOptions="EndAndExpand">
                 <Button.Shadow>
-                    <Shadow Brush="Transparent"/>
+                    <Shadow Brush="Transparent" />
                 </Button.Shadow>
             </Button>
-            <Button Text="Continue"
+            <Button Text="Checkout"
                     Grid.Column="1"
                     Grid.Row="3"
                     Margin="20"
