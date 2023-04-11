@@ -15,10 +15,10 @@ public class PurchaseService
     private readonly IConfiguration config;
 
     public PurchaseService(
-        Client client, 
-        IMapper mapper, 
-        UserService userService, 
-        HttpClient httpClient, 
+        Client client,
+        IMapper mapper,
+        UserService userService,
+        HttpClient httpClient,
         IConfiguration config
         )
     {
@@ -48,7 +48,7 @@ public class PurchaseService
             Status = "STARTED",
             PurchaseItems = cartItems,
         };
-        
+
         var res = await httpClient.PostAsJsonAsync(url, purchase);
         if (res.IsSuccessStatusCode)
         {
@@ -69,7 +69,8 @@ public class PurchaseService
             WebAuthenticatorResult authResult = await WebAuthenticator.Default.AuthenticateAsync(
                 new Uri(url),
                 new Uri("soda://success"));
-            return initiation.OrderNumber;
+            authResult.Properties.TryGetValue("orderid", out var processOrderId);
+            return int.Parse(processOrderId);
         }
         catch
         {
@@ -83,7 +84,7 @@ public class PurchaseService
         var order = await client.From<PurchaseData>()
             .Where(p => p.Id == orderNumber)
             .Single();
-        
+
         order.Status = "CANCELED";
 
         await order.Update<PurchaseData>();
