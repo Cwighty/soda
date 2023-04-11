@@ -13,7 +13,7 @@
     >
     <TabBar>
         <Tab Title="Featured"
-             Icon="home_filled.png"
+             Icon="star.png"
              Route="FeaturePage">
             <ShellContent ContentTemplate="{DataTemplate menu:FeaturePage}" />
         </Tab>

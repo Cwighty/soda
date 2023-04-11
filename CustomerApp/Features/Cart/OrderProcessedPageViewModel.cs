@@ -24,6 +24,7 @@ public partial class OrderProcessedPageViewModel : BaseViewModel
     [RelayCommand]
     public async Task GoToMenu()
     {
+        await navigationService.ClearStack();
         await navigationService.GoTo("///MenuPage");
     }
 }

@@ -4,7 +4,8 @@
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 x:Class="CustomerApp.Features.Cart.OrderProcessedPage"
                 Title="OrderProcessedPage"
-                Shell.NavBarIsVisible="False">
+                Shell.NavBarIsVisible="False"
+                Shell.TabBarIsVisible="False">
     <VerticalStackLayout Spacing="20"
                          Margin="15"
                          VerticalOptions="Center">
