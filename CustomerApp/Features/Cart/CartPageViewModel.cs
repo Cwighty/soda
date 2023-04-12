@@ -13,6 +13,7 @@ public partial class CartPageViewModel : BaseViewModel
     private readonly PurchaseService purchaseService;
     private readonly IConfiguration config;
     private readonly UserService userService;
+    private readonly NotificationService notificationService;
     private Product incomingProduct;
     public Product IncomingProduct
     {
@@ -64,7 +65,8 @@ public partial class CartPageViewModel : BaseViewModel
         IMapper mapper,
         PurchaseService purchaseService,
         IConfiguration config,
-        UserService userService
+        UserService userService,
+        NotificationService notificationService
         )
     {
         this.cache = cache;
@@ -73,6 +75,7 @@ public partial class CartPageViewModel : BaseViewModel
         this.purchaseService = purchaseService;
         this.config = config;
         this.userService = userService;
+        this.notificationService = notificationService;
     }
 
     private void CartItems_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -152,6 +155,7 @@ public partial class CartPageViewModel : BaseViewModel
         var orderId = await purchaseService.CheckoutOnline(CartItems.ToList(), DateTime.Now + PickUpTime);
         cache.Empty();
         CartItems = new();
+        await notificationService.SubscribeTo(orderId ?? 0);
         await navigationService.GoTo(
             nameof(OrderProcessedPage),
             new Dictionary<string, object>()

@@ -8,7 +8,7 @@
                 Title="FeaturePage"
                 Shell.NavBarIsVisible="False">
     <Grid RowDefinitions="auto, *">
-        <Grid ColumnDefinitions="auto,auto,auto"
+        <Grid ColumnDefinitions="*,auto,auto"
               Grid.Row="0">
             <Label Text="Welcome!"
                    Style="{StaticResource LabelHeaderStyle}"

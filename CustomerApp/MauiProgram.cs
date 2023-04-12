@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 using MonkeyCache.FileStore;
+using Plugin.LocalNotification;
 using SodaShared.Mappers;
 using Supabase;
 using System;
@@ -18,6 +19,7 @@ public static class MauiProgram
         builder
             .UseMauiCommunityToolkit()
             .UseMauiApp<App>()
+            .UseLocalNotification()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -46,6 +48,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ICacheService, CacheService>();
         builder.Services.AddSingleton<UserService>();
         builder.Services.AddSingleton<PurchaseService>();
+        builder.Services.AddSingleton<NotificationService>();
 
         var storeApiUrl = builder.Configuration["StoreAPI"];
         if (string.IsNullOrEmpty(storeApiUrl))
