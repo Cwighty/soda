@@ -132,6 +132,7 @@
 	  <None Remove="Resources\Images\white_drink_medium.svg" />
 	  <None Remove="Resources\Images\white_drink_outline.svg" />
 	  <None Remove="Resources\Images\white_drink_small.svg" />
+	  <None Remove="Resources\Raw\google-services.json" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -22,24 +22,11 @@ public class PurchaseData : BaseModel
     public decimal? TaxCollected { get; set; }
     [Column("status")]
     public string Status { get; set; }
-    
-}
-
-public class PurchaseWithItemsData : PurchaseData
-{
-    [Reference(typeof(PurchaseItemData))]
+    [Reference(typeof(PurchaseItemData), shouldFilterTopLevel: false)]
     public List<PurchaseItemData>? PurchaseItems { get; set; }
-}
-
-public class PurchaseWithItemsAndAddOnsData : PurchaseData
-{
-    [Reference(typeof(PurchaseItemDataWithAddOns))]
-    public List<PurchaseItemDataWithAddOns>? PurchaseItems { get; set; }
-}
-
-public class PurchaseWithCustomerData : PurchaseData
-{
-    [Reference(typeof(CustomerData))]
+    [Reference(typeof(CustomerData), shouldFilterTopLevel: false)]
     public CustomerData Customer { get; set; }
+
 }
+
 

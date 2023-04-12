@@ -88,7 +88,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var purchase = await client.From<PurchaseWithItemsAndAddOnsData>()
+        var purchase = await client.From<PurchaseData>()
         .Where(p => p.Id == OrderId)
         .Single();
         Purchase = mapper.Map(purchase, Purchase);

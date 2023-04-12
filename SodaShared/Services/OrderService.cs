@@ -14,7 +14,7 @@ public class OrderService
     
     public async Task<List<Purchase>> GetOrders()
     {
-        var res = await client.From<PurchaseWithItemsAndAddOnsData>().Get();
+        var res = await client.From<PurchaseData>().Get();
         var orders = res.Models;
         return mapper.Map<List<Purchase>>(orders);
     }

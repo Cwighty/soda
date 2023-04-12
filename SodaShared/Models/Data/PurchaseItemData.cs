@@ -17,19 +17,16 @@ public class PurchaseItemData : BaseModel
     [Column("size_id")]
     public int SizeId { get; set; }
 
-    [Reference(typeof(PurchaseData))]
-    public PurchaseData? Purchase { get; set; }
+   /* [Reference(typeof(PurchaseData), includeInQuery:false)]
+    public PurchaseData? Purchase { get; set; }*/
     [Reference(typeof(ProductData))]
     public ProductData? Product { get; set; }
     [Reference(typeof(BaseData))]
     public BaseData Base { get; set; }
     [Reference(typeof(SizeData))]
     public SizeData Size { get; set; }
-}
 
-public class PurchaseItemDataWithAddOns : PurchaseItemData
-{
-    [Reference(typeof(AddOnData))]
+    [Reference(typeof(AddOnData), shouldFilterTopLevel:false)]
     public List<AddOnData> AddOns { get; set; }
 }
 

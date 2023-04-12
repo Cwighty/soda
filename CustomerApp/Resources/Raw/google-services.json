@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "635846216559",
+    "project_id": "soda-app",
+    "storage_bucket": "soda-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:635846216559:android:7f056be90edc97d135b69a",
+        "android_client_info": {
+          "package_name": "com.companyname.customerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "635846216559-2vbendtleuvkoqddjo93av8nrn8r082t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnOMHOO5hzTp1BejBq4WlgYXyON-bPgJ8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "635846216559-2vbendtleuvkoqddjo93av8nrn8r082t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
