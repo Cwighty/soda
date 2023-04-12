@@ -1,5 +1,9 @@
 ﻿using Plugin.LocalNotification;
 using Supabase;
+using Supabase.Realtime;
+using Supabase.Realtime.Socket;
+using System.Net.Sockets;
+using Client = Supabase.Client;
 
 namespace CustomerApp.Shared.Services;
 
@@ -7,11 +11,13 @@ public class NotificationService
 {
     private readonly Client client;
 
+    private RealtimeChannel channel;
+
     public NotificationService(Client client)
     {
         this.client = client;
     }
-    public void NotifyOrderComplete()
+    public void NotifyOrderComplete(SocketResponseEventArgs e)
     {
         var request = new NotificationRequest
         {
@@ -25,10 +31,11 @@ public class NotificationService
 
     internal async Task SubscribeTo(int orderId)
     {
-        var channel = client.Realtime.Channel("realtime", "public", "purchase", "id", $"id=eq.{orderId}");
+        client.Realtime.Connect();
+        channel = client.Realtime.Channel("realtime", "public", "purchase", "id", $"id=eq.{orderId}");
         channel.OnMessage += (sender, e) =>
         {
-            NotifyOrderComplete();
+            NotifyOrderComplete(e);
         };
 
         await channel.Subscribe();
