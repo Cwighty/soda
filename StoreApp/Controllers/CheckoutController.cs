@@ -32,7 +32,6 @@ public class CheckoutController : Controller
             return Json(new { error = "No items in cart" });
         }
 
-        // Calculate the price
         decimal totalPrice = await CalculatePriceBeforeTax(purchase);
 
         purchase.CreatedAt = DateTime.UtcNow;
@@ -40,9 +39,7 @@ public class CheckoutController : Controller
         purchase.TaxCollected = totalPrice * 0.07M;
         purchase.Status = "IN PROGRESS";
 
-        var purchaseId = await SavePurchase(purchase);
-
-        await SavePurchaseItemsWithAddOns(purchaseId, purchase.PurchaseItems);
+        var purchaseId = await PersistPurchase(purchase);
 
         PaymentIntent paymentIntent = CreatePaymentIntent(totalPrice);
 
@@ -66,7 +63,7 @@ public class CheckoutController : Controller
         return paymentIntent;
     }
 
-    private async Task SavePurchaseItemsWithAddOns(int purchaseId, List<PurchaseItem> purchaseItems)
+    private async Task PersistPurchaseItems(int purchaseId, List<PurchaseItem> purchaseItems)
     {
         var sizes = (await client.From<SizeData>().Get()).Models;
         foreach (var item in purchaseItems)
@@ -76,28 +73,36 @@ public class CheckoutController : Controller
             newPurchaseItemData.SizeId = sizes.Where(s => s.Name == item.Size.Name).FirstOrDefault().Id;
             var newItem = await client.From<PurchaseItemData>()
                 .Insert(newPurchaseItemData, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
-            
-            var itemId = newItem.Models.FirstOrDefault()!.Id;
-            foreach (var addon in item.AddOns)
-            {
-                var newAddon = new PurchaseItemAddOnData
-                {
-                    PurchaseItemId = itemId,
-                    AddOnId = addon.Id
-                };
-                await client.From<PurchaseItemAddOnData>()
-                    .Insert(newAddon);
-            }
+
+            var purchaseItemId = newItem.Models.FirstOrDefault()!.Id;
+
+            await PersistPurchaseItemAddons(purchaseItemId, item.AddOns);
         }
     }
 
-    private async Task<int> SavePurchase(Purchase purchase)
+    private async Task PersistPurchaseItemAddons(int itemId, List<AddOn> addons)
+    {
+        foreach (var addon in addons)
+        {
+            var newAddon = new PurchaseItemAddOnData
+            {
+                PurchaseItemId = itemId,
+                AddOnId = addon.Id
+            };
+            await client.From<PurchaseItemAddOnData>()
+                .Insert(newAddon);
+        }
+    }
+
+    private async Task<int> PersistPurchase(Purchase purchase)
     {
         var newPurchaseData = mapper.Map<PurchaseData>(purchase);
         var newPurchase = await client.From<PurchaseData>()
             .Insert(newPurchaseData, new Postgrest.QueryOptions { Returning = Postgrest.QueryOptions.ReturnType.Representation });
 
         var purchaseId = newPurchase.Models.FirstOrDefault()!.Id;
+
+        await PersistPurchaseItems(purchaseId, purchase.PurchaseItems);
         return purchaseId;
     }
 
