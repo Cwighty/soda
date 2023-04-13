@@ -159,10 +159,10 @@
             await ProductService.UpdateProduct(editProduct);
             var index = products.FindIndex(p => p.Id == editProduct.Id);
             products[index] = editProduct;
+            await OnInitializedAsync();
+            StateHasChanged();
         }
         await productModal.Hide();
-        await OnInitializedAsync();
-        StateHasChanged();
     }
 
     private async Task DeleteProduct(Product product)

@@ -87,16 +87,8 @@ public class ProductCRUDService
         var productData = mapper.Map<ProductData>(product);
         var response = await client.From<ProductData>().Insert(productData, options);
 
-        var addons = product.AddOns;
-        foreach (var a in addons)
-        {
-            var addOnProduct = new ProductAddOnData
-            {
-                AddOnId = a.Id,
-                ProductId = response.Models.FirstOrDefault().Id
-            };
-            await client.From<ProductAddOnData>().Insert(addOnProduct);
-        }
+        product.Id = response.Models.FirstOrDefault().Id;
+        await UpdateAddons(product);
 
         return mapper.Map<Product>(response.Models.FirstOrDefault());
     }
