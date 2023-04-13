@@ -27,7 +27,7 @@
                IsClippedToBounds="True"
                HorizontalOptions="Start"
                VerticalOptions="Center">
-            <Image Source="soda_placeholder.jpeg"
+            <Image Source="{Binding Product.ImageUrl, TargetNullValue={StaticResource placeholder}}"
                    Aspect="AspectFill"
                    Margin="-20"
                    HeightRequest="250"
