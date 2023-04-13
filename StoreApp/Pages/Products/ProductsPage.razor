@@ -1,32 +1,186 @@
 ﻿@page "/products"
+@using Microsoft.AspNetCore.Components.Forms
 @using SodaShared.Models;
 @using SodaShared.Services;
-<h3>Products</h3>
-@if (Products != null)
+@using Blazorise
+@inject ProductCRUDService ProductService
+
+<h1>Products</h1>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary mb-3" @onclick="ShowAddProductModal">Add New Product</button>
+    </div>
+</div>
+@if (products != null)
 {
-    @foreach (var product in Products)
-    {
-        <p>@product.Name</p>
-    }
+
+    <div class="row">
+        @foreach (var product in products)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card shadow">
+                    <img class="card-img-top" src="@product.ImageUrl" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <p class="card-text">@product.SpecialPrice</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge badge-secondary">@product.Size.Name</span>
+                            <span class="badge badge-secondary">@product.Base.Name</span>
+                        </div>
+                        <div>
+                            @foreach (var addOn in product.AddOns)
+                            {
+                                <span class="badge badge-pill badge-info">@addOn.Name</span>
+                            }
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-primary" @onclick="() => ShowEditProductModal(product)">Edit</button>
+                            <button class="btn btn-danger" @onclick="() => DeleteProduct(product)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <Modal Title="@modalTitle" @ref="productModal">
+        <EditForm Model="@editProduct">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <InputText class="form-control" @bind-Value="editProduct.Name" />
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <InputTextArea class="form-control" @bind-Value="editProduct.Description" />
+            </div>
+            <div class="form-group">
+                <label for="price">Price:</label>
+                <InputNumber class="form-control" @bind-Value="editProduct.SpecialPrice" />
+            </div>
+            <div class="form-group">
+                <label for="size">Size:</label>
+                <InputSelect class="form-control" @bind-Value="editProduct.Size" TValue="SodaShared.Models.Size">
+                    @foreach (var size in sizes)
+                    {
+                        <option value="@size">@size.Name</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label for="drinkBase">Base:</label>
+                <InputSelect class="form-control" @bind-Value="editProduct.Base" TValue="Base">
+                    @foreach (var b in bases)
+                    {
+                        <option value="@b">@b.Name</option>
+                    }
+                </InputSelect>
+            </div>
+
+            <div class="form-group">
+                <label for="addOns">Add-Ons:</label>
+                <select class="form-control" @bind="selectedAddOn">
+                    <option value="">--Select an Add-On--</option>
+                    @foreach (var addOn in addOns)
+                    {
+                        <option value="@addOn.Id">@addOn.Name - @addOn.Price</option>
+                    }
+                </select>
+                <button class="btn btn-primary" @onclick="AddAddOn">Add</button>
+            </div>
+
+            <ul class="list-group">
+                @foreach (var addOn in editProduct.AddOns)
+                {
+                    <li class="list-group-item">@addOn.Name - @addOn.Price<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveAddOn(addOn)">Remove</button></li>
+                }
+            </ul>
+
+            <div class="form-group">
+                <label for="imageUrl">Image URL:</label>
+                <InputText class="form-control" @bind-Value="editProduct.ImageUrl" />
+            </div>
+        </EditForm>
+
+        <div class="modal-footer">
+            <button class="btn btn-primary" @onclick="SaveProduct">Save</button>
+            <button class="btn btn-secondary" @onclick="HideProductModal">Cancel</button>
+        </div>
+    </Modal>
 }
-else
-{
-    <h3>Loading...</h3>
-}
+
+
 
 @code {
-
-    public List<Product> Products { get; set; }
-
-
-    [Inject] public  ProductCRUDService ProductService { get; set; }
-
+    List<Product> products;
+    List<SodaShared.Models.Size> sizes;
+    List<Base> bases;
+    List<AddOn> addOns;
+    Product editProduct = new Product();
+    Modal? productModal;
+    string? modalTitle;
+    private int selectedAddOn;
 
 
     protected override async Task OnInitializedAsync()
     {
-        Products = await ProductService.GetProducts();
+        products = await ProductService.GetProducts();
+        sizes = await ProductService.GetSizes();
+        bases = await ProductService.GetBases();
+        addOns = await ProductService.GetAddOns();
     }
 
-}
+    private void ShowAddProductModal()
+    {
+        modalTitle = "Add New Product";
+        editProduct = new Product();
+        productModal.Show();
+    }
 
+    private void ShowEditProductModal(Product product)
+    {
+        modalTitle = "Edit Product";
+        editProduct = product.Clone();
+        productModal.Show();
+    }
+
+    private async Task SaveProduct()
+    {
+        if (editProduct.Id == 0)
+        {
+            await ProductService.CreateProduct(editProduct);
+            products.Add(editProduct);
+        }
+        else
+        {
+            await ProductService.UpdateProduct(editProduct);
+        }
+        await productModal.Hide();
+    }
+
+    private async Task DeleteProduct(Product product)
+    {
+        await ProductService.DeleteProduct(product);
+        products.Remove(product);
+    }
+
+    private void AddAddOn()
+    {
+        var addon = addOns.Where(a => a.Id == selectedAddOn).FirstOrDefault();
+        if (selectedAddOn != null && !editProduct.AddOns.Contains(addon))
+        {
+            editProduct.AddOns.Add(addon);
+        }
+    }
+
+    private void RemoveAddOn(AddOn addOn)
+    {
+        editProduct.AddOns.Remove(addOn);
+    }
+
+    private void HideProductModal()
+    {
+        productModal.Hide();
+    }
+}

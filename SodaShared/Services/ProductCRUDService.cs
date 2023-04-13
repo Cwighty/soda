@@ -59,6 +59,12 @@ public class ProductCRUDService
         var response = await client.From<AddOnData>().Get();
         return mapper.Map<List<AddOn>>(response.Models);
     }
+
+    public async Task<List<Size>> GetSizes()
+    {
+        var response = await client.From<SizeData>().Get();
+        return mapper.Map<List<Size>>(response.Models);
+    }
     
     public async Task<AddOn> CreateAddOn(AddOn addOn)
     {
@@ -92,6 +98,19 @@ public class ProductCRUDService
         }
 
         return mapper.Map<Product>(response.Models.FirstOrDefault());
+    }
+
+    public async Task UpdateProduct(Product product)
+    {
+        var productData = mapper.Map<ProductData>(product);
+        var response = await client.From<ProductData>()
+            .Update(productData);
+    }
+
+    public async Task DeleteProduct(Product product)
+    {
+        var data = mapper.Map<ProductData>(product);
+        await client.From<ProductData>().Delete(data);
     }
 
 }

@@ -1,3 +1,6 @@
+using Blazorise;
+using Blazorise.Bootstrap;
+using Blazorise.Icons.FontAwesome;
 using SodaShared.Mappers;
 using SodaShared.Services;
 using StoreApp.Data;
@@ -32,12 +35,14 @@ builder.Services.AddSingleton<OrderService>();
 builder.Services.AddSingleton<ProductCRUDService>();
 builder.Services.AddSingleton<AuthorizationService>();
 
-builder.Services.AddAuthentication("CookieAuth")
-    .AddCookie("CookieAuth", config =>
+
+builder.Services
+    .AddBlazorise(options =>
     {
-        config.Cookie.Name = "User.Cookie";
-        config.LoginPath = "/login";
-    });
+        options.Immediate = true;
+    })
+    .AddBootstrapProviders()
+    .AddFontAwesomeIcons();
 
 
 var app = builder.Build();
