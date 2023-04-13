@@ -17,9 +17,11 @@ public class ProductData : BaseModel
     public decimal? SpecialPrice { get; set; }
     [Column("image_url")]
     public string? ImageUrl { get; set; }
+    [Column("base_id")]
+    public int BaseId { get; set; }
     [Reference(typeof(BaseData))]
     public BaseData Base { get; set; }
-    [Reference(typeof(AddOnData))]
+    [Reference(typeof(AddOnData), shouldFilterTopLevel:false)]
     public ObservableCollection<AddOnData> AddOns { get; set; }
 }
 

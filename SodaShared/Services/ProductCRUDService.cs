@@ -1,4 +1,5 @@
 ﻿using Supabase;
+using FileOptions = Supabase.Storage.FileOptions;
 
 namespace SodaShared.Services;
 
@@ -86,16 +87,8 @@ public class ProductCRUDService
         var productData = mapper.Map<ProductData>(product);
         var response = await client.From<ProductData>().Insert(productData, options);
 
-        var addons = product.AddOns;
-        foreach (var a in addons)
-        {
-            var addOnProduct = new ProductAddOnData
-            {
-                AddOnId = a.Id,
-                ProductId = response.Models.FirstOrDefault().Id
-            };
-            await client.From<ProductAddOnData>().Insert(addOnProduct);
-        }
+        product.Id = response.Models.FirstOrDefault().Id;
+        await UpdateAddons(product);
 
         return mapper.Map<Product>(response.Models.FirstOrDefault());
     }
@@ -105,6 +98,27 @@ public class ProductCRUDService
         var productData = mapper.Map<ProductData>(product);
         var response = await client.From<ProductData>()
             .Update(productData);
+
+        await UpdateAddons(product);
+    }
+
+    private async Task UpdateAddons(Product product)
+    {
+        //clear all existing addons
+        await client.From<ProductAddOnData>()
+            .Where(pa => pa.ProductId == product.Id)
+            .Delete();
+
+        var addons = product.AddOns;
+        foreach (var a in addons)
+        {
+            var addOnProduct = new ProductAddOnData
+            {
+                AddOnId = a.Id,
+                ProductId = product.Id
+            };
+            await client.From<ProductAddOnData>().Insert(addOnProduct);
+        }
     }
 
     public async Task DeleteProduct(Product product)
@@ -113,4 +127,16 @@ public class ProductCRUDService
         await client.From<ProductData>().Delete(data);
     }
 
+    public async Task<string> AddImage(byte[] image)
+    {
+        var imagePath = await client.Storage
+          .From("product_photos")
+          .Upload(image, Guid.NewGuid().ToString() + ".png", new FileOptions
+          {
+              CacheControl = "3600",
+              Upsert = false
+          });
+        var bucketPath = client.Storage.From("product_photos").GetPublicUrl(imagePath.Split("/")[1]);
+        return bucketPath;
+    }
 }

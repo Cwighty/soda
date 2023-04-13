@@ -11,7 +11,7 @@ public class Product
     public string? ImageUrl { get; set; }
 
     public Size Size { get; set; } = new Size() { Name = "Small" };
-    public Base Base { get; set; }
+    public Base Base { get; set; } = new();
     public ObservableCollection<AddOn> AddOns { get; set; } = new();
 
 }
