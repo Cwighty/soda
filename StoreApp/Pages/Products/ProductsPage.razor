@@ -3,6 +3,7 @@
 @using SodaShared.Models;
 @using SodaShared.Services;
 @using Blazorise
+@using StoreApp.Components
 @inject ProductCRUDService ProductService
 
 <h1>Products</h1>
@@ -35,7 +36,7 @@
                                 <span class="badge badge-pill badge-info">@addOn.Name</span>
                             }
                         </div>
-                        <hr/>
+                        <hr />
                         <div class="d-flex justify-content-between mt-3">
                             <button class="btn btn-primary" @onclick="() => ShowEditProductModal(product)">Edit</button>
                             <button class="btn btn-danger" @onclick="() => DeleteProduct(product)">Delete</button>
@@ -64,20 +65,11 @@
                     <InputNumber class="form-control" @bind-Value="editProduct.SpecialPrice" />
                 </div>
                 <div class="form-group">
-                    <label for="size">Size:</label>
-                    <InputSelect class="form-control" @bind-Value="editProduct.Size" TValue="SodaShared.Models.Size">
-                        @foreach (var size in sizes)
+                    <label for="drinkBase">Base:</label>
+                    <InputSelect class="form-control" @bind-Value="@editProduct.Base.Id">
+                        @foreach (var b in bases)
                             {
-                                <option value="@size">@size.Name</option>
-                            }
-                        </InputSelect>
-                    </div>
-                    <div class="form-group">
-                        <label for="drinkBase">Base:</label>
-                        <InputSelect class="form-control" @bind-Value="editProduct.Base" TValue="Base">
-                            @foreach (var b in bases)
-                            {
-                                <option value="@b">@b.Name</option>
+                                <option value="@b.Id">@b.Name</option>
                             }
                         </InputSelect>
                     </div>
@@ -85,14 +77,14 @@
                     <div class="form-group">
                         <label for="addOns">Add-Ons:</label>
                         <div class="row mx-1 p-0">
-                        <select class="col-10 me-4 form-control" @bind="selectedAddOn">
-                            <option value="">--Select an Add-On--</option>
-                            @foreach (var addOn in addOns)
-                            {
-                                <option value="@addOn.Id">@addOn.Name - @addOn.Price</option>
-                            }
-                        </select>
-                        <button class="col-1 btn btn-primary" @onclick="AddAddOn"><i class="bi bi-plus"></i></button>
+                            <select class="col-10 me-4 form-control" @bind="selectedAddOn">
+                                <option value="">--Select an Add-On--</option>
+                                @foreach (var addOn in addOns)
+                                {
+                                    <option value="@addOn.Id">@addOn.Name - @addOn.Price</option>
+                                }
+                            </select>
+                            <button class="col-1 btn btn-primary" @onclick="AddAddOn"><i class="bi bi-plus"></i></button>
                         </div>
                     </div>
 
@@ -102,11 +94,7 @@
                             <li class="list-group-item">@addOn.Name - @addOn.Price<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveAddOn(addOn)">Remove</button></li>
                         }
                     </ul>
-
-                    <div class="form-group">
-                        <label for="imageUrl">Image URL:</label>
-                        <InputText class="form-control" @bind-Value="editProduct.ImageUrl" />
-                    </div>
+                    <ImageUploader @bind-ImageDataBytes="@newImageBytes" />
                 </EditForm>
             </ModalBody>
             <ModalFooter>
@@ -130,6 +118,7 @@
     Modal? productModal;
     string? modalTitle;
     private int selectedAddOn;
+    private byte[] newImageBytes;
 
 
     protected override async Task OnInitializedAsync()
@@ -156,6 +145,10 @@
 
     private async Task SaveProduct()
     {
+        if (newImageBytes != null)
+        {
+            editProduct.ImageUrl = await ProductService.AddImage(newImageBytes);
+        }
         if (editProduct.Id == 0)
         {
             await ProductService.CreateProduct(editProduct);
@@ -164,8 +157,12 @@
         else
         {
             await ProductService.UpdateProduct(editProduct);
+            var index = products.FindIndex(p => p.Id == editProduct.Id);
+            products[index] = editProduct;
         }
         await productModal.Hide();
+        await OnInitializedAsync();
+        StateHasChanged();
     }
 
     private async Task DeleteProduct(Product product)
