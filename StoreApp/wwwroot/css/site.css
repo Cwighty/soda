@@ -18,10 +18,34 @@ a, .btn-link {
     border-color: #15616d;
 }
 
-    .btn-primary:hover {
-        background-color: #1c8393;
-        border-color: #1c8393;
-    }
+.btn-primary:hover {
+    background-color: #1c8393;
+    border-color: #1c8393;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #ff7d00;
+    border-color: #ff7d00;
+}
+
+.btn-info:hover {
+    background-color: #cc6300;
+    border-color: #cc6300;
+}
+
+.badge-info {
+    color: #fff;
+    background-color: #ff7d00;
+    border-color: #ff7d00;
+}
+
+.badge-info:hover {
+    background-color: #cc6300;
+    border-color: #cc6300;
+}
+
+
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
