@@ -29,4 +29,9 @@ public class OrderService
 
         //send notifications
     }
+    public async Task<int> GetOrderCount()
+    {
+        var orders = await GetOrders();
+        return orders.Where(o => o.Status == "IN PROGRESS").Count();
+    }
 }
