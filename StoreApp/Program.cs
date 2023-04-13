@@ -1,6 +1,7 @@
 using SodaShared.Mappers;
 using SodaShared.Services;
 using StoreApp.Data;
+using StoreApp.Services;
 using Stripe;
 using Supabase;
 
@@ -29,6 +30,15 @@ var options = new SupabaseOptions
 builder.Services.AddSingleton(new Supabase.Client(supabaseURL, serviceRoleKey, options));
 builder.Services.AddSingleton<OrderService>();
 builder.Services.AddSingleton<ProductCRUDService>();
+builder.Services.AddSingleton<AuthorizationService>();
+
+builder.Services.AddAuthentication("CookieAuth")
+    .AddCookie("CookieAuth", config =>
+    {
+        config.Cookie.Name = "User.Cookie";
+        config.LoginPath = "/login";
+    });
+
 
 var app = builder.Build();
 

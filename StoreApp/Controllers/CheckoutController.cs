@@ -49,7 +49,7 @@ public class CheckoutController : Controller
 
     private static PaymentIntent CreatePaymentIntent(decimal totalPrice)
     {
-        // Create a new payment intent
+        // Create a new stripe payment intent
         var paymentIntentService = new PaymentIntentService();
         var paymentIntent = paymentIntentService.Create(new PaymentIntentCreateOptions
         {
