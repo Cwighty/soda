@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerApp", "CustomerApp\CustomerApp.csproj", "{FB7CFF9D-5D23-44B0-B76B-D61C1221A36E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{0CE166C2-59B3-4279-B29E-C4967B788275} = {0CE166C2-59B3-4279-B29E-C4967B788275}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreApp", "StoreApp\StoreApp.csproj", "{0CE166C2-59B3-4279-B29E-C4967B788275}"
 EndProject

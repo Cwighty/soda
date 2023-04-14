@@ -6,13 +6,17 @@ public class MapperProfile : Profile
 {
 	public MapperProfile()
 	{
-		CreateMap<AddOnData, AddOn>().ReverseMap();
+		CreateMap<AddOnData, AddOn>();
+		CreateMap<AddOn, AddOnData>()
+            .ForMember(dest => dest.AddOnTypeId, opt => opt.MapFrom(src => src.AddOnType.Id));
 		CreateMap<AddOnTypeData, AddOnType>().ReverseMap();
 		CreateMap<BaseData, Base>().ReverseMap();
 		CreateMap<BaseTypeData, BaseType>().ReverseMap();
 		CreateMap<CategoryData, Category>().ReverseMap();
 		CreateMap<CustomerData, Customer>().ReverseMap();
-		CreateMap<ProductData, Product>().ReverseMap();
+		CreateMap<ProductData, Product>();
+		CreateMap<Product, ProductData>()
+			.ForMember(dest => dest.BaseId, opt => opt.MapFrom(src => src.Base.Id));
 		CreateMap<SizeData, Size>().ReverseMap();
 		CreateMap<PurchaseData, Purchase>().ReverseMap();
 		CreateMap<PurchaseItemData, PurchaseItem>().ReverseMap();

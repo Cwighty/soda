@@ -1,4 +1,6 @@
-﻿using Supabase;
+﻿using SodaShared.Models;
+using Supabase;
+using FileOptions = Supabase.Storage.FileOptions;
 
 namespace SodaShared.Services;
 
@@ -60,21 +62,16 @@ public class ProductCRUDService
         return mapper.Map<List<AddOn>>(response.Models);
     }
 
+    public async Task<List<AddOnType>> GetAddOnTypes()
+    {
+        var response = await client.From<AddOnTypeData>().Get();
+        return mapper.Map<List<AddOnType>>(response.Models);
+    }
+
     public async Task<List<Size>> GetSizes()
     {
         var response = await client.From<SizeData>().Get();
         return mapper.Map<List<Size>>(response.Models);
-    }
-    
-    public async Task<AddOn> CreateAddOn(AddOn addOn)
-    {
-        var options = new Postgrest.QueryOptions
-        {
-            Returning = Postgrest.QueryOptions.ReturnType.Representation
-        };
-        var addOnData = mapper.Map<AddOnData>(addOn);
-        var response = await client.From<AddOnData>().Insert(addOnData, options);
-        return mapper.Map<AddOn>(response.Models.FirstOrDefault());
     }
 
     public async Task<Product> CreateProduct(Product product)
@@ -86,18 +83,24 @@ public class ProductCRUDService
         var productData = mapper.Map<ProductData>(product);
         var response = await client.From<ProductData>().Insert(productData, options);
 
-        var addons = product.AddOns;
-        foreach (var a in addons)
-        {
-            var addOnProduct = new ProductAddOnData
-            {
-                AddOnId = a.Id,
-                ProductId = response.Models.FirstOrDefault().Id
-            };
-            await client.From<ProductAddOnData>().Insert(addOnProduct);
-        }
+        product.Id = response.Models.FirstOrDefault().Id;
+        await UpdateProductAddons(product);
 
         return mapper.Map<Product>(response.Models.FirstOrDefault());
+    }
+
+    public async Task<AddOn> CreateAddOn(AddOn addOn)
+    {
+        var options = new Postgrest.QueryOptions
+        {
+            Returning = Postgrest.QueryOptions.ReturnType.Representation
+        };
+        var addOnData = mapper.Map<AddOnData>(addOn);
+        var response = await client.From<AddOnData>().Insert(addOnData, options);
+
+        addOn.Id = response.Models.FirstOrDefault().Id;
+
+        return mapper.Map<AddOn>(response.Models.FirstOrDefault());
     }
 
     public async Task UpdateProduct(Product product)
@@ -105,6 +108,34 @@ public class ProductCRUDService
         var productData = mapper.Map<ProductData>(product);
         var response = await client.From<ProductData>()
             .Update(productData);
+
+        await UpdateProductAddons(product);
+    }
+
+    public async Task UpdateAddOn(AddOn addOn)
+    {
+        var addOnData = mapper.Map<AddOnData>(addOn);
+        var response = await client.From<AddOnData>()
+            .Update(addOnData);
+    }
+
+    private async Task UpdateProductAddons(Product product)
+    {
+        //clear all existing addons
+        await client.From<ProductAddOnData>()
+            .Where(pa => pa.ProductId == product.Id)
+            .Delete();
+
+        var addons = product.AddOns;
+        foreach (var a in addons)
+        {
+            var addOnProduct = new ProductAddOnData
+            {
+                AddOnId = a.Id,
+                ProductId = product.Id
+            };
+            await client.From<ProductAddOnData>().Insert(addOnProduct);
+        }
     }
 
     public async Task DeleteProduct(Product product)
@@ -113,4 +144,22 @@ public class ProductCRUDService
         await client.From<ProductData>().Delete(data);
     }
 
+    public async Task DeleteAddOn(AddOn addOn)
+    {
+        var data = mapper.Map<AddOnData>(addOn);
+        await client.From<AddOnData>().Delete(data);
+    }
+
+    public async Task<string> AddImage(byte[] image)
+    {
+        var imagePath = await client.Storage
+          .From("product_photos")
+          .Upload(image, Guid.NewGuid().ToString() + ".png", new FileOptions
+          {
+              CacheControl = "3600",
+              Upsert = false
+          });
+        var bucketPath = client.Storage.From("product_photos").GetPublicUrl(imagePath.Split("/")[1]);
+        return bucketPath;
+    }
 }

@@ -56,7 +56,7 @@
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="15" />
                                     </Border.StrokeShape>
-                                    <Image Source="soda_placeholder.jpeg"
+                                    <Image Source="{Binding ImageUrl, TargetNullValue={StaticResource placeholder}}"
                                            Aspect="Center"
                                            HeightRequest="125" />
                                 </Border>
