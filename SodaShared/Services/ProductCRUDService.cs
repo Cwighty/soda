@@ -115,6 +115,18 @@ public class ProductCRUDService
         return mapper.Map<Base>(response.Models.FirstOrDefault());
     }
 
+    public async Task<BaseType> CreateBaseType(BaseType baseType)
+    {
+        var options = new Postgrest.QueryOptions
+        {
+            Returning = Postgrest.QueryOptions.ReturnType.Representation
+        };
+        var baseTypeData = mapper.Map<BaseTypeData>(baseType);
+        var response = await client.From<BaseTypeData>().Insert(baseTypeData, options);
+        baseType.Id = response.Models.FirstOrDefault().Id;
+        return mapper.Map<BaseType>(response.Models.FirstOrDefault());
+    }
+
     public async Task UpdateProduct(Product product)
     {
         var productData = mapper.Map<ProductData>(product);
@@ -157,6 +169,13 @@ public class ProductCRUDService
             .Update(baseData);
     }
 
+    public async Task UpdateBaseType(BaseType baseType)
+    {
+        var baseTypeData = mapper.Map<BaseTypeData>(baseType);
+        var response = await client.From<BaseTypeData>()
+            .Update(baseTypeData);
+    }
+
     public async Task DeleteProduct(Product product)
     {
         var data = mapper.Map<ProductData>(product);
@@ -173,6 +192,12 @@ public class ProductCRUDService
     {
         var data = mapper.Map<BaseData>(drinkBase);
         await client.From<BaseData>().Delete(data);
+    }
+
+    public async Task DeleteBaseType(BaseType baseType)
+    {
+        var data = mapper.Map<BaseTypeData>(baseType);
+        await client.From<BaseTypeData>().Delete(data);
     }
 
     public async Task<string> AddImage(byte[] image)
