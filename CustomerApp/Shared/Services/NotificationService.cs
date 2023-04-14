@@ -1,8 +1,10 @@
 ﻿using Plugin.LocalNotification;
 using Supabase;
 using Supabase.Realtime;
+using Supabase.Realtime.PostgresChanges;
 using Supabase.Realtime.Socket;
 using System.Net.Sockets;
+using static Supabase.Client;
 using Client = Supabase.Client;
 
 namespace CustomerApp.Shared.Services;
@@ -17,7 +19,7 @@ public class NotificationService
     {
         this.client = client;
     }
-    public void NotifyOrderComplete(SocketResponseEventArgs e)
+    public void NotifyOrderComplete()
     {
         var request = new NotificationRequest
         {
@@ -32,12 +34,13 @@ public class NotificationService
     internal async Task SubscribeTo(int orderId)
     {
         client.Realtime.Connect();
-        channel = client.Realtime.Channel("realtime", "public", "purchase", "id", $"id=eq.{orderId}");
-        channel.OnMessage += (sender, e) =>
+        await client.From<PurchaseData>().On(ChannelEventType.Update, (sender, args) =>
         {
-            NotifyOrderComplete(e);
-        };
-
-        await channel.Subscribe();
+            var data = args.Response.Payload.Data;
+            if (data.Record.Status == "COMPLETED")
+            {
+                NotifyOrderComplete();
+            }
+        });
     }
 }
