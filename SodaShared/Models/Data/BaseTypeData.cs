@@ -10,7 +10,7 @@ public class BaseTypeData : BaseModel
     public int Id { get; set; }
     [Column("name")]
     public string Name { get; set; }
-    [Reference(typeof(SizeData))]
+    [Reference(typeof(SizeData), shouldFilterTopLevel:false)]
     public List<SizeData> Sizes { get; set; }
 }
 
