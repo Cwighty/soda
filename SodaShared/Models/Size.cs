@@ -20,3 +20,18 @@ public partial class Size
     [ObservableProperty]
     private bool isSelected;
 }
+
+public static class SizeExtensions
+{
+    public static Size Clone(this Size size)
+    {
+        return new Size()
+        {
+            Id = size.Id,
+            Name = size.Name,
+            Price = size.Price,
+            Img = size.Img,
+            IsSelected = size.IsSelected
+        };
+    }
+}

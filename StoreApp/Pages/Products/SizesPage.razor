@@ -1,0 +1,123 @@
+﻿@page "/sizes"
+@using Microsoft.AspNetCore.Components.Forms
+@using SodaShared.Models;
+@using SodaShared.Services;
+@using Blazorise
+@using StoreApp.Components
+@using Size = SodaShared.Models.Size;
+@inject ProductCRUDService ProductService
+
+<h1>Sizes</h1>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary mb-3" @onclick="ShowAddSizeModal">Add New Size</button>
+    </div>
+</div>
+@if (sizes != null)
+{
+    <div class="row">
+        @foreach (var size in sizes)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">@size.Name</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge badge-secondary">Price: @size.Price.ToString("C")</span>
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-primary" @onclick="() => ShowEditSizeModal(size)"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-outline-danger" @onclick="() => DeleteSize(size)"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <Modal Title="@modalTitle" @ref="sizeModal">
+        <ModalContent Centered>
+        <ModalBody>
+            <EditForm Model="@editSize">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <InputText class="form-control" @bind-Value="@editSize.Name" />
+                </div>
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <InputNumber class="form-control" @bind-Value="@editSize.Price" />
+                </div>
+                </EditForm>
+            </ModalBody>
+            <ModalFooter>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="SaveSize">Save</button>
+                    <button class="btn btn-secondary" @onclick="HideSizeModal">Cancel</button>
+                </div>
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
+}
+
+
+
+@code {
+    List<Size> sizes;
+    Size editSize = new Size();
+    Modal? sizeModal;
+    string? modalTitle;
+    private int selectedSize;
+    private byte[] newImageBytes;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        sizes = await ProductService.GetSizes();
+    }
+
+    private void ShowAddSizeModal()
+    {
+        modalTitle = "Add New Add-On";
+        editSize = new Size();
+        sizeModal.Show();
+    }
+
+    private void ShowEditSizeModal(Size size)
+    {
+        modalTitle = "Edit Add-On";
+        editSize = size.Clone();
+        sizeModal.Show();
+    }
+
+    private async Task SaveSize()
+    {
+        if (editSize.Id == 0)
+        {
+            await ProductService.CreateSize(editSize);
+            sizes.Add(editSize);
+        }
+        else
+        {
+            await ProductService.UpdateSize(editSize);
+            var index = sizes.FindIndex(p => p.Id == editSize.Id);
+            sizes[index] = editSize;
+            await OnInitializedAsync();
+            StateHasChanged();
+        }
+        await sizeModal.Hide();
+    }
+
+    private async Task DeleteSize(Size size)
+    {
+        await ProductService.DeleteSize(size);
+        sizes.Remove(size);
+    }
+
+    private void HideSizeModal()
+    {
+        sizeModal.Hide();
+    }
+}
