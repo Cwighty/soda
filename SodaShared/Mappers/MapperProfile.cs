@@ -10,7 +10,9 @@ public class MapperProfile : Profile
 		CreateMap<AddOn, AddOnData>()
             .ForMember(dest => dest.AddOnTypeId, opt => opt.MapFrom(src => src.AddOnType.Id));
 		CreateMap<AddOnTypeData, AddOnType>().ReverseMap();
-		CreateMap<BaseData, Base>().ReverseMap();
+		CreateMap<BaseData, Base>();
+		CreateMap<Base, BaseData>()
+            .ForMember(dest => dest.BaseTypeId, opt => opt.MapFrom(src => src.BaseType.Id));
 		CreateMap<BaseTypeData, BaseType>().ReverseMap();
 		CreateMap<CategoryData, Category>().ReverseMap();
 		CreateMap<CustomerData, Customer>().ReverseMap();

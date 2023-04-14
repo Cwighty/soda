@@ -103,6 +103,18 @@ public class ProductCRUDService
         return mapper.Map<AddOn>(response.Models.FirstOrDefault());
     }
 
+    public async Task<Base> CreateBase(Base drinkBase)
+    {
+        var options = new Postgrest.QueryOptions
+        {
+            Returning = Postgrest.QueryOptions.ReturnType.Representation
+        };
+        var baseData = mapper.Map<BaseData>(drinkBase);
+        var response = await client.From<BaseData>().Insert(baseData, options);
+        drinkBase.Id = response.Models.FirstOrDefault().Id;
+        return mapper.Map<Base>(response.Models.FirstOrDefault());
+    }
+
     public async Task UpdateProduct(Product product)
     {
         var productData = mapper.Map<ProductData>(product);
@@ -119,7 +131,7 @@ public class ProductCRUDService
             .Update(addOnData);
     }
 
-    private async Task UpdateProductAddons(Product product)
+    public async Task UpdateProductAddons(Product product)
     {
         //clear all existing addons
         await client.From<ProductAddOnData>()
@@ -138,6 +150,13 @@ public class ProductCRUDService
         }
     }
 
+    public async Task UpdateBase(Base drinkBase)
+    {
+        var baseData = mapper.Map<BaseData>(drinkBase);
+        var response = await client.From<BaseData>()
+            .Update(baseData);
+    }
+
     public async Task DeleteProduct(Product product)
     {
         var data = mapper.Map<ProductData>(product);
@@ -148,6 +167,12 @@ public class ProductCRUDService
     {
         var data = mapper.Map<AddOnData>(addOn);
         await client.From<AddOnData>().Delete(data);
+    }
+
+    public async Task DeleteBase(Base drinkBase)
+    {
+        var data = mapper.Map<BaseData>(drinkBase);
+        await client.From<BaseData>().Delete(data);
     }
 
     public async Task<string> AddImage(byte[] image)

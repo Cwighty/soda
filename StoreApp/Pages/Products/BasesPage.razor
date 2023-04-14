@@ -1,7 +1,133 @@
 ﻿@page "/bases"
+@using Microsoft.AspNetCore.Components.Forms
+@using SodaShared.Models;
+@using SodaShared.Services;
+@using Blazorise
+@using StoreApp.Components
+@inject ProductCRUDService ProductService
 
-<h3>BasesPage</h3>
+<h1>Drink Bases</h1>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary mb-3" @onclick="ShowAddDrinkBaseModal">Add New Add On</button>
+    </div>
+</div>
+@if (drinkBases != null)
+{
+
+    <div class="row">
+        @foreach (var drinkBase in drinkBases)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">@drinkBase.Name</h5>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge badge-secondary">Price: @drinkBase.Price.ToString("C")</span>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-primary" @onclick="() => ShowEditDrinkBaseModal(drinkBase)"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-outline-danger" @onclick="() => DeleteDrinkBase(drinkBase)"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <Modal Title="@modalTitle" @ref="drinkBaseModal">
+        <ModalContent Centered>
+            <ModalBody>
+                <EditForm Model="@editDrinkBase">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <InputText class="form-control" @bind-Value="@editDrinkBase.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <InputNumber class="form-control" @bind-Value="@editDrinkBase.Price" />
+                    </div>
+                    <div class="form-group">
+                        <label for="type">Type:</label>
+                        <InputSelect class="form-control" @bind-Value="@editDrinkBase.BaseType.Id">
+                            @foreach (var drinkBaseType in drinkBaseTypes)
+                            {
+                                <option value="@drinkBaseType.Id">@drinkBaseType.Name</option>
+                            }
+                        </InputSelect>
+                    </div>
+                </EditForm>
+            </ModalBody>
+            <ModalFooter>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="SaveDrinkBase">Save</button>
+                    <button class="btn btn-secondary" @onclick="HideDrinkBaseModal">Cancel</button>
+                </div>
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
+}
+
+
 
 @code {
+    List<Base> drinkBases;
+    List<BaseType> drinkBaseTypes;
+    Base editDrinkBase = new Base();
+    Modal? drinkBaseModal;
+    string? modalTitle;
+    private int selectedDrinkBase;
+    private byte[] newImageBytes;
 
+
+    protected override async Task OnInitializedAsync()
+    {
+        drinkBases = await ProductService.GetBases();
+        drinkBaseTypes = await ProductService.GetBaseTypes();
+    }
+
+    private void ShowAddDrinkBaseModal()
+    {
+        modalTitle = "Add New Add-On";
+        editDrinkBase = new Base();
+        drinkBaseModal.Show();
+    }
+
+    private void ShowEditDrinkBaseModal(Base drinkBase)
+    {
+        modalTitle = "Edit Add-On";
+        editDrinkBase = drinkBase.Clone();
+        drinkBaseModal.Show();
+    }
+
+    private async Task SaveDrinkBase()
+    {
+        if (editDrinkBase.Id == 0)
+        {
+            await ProductService.CreateBase(editDrinkBase);
+            drinkBases.Add(editDrinkBase);
+        }
+        else
+        {
+            await ProductService.UpdateBase(editDrinkBase);
+            var index = drinkBases.FindIndex(p => p.Id == editDrinkBase.Id);
+            drinkBases[index] = editDrinkBase;
+            await OnInitializedAsync();
+            StateHasChanged();
+        }
+        await drinkBaseModal.Hide();
+    }
+
+    private async Task DeleteDrinkBase(Base drinkBase)
+    {
+        await ProductService.DeleteBase(drinkBase);
+        drinkBases.Remove(drinkBase);
+    }
+
+    private void HideDrinkBaseModal()
+    {
+        drinkBaseModal.Hide();
+    }
 }

@@ -15,7 +15,7 @@ public class BaseData : BaseModel
     [Column("price")]
     public decimal Price { get; set; }
     [Column("type_id")]
-    public int TypeId { get; set; }
+    public int BaseTypeId { get; set; }
     [Reference(typeof(BaseTypeData))]
     public BaseTypeData BaseType { get; set; }
 }

@@ -18,6 +18,7 @@ public static class AddOnExtensions
             Id = addOn.Id,
             Name = addOn.Name,
             Price = addOn.Price,
+            AddOnTypeId = addOn.AddOnTypeId,
             AddOnType = addOn.AddOnType
         };
     }
