@@ -1,4 +1,5 @@
-﻿using Supabase;
+﻿using SodaShared.Models;
+using Supabase;
 using FileOptions = Supabase.Storage.FileOptions;
 
 namespace SodaShared.Services;
@@ -61,21 +62,16 @@ public class ProductCRUDService
         return mapper.Map<List<AddOn>>(response.Models);
     }
 
+    public async Task<List<AddOnType>> GetAddOnTypes()
+    {
+        var response = await client.From<AddOnTypeData>().Get();
+        return mapper.Map<List<AddOnType>>(response.Models);
+    }
+
     public async Task<List<Size>> GetSizes()
     {
         var response = await client.From<SizeData>().Get();
         return mapper.Map<List<Size>>(response.Models);
-    }
-    
-    public async Task<AddOn> CreateAddOn(AddOn addOn)
-    {
-        var options = new Postgrest.QueryOptions
-        {
-            Returning = Postgrest.QueryOptions.ReturnType.Representation
-        };
-        var addOnData = mapper.Map<AddOnData>(addOn);
-        var response = await client.From<AddOnData>().Insert(addOnData, options);
-        return mapper.Map<AddOn>(response.Models.FirstOrDefault());
     }
 
     public async Task<Product> CreateProduct(Product product)
@@ -88,9 +84,23 @@ public class ProductCRUDService
         var response = await client.From<ProductData>().Insert(productData, options);
 
         product.Id = response.Models.FirstOrDefault().Id;
-        await UpdateAddons(product);
+        await UpdateProductAddons(product);
 
         return mapper.Map<Product>(response.Models.FirstOrDefault());
+    }
+
+    public async Task<AddOn> CreateAddOn(AddOn addOn)
+    {
+        var options = new Postgrest.QueryOptions
+        {
+            Returning = Postgrest.QueryOptions.ReturnType.Representation
+        };
+        var addOnData = mapper.Map<AddOnData>(addOn);
+        var response = await client.From<AddOnData>().Insert(addOnData, options);
+
+        addOn.Id = response.Models.FirstOrDefault().Id;
+
+        return mapper.Map<AddOn>(response.Models.FirstOrDefault());
     }
 
     public async Task UpdateProduct(Product product)
@@ -99,10 +109,17 @@ public class ProductCRUDService
         var response = await client.From<ProductData>()
             .Update(productData);
 
-        await UpdateAddons(product);
+        await UpdateProductAddons(product);
     }
 
-    private async Task UpdateAddons(Product product)
+    public async Task UpdateAddOn(AddOn addOn)
+    {
+        var addOnData = mapper.Map<AddOnData>(addOn);
+        var response = await client.From<AddOnData>()
+            .Update(addOnData);
+    }
+
+    private async Task UpdateProductAddons(Product product)
     {
         //clear all existing addons
         await client.From<ProductAddOnData>()

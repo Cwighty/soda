@@ -12,6 +12,8 @@ public class AddOnData : BaseModel
     public string Name { get; set; }
     [Column("price")]
     public decimal Price { get; set; }
+    [Column("addon_type_id")]
+    public int AddOnTypeId { get; set; }
     [Reference(typeof(AddOnTypeData))]
     public AddOnTypeData AddOnType { get; set; }
 }

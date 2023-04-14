@@ -68,33 +68,32 @@
                     <label for="drinkBase">Base:</label>
                     <InputSelect class="form-control" @bind-Value="@editProduct.Base.Id">
                         @foreach (var b in bases)
-                            {
-                                <option value="@b.Id">@b.Name</option>
-                            }
-                        </InputSelect>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="addOns">Add-Ons:</label>
-                        <div class="row mx-1 p-0">
-                            <select class="col-10 me-4 form-control" @bind="selectedAddOn">
-                                <option value="">--Select an Add-On--</option>
-                                @foreach (var addOn in addOns)
-                                {
-                                    <option value="@addOn.Id">@addOn.Name - @addOn.Price</option>
-                                }
-                            </select>
-                            <button class="col-1 btn btn-primary" @onclick="AddAddOn"><i class="bi bi-plus"></i></button>
-                        </div>
-                    </div>
-
-                    <ul class="list-group">
-                        @foreach (var addOn in editProduct.AddOns)
                         {
-                            <li class="list-group-item">@addOn.Name - @addOn.Price<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveAddOn(addOn)">Remove</button></li>
+                            <option value="@b.Id">@b.Name</option>
                         }
-                    </ul>
-                    <ImageUploader @bind-ImageDataBytes="@newImageBytes" />
+                    </InputSelect>
+                </div>
+                <div class="form-group">
+                    <label for="addOns">Add-Ons:</label>
+                    <div class="row mx-1 p-0">
+                        <select class="col-10 me-4 form-control" @bind="selectedAddOn">
+                            <option value="">--Select an Add-On--</option>
+                            @foreach (var addOn in addOns)
+                            {
+                                <option value="@addOn.Id">@addOn.Name - @addOn.Price</option>
+                            }
+                        </select>
+                        <button class="col-1 btn btn-primary" @onclick="AddAddOn"><i class="bi bi-plus"></i></button>
+                    </div>
+                </div>
+
+                <ul class="list-group">
+                    @foreach (var addOn in editProduct.AddOns)
+                    {
+                        <li class="list-group-item">@addOn.Name - @addOn.Price<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveAddOn(addOn)">Remove</button></li>
+                    }
+                </ul>
+                <ImageUploader @bind-ImageDataBytes="@newImageBytes" />
                 </EditForm>
             </ModalBody>
             <ModalFooter>
