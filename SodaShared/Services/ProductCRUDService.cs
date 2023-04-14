@@ -127,6 +127,12 @@ public class ProductCRUDService
         await client.From<ProductData>().Delete(data);
     }
 
+    public async Task DeleteAddOn(AddOn addOn)
+    {
+        var data = mapper.Map<AddOnData>(addOn);
+        await client.From<AddOnData>().Delete(data);
+    }
+
     public async Task<string> AddImage(byte[] image)
     {
         var imagePath = await client.Storage
