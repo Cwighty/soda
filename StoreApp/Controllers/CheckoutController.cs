@@ -1,10 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SodaShared.Models;
-using SodaShared.Models.Data;
-using StoreApp.Services;
+using SodaShared.Services;
 using Stripe;
-using Supabase;
 
 namespace StoreApp.Controllers;
 
@@ -12,11 +9,11 @@ namespace StoreApp.Controllers;
 [ApiController]
 public class CheckoutController : Controller
 {
-    private readonly PurchaseService purchaseService;
+    private readonly PurchaseRepository purchaseRepo;
 
-    public CheckoutController(PurchaseService purchaseService)
+    public CheckoutController(PurchaseRepository purchaseService)
     {
-        this.purchaseService = purchaseService;
+        this.purchaseRepo = purchaseService;
     }
 
     [HttpPost("items")]
@@ -33,7 +30,7 @@ public class CheckoutController : Controller
 
         decimal totalPrice = await CalculatePriceBeforeTax(purchaseRequest);
 
-        var purchase = CreateNewPurchaseAsync(purchaseRequest, totalPrice);
+        var purchase = await CreateNewPurchaseAsync(purchaseRequest, totalPrice);
 
         PaymentIntent paymentIntent = CreatePaymentIntent(totalPrice);
 
@@ -49,7 +46,7 @@ public class CheckoutController : Controller
         newPurchase.TaxCollected = totalPrice * 0.07M;
         newPurchase.Status = "IN PROGRESS";
         
-        var purchaseId = await purchaseService.PersistPurchase(newPurchase);
+        var purchaseId = await purchaseRepo.PersistPurchase(newPurchase);
         newPurchase.Id = purchaseId;
         return newPurchase;
     }
@@ -80,14 +77,14 @@ public class CheckoutController : Controller
             // Sum up addons
             foreach (var addon in item.AddOns)
             {
-                var lookUpAddon = await purchaseService.LookUpAddon(addon.Id);
+                var lookUpAddon = await purchaseRepo.GetAddon(addon.Id);
                 totalPrice += lookUpAddon!.Price;
             }
             // Sum up bases
-            var based = await purchaseService.LookUpBase(item.BaseId);
+            var based = await purchaseRepo.GetBase(item.BaseId);
             totalPrice += based!.Price;
             // Sum up size options
-            var size = await purchaseService.LookUpSize(item.SizeId);
+            var size = await purchaseRepo.GetSize(item.SizeId);
             totalPrice += size!.Price;
         }
         return totalPrice;

@@ -1,4 +1,6 @@
-﻿namespace CustomerApp.Features.Cart;
+﻿using SodaShared.Services;
+
+namespace CustomerApp.Features.Cart;
 
 [QueryProperty("OrderId", nameof(OrderId))]
 public partial class OrderProcessedPageViewModel : BaseViewModel
@@ -12,18 +14,18 @@ public partial class OrderProcessedPageViewModel : BaseViewModel
     private string pickUpTimeRange;
 
     private readonly NavigationService navigationService;
-    private readonly PurchaseService purchaseService;
+    private readonly PurchaseRepository purchaseRepo;
 
-    public OrderProcessedPageViewModel(NavigationService navigationService, PurchaseService purchaseService)
+    public OrderProcessedPageViewModel(NavigationService navigationService, PurchaseRepository purchaseRepo)
     {
         this.navigationService = navigationService;
-        this.purchaseService = purchaseService;
+        this.purchaseRepo = purchaseRepo;
     }
     public override async Task Initialize()
     {
         if(OrderId != 0)
         {
-            Purchase = await purchaseService.GetPurchaseById(OrderId);
+            Purchase = await purchaseRepo.GetPurchaseById(OrderId);
             PickUpTimeRange = $"{Purchase.PickUpTime?.ToString("h:mm tt")} - {(Purchase.PickUpTime + TimeSpan.FromMinutes(15))?.ToString("h:mm tt")}";
 
         }

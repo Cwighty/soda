@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using MonkeyCache.FileStore;
 using Plugin.LocalNotification;
 using SodaShared.Mappers;
+using SodaShared.Services;
 using Supabase;
 using System;
 using System.Reflection;
@@ -49,6 +50,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<UserService>();
         builder.Services.AddSingleton<PurchaseService>();
         builder.Services.AddSingleton<NotificationService>();
+        builder.Services.AddSingleton<PurchaseRepository>();
 
         var storeApiUrl = builder.Configuration["StoreAPI"];
         if (string.IsNullOrEmpty(storeApiUrl))

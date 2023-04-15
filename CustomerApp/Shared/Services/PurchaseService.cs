@@ -28,11 +28,6 @@ public class PurchaseService
         this.httpClient = httpClient;
         this.config = config;
     }
-    public async Task<List<Purchase>> GetPurchaseHistory()
-    {
-        var response = await client.From<PurchaseData>().Get();
-        return mapper.Map<List<Purchase>>(response.Models);
-    }
 
     public async Task<CheckoutInitiationResponse> InitiateCheckout(List<PurchaseItem> cartItems, DateTime pickUpTime)
     {
@@ -92,11 +87,4 @@ public class PurchaseService
         await order.Update<PurchaseData>();
     }
 
-    public async Task<Purchase> GetPurchaseById(int orderId)
-    {
-        var purchase = await client.From<PurchaseData>()
-            .Where(p => p.Id == orderId)
-            .Single();
-        return mapper.Map<Purchase>(purchase);
-    }
 }

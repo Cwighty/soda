@@ -37,7 +37,7 @@ public partial class MenuPageViewModel : BaseViewModel
         {
             SetProperty(ref selectedBaseType, value);
             FilteredProducts = ProductsByBase?.Where(
-                pb => pb.Products.Any(p => p.Base.TypeId == value.Id)
+                pb => pb.Products.Any(p => p.Base.BaseTypeId == value.Id)
                 ).ToList();
         }
     }

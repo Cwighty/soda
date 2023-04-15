@@ -3,7 +3,6 @@ using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using SodaShared.Mappers;
 using SodaShared.Services;
-using StoreApp.Data;
 using StoreApp.Services;
 using Stripe;
 using Supabase;
@@ -15,7 +14,6 @@ Console.WriteLine(Environment.GetEnvironmentVariable("VS_TUNNEL_URL"));
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddAutoMapper(typeof(MapperProfile));
 
@@ -32,9 +30,9 @@ var options = new SupabaseOptions
 };
 builder.Services.AddSingleton(new Supabase.Client(supabaseURL, serviceRoleKey, options));
 builder.Services.AddSingleton<OrderService>();
-builder.Services.AddSingleton<ProductCRUDService>();
+builder.Services.AddSingleton<ProductRepository>();
 builder.Services.AddSingleton<AuthorizationService>();
-builder.Services.AddSingleton<PurchaseService>();
+builder.Services.AddSingleton<PurchaseRepository>();
 
 
 builder.Services

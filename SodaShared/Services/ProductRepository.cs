@@ -4,12 +4,12 @@ using FileOptions = Supabase.Storage.FileOptions;
 
 namespace SodaShared.Services;
 
-public class ProductCRUDService
+public class ProductRepository
 {
     private readonly Client client;
     private readonly IMapper mapper;
 
-    public ProductCRUDService(Client client, IMapper mapper)
+    public ProductRepository(Client client, IMapper mapper)
     {
         this.client = client;
         this.mapper = mapper;

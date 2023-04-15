@@ -16,5 +16,6 @@ global using CustomerApp.Features.Menu.Controls;
 global using CustomerApp.Features.Cart;
 global using SodaShared.Models;
 global using SodaShared.Models.Data;
+global using SodaShared.Services;
 
 

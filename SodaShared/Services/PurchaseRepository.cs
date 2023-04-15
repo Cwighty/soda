@@ -1,20 +1,45 @@
-﻿using AutoMapper;
-using SodaShared.Models.Data;
-using SodaShared.Models;
-using Supabase;
+﻿using Supabase;
 
-namespace StoreApp.Services;
+namespace SodaShared.Services;
 
-public class PurchaseService
+public class PurchaseRepository
 {
     private readonly Client client;
     private readonly IMapper mapper;
 
-    public PurchaseService(Client client, IMapper mapper)
+    public PurchaseRepository(Client client, IMapper mapper)
     {
         this.client = client;
         this.mapper = mapper;
     }
+    public async Task<SizeData> GetSize(int id)
+    {
+        return await client.From<SizeData>().Where(s => s.Id == id).Single();
+    }
+
+    public async Task<BaseData> GetBase(int id)
+    {
+        return await client.From<BaseData>().Where(b => b.Id == id).Single();
+    }
+
+    public async Task<AddOnData> GetAddon(int id)
+    {
+        return await client.From<AddOnData>().Where(a => a.Id == id).Single();
+    }
+    
+    public async Task<List<Purchase>> GetAllPurchases()
+    {
+        var response = await client.From<PurchaseData>().Get();
+        return mapper.Map<List<Purchase>>(response.Models);
+    }
+    public async Task<Purchase> GetPurchaseById(int orderId)
+    {
+        var purchase = await client.From<PurchaseData>()
+            .Where(p => p.Id == orderId)
+            .Single();
+        return mapper.Map<Purchase>(purchase);
+    }
+    
     public async Task<int> PersistPurchase(Purchase purchase)
     {
         var newPurchaseData = mapper.Map<PurchaseData>(purchase);
@@ -58,18 +83,5 @@ public class PurchaseService
         }
     }
 
-    public async Task<SizeData> LookUpSize(int id)
-    {
-        return await client.From<SizeData>().Where(s => s.Id == id).Single();
-    }
-
-    public async Task<BaseData> LookUpBase(int id)
-    {
-        return await client.From<BaseData>().Where(b => b.Id == id).Single();
-    }
-
-    public async Task<AddOnData> LookUpAddon(int id)
-    {
-        return await client.From<AddOnData>().Where(a => a.Id == id).Single();
-    }
+   
 }

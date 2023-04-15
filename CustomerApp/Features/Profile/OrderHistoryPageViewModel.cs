@@ -2,18 +2,18 @@
 
 public partial class OrderHistoryPageViewModel : BaseViewModel
 {
-    private readonly PurchaseService orderService;
+    private readonly PurchaseRepository purchaseRepo;
 
     [ObservableProperty]
     private List<Purchase> purchases;
 
-    public OrderHistoryPageViewModel(PurchaseService orderService)
+    public OrderHistoryPageViewModel(PurchaseRepository purchaseRepo)
     {
-        this.orderService = orderService;
+        this.purchaseRepo = purchaseRepo;
     }
     public async override Task Initialize()
     {
-        Purchases = await orderService.GetPurchaseHistory();
+        Purchases = await purchaseRepo.GetAllPurchases();
     }
 
     public override Task Stop()
