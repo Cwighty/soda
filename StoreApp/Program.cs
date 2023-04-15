@@ -34,6 +34,7 @@ builder.Services.AddSingleton(new Supabase.Client(supabaseURL, serviceRoleKey, o
 builder.Services.AddSingleton<OrderService>();
 builder.Services.AddSingleton<ProductCRUDService>();
 builder.Services.AddSingleton<AuthorizationService>();
+builder.Services.AddSingleton<PurchaseService>();
 
 
 builder.Services

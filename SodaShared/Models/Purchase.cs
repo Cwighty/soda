@@ -14,3 +14,23 @@ public class Purchase
 
     public List<PurchaseItem> PurchaseItems { get; set; }
 }
+
+public static class PurchaseExtensions
+{
+    public static Purchase Copy(this Purchase purchase)
+    {
+        return new Purchase
+        {
+            Id = purchase.Id,
+            CustomerId = purchase.CustomerId,
+            CreatedAt = purchase.CreatedAt,
+            CompletedAt = purchase.CompletedAt,
+            PickUpTime = purchase.PickUpTime,
+            SubTotal = purchase.SubTotal,
+            TaxCollected = purchase.TaxCollected,
+            Status = purchase.Status,
+            Customer = purchase.Customer,
+            PurchaseItems = purchase.PurchaseItems
+        };
+    }
+}
