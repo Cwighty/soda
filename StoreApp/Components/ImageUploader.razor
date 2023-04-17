@@ -29,8 +29,9 @@
             return;
         }
 
+        const long MAXALLOWEDSIZE = 1024 * 1000;
         // Convert image to base64 string
-        using (var stream = file.OpenReadStream())
+        using (var stream = file.OpenReadStream(MAXALLOWEDSIZE))
         using (var ms = new MemoryStream())
         {
             await stream.CopyToAsync(ms);
