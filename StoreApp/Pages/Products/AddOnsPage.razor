@@ -6,11 +6,60 @@
 @using StoreApp.Components
 @inject ProductRepository ProductService
 
-<h1>Add-Ons</h1>
+<h1>Add-On Categories</h1>
 
 <div class="row">
     <div class="col-12">
-        <button class="btn btn-primary mb-3" @onclick="ShowAddAddOnModal">Add New Add On</button>
+        <button class="btn btn-primary my-4" @onclick="ShowAddAddOnTypeModal">Add New Add-On Category</button>
+    </div>
+</div>
+@if (addOnTypes != null)
+{
+
+    <div class="row">
+        @foreach (var addOnType in addOnTypes)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">@addOnType.Name</h5>
+                        <hr />
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-primary" @onclick="() => ShowEditAddOnTypeModal(addOnType)"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-outline-danger" @onclick="() => DeleteAddOnType(addOnType)"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <Modal Title="@modalTitle" @ref="addOnTypeModal">
+        <ModalContent Centered>
+        <ModalBody>
+            <EditForm Model="@editAddOnType">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <InputText class="form-control" @bind-Value="@editAddOnType.Name" />
+                </div>
+            </EditForm>
+        </ModalBody>
+        <ModalFooter>
+            <div class="modal-footer">
+                <button class="btn btn-primary" @onclick="SaveAddOnType">Save</button>
+                <button class="btn btn-secondary" @onclick="HideAddOnTypeModal">Cancel</button>
+            </div>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+}
+
+<h1 class="mb-3 mt-5">Add-Ons</h1>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary my-4" @onclick="ShowAddAddOnModal">Add New Add On</button>
     </div>
 </div>
 @if (addOns != null)
@@ -77,11 +126,11 @@
     List<AddOn> addOns;
     List<AddOnType> addOnTypes;
     AddOn editAddOn = new AddOn();
+    AddOnType editAddOnType = new AddOnType();
     Modal? addOnModal;
+    Modal? addOnTypeModal;
     string? modalTitle;
     private int selectedAddOn;
-    private byte[] newImageBytes;
-
 
     protected override async Task OnInitializedAsync()
     {
@@ -130,5 +179,48 @@
     private void HideAddOnModal()
     {
         addOnModal.Hide();
+    }
+
+    private void ShowAddAddOnTypeModal()
+    {
+        modalTitle = "Add New Add-On";
+        editAddOnType = new AddOnType();
+        addOnTypeModal.Show();
+    }
+
+    private void ShowEditAddOnTypeModal(AddOnType addOnType)
+    {
+        modalTitle = "Edit Add-On";
+        editAddOnType = addOnType.Clone();
+        addOnTypeModal.Show();
+    }
+
+    private async Task SaveAddOnType()
+    {
+        if (editAddOnType.Id == 0)
+        {
+            await ProductService.CreateAddOnType(editAddOnType);
+            addOnTypes.Add(editAddOnType);
+        }
+        else
+        {
+            await ProductService.UpdateAddOnType(editAddOnType);
+            var index = addOnTypes.FindIndex(p => p.Id == editAddOnType.Id);
+            addOnTypes[index] = editAddOnType;
+            await OnInitializedAsync();
+            StateHasChanged();
+        }
+        await addOnTypeModal.Hide();
+    }
+
+    private async Task DeleteAddOnType(AddOnType addOnType)
+    {
+        await ProductService.DeleteAddOnType(addOnType);
+        addOnTypes.Remove(addOnType);
+    }
+
+    private void HideAddOnTypeModal()
+    {
+        addOnTypeModal.Hide();
     }
 }
