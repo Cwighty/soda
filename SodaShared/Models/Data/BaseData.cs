@@ -16,7 +16,7 @@ public class BaseData : BaseModel
     public decimal Price { get; set; }
     [Column("type_id")]
     public int BaseTypeId { get; set; }
-    [Reference(typeof(BaseTypeData))]
+    [Reference(typeof(BaseTypeData), shouldFilterTopLevel:false)]
     public BaseTypeData BaseType { get; set; }
 }
 
