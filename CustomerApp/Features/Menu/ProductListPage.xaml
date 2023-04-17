@@ -16,7 +16,7 @@
                               RowDefinitions="auto,auto"
                               Margin="10">
                             <Frame Margin="10"
-                                   BorderColor="Black"
+                                   BorderColor="Transparent"
                                    CornerRadius="50"
                                    HeightRequest="60"
                                    WidthRequest="60"
@@ -25,10 +25,10 @@
                                    VerticalOptions="Center"
                                    Grid.RowSpan="2">
                                 <Image Source="{Binding ImageUrl, TargetNullValue={StaticResource placeholder}}"
-                                       Aspect="AspectFill"
-                                       Margin="-20"
-                                       HeightRequest="100"
-                                       WidthRequest="100" />
+                                       Aspect="AspectFit"
+                                       HeightRequest="50"
+                                       WidthRequest="50"
+                                        />
                             </Frame>
                             <Label Text="{Binding Name}"
                                    Grid.Column="1"

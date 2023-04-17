@@ -20,6 +20,7 @@
                Style="{StaticResource LabelHeaderStyle}" />
         <Frame IsVisible="{Binding IsNotBusy}"
                Grid.Row="1"
+               BorderColor="Transparent"
                Margin="80,10"
                CornerRadius="100"
                HeightRequest="200"
@@ -28,10 +29,9 @@
                HorizontalOptions="Start"
                VerticalOptions="Center">
             <Image Source="{Binding Product.ImageUrl, TargetNullValue={StaticResource placeholder}}"
-                   Aspect="AspectFill"
-                   Margin="-20"
-                   HeightRequest="250"
-                   WidthRequest="250" />
+                   Aspect="AspectFit"
+                   HeightRequest="180"
+                   WidthRequest="180" />
         </Frame>
         <ScrollView IsVisible="{Binding IsNotBusy}"
                     Grid.Row="2"
