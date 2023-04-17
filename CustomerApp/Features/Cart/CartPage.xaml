@@ -172,6 +172,7 @@
               RowDefinitions="auto,auto,auto,auto"
               IsVisible="{Binding IsNotEmpty}">
             <Button Text="Add More"
+                    Command="{Binding GoToMenuCommand}"
                     BackgroundColor="{StaticResource White}"
                     TextColor="{StaticResource Tertiary}"
                     Grid.Column="0"

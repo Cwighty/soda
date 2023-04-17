@@ -85,7 +85,7 @@ public class CheckoutController : Controller
             totalPrice += based!.Price;
             // Sum up size options
             var size = await purchaseRepo.GetSize(item.SizeId);
-            totalPrice += size!.Price;
+            totalPrice += size?.Price ?? 0;
         }
         return totalPrice;
     }
