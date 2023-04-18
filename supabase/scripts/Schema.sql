@@ -52,6 +52,15 @@ CREATE TABLE
         primary key (id)
     );
 
+ALTER TABLE customer ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable all access for customer owned tables" ON "public"."customer"
+AS PERMISSIVE FOR ALL
+TO public
+USING (auth.uid() = id)
+WITH CHECK (auth.uid() = id);
+
+
 CREATE TABLE 
     size (
         id SERIAL primary key,
@@ -60,12 +69,15 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    base_type (id SERIAL PRIMARY KEY, name VARCHAR(255));
+    base_type (
+    id SERIAL PRIMARY KEY, 
+    name VARCHAR(255)
+    );
 
 create table 
     base_type_size (
-        base_type_id INT References base_type(id),
-        size_id INT References size(id),
+        base_type_id INT References base_type(id) On delete CASCADE,
+        size_id INT References size(id) On delete CASCADE,
         PRIMARY KEY (base_type_id, size_id)
     );
 
@@ -76,7 +88,7 @@ create table
         description varchar(255),
         price DECIMAL(10, 2),
         type_id INT,
-        FOREIGN KEY (type_id) REFERENCES base_type (id)
+        FOREIGN KEY (type_id) REFERENCES base_type (id) On delete CASCADE
     );
 
 CREATE TABLE
@@ -87,7 +99,7 @@ CREATE TABLE
         special_price DECIMAL(10, 2) null,
         image_url VARCHAR(255),
         base_id int,
-        foreign key (base_id) references base (id)
+        foreign key (base_id) references base (id) On delete CASCADE
     );
 
 CREATE TABLE
@@ -95,14 +107,22 @@ CREATE TABLE
 		customer_id uuid,
 		product_id INT,
 		PRIMARY KEY (customer_id, product_id),
-		FOREIGN KEY (customer_id) REFERENCES customer (id),
-		FOREIGN KEY (product_id) REFERENCES product (id)
+		FOREIGN KEY (customer_id) REFERENCES customer (id) On delete CASCADE,
+		FOREIGN KEY (product_id) REFERENCES product (id) On delete CASCADE
 	);
+
+ALTER TABLE customer_favorite ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable all access for customer owned tables" ON "public"."customer_favorite"
+AS PERMISSIVE FOR ALL
+TO public
+USING (auth.uid() = customer_id)
+WITH CHECK (auth.uid() = customer_id);
 
 CREATE TABLE
     purchase (
         id SERIAL PRIMARY KEY,
-        customer_id uuid null,
+        customer_id uuid null references customer(id),
         created_at TIMESTAMP,
         completed_at TIMESTAMP,
         pick_up_time TIMESTAMP,
@@ -110,79 +130,6 @@ CREATE TABLE
         tax_collected DECIMAL(10, 2),
         status VARCHAR(255)
     );
-
-CREATE TABLE
-    purchase_item (
-        id SERIAL PRIMARY KEY,
-        purchase_id INT,
-        product_id INT null,
-        base_id INT,
-        size_id INT,
-        FOREIGN KEY (purchase_id) REFERENCES purchase (id),
-        FOREIGN KEY (product_id) REFERENCES product (id),
-        FOREIGN KEY (base_id) REFERENCES base (id),
-        foreign key (size_id) references size(id)
-    );
-
-CREATE TABLE
-    category (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        description TEXT,
-        image_url VARCHAR(255)
-    );
-
-CREATE TABLE
-    category_product (
-        category_id INT,
-        product_id INT,
-        PRIMARY KEY (category_id, product_id),
-        FOREIGN KEY (category_id) REFERENCES category (id),
-        FOREIGN KEY (product_id) REFERENCES product (id)
-    );
-
-CREATE TABLE
-    addon_type (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255)
-    );
-
-CREATE TABLE
-    addon (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255),
-        price DECIMAL(10, 2),
-        addon_type_id INT REFERENCES addon_type(id)
-    );
-   
-CREATE TABLE
-    purchase_item_addon (
-        id SERIAL,
-        purchase_item_id INT,
-        addon_id INT,
-        PRIMARY KEY (id, purchase_item_id, addon_id),
-        FOREIGN KEY (purchase_item_id) REFERENCES purchase_item (id),
-        FOREIGN KEY (addon_id) REFERENCES addon (id)
-    );
-
-CREATE TABLE
-    product_addon (
-        id SERIAL,
-        product_id INT,
-        addon_id INT,
-        PRIMARY KEY (id, product_id, addon_id),
-        FOREIGN KEY (product_id) REFERENCES product (id),
-        FOREIGN KEY (addon_id) REFERENCES addon (id)
-    );
-
--- POLICIES
-ALTER TABLE customer ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Enable all access for customer owned tables" ON "public"."customer"
-AS PERMISSIVE FOR ALL
-TO public
-USING (auth.uid() = id)
-WITH CHECK (auth.uid() = id);
 
 ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
 
@@ -198,24 +145,69 @@ FOR UPDATE USING (
   auth.uid() = customer_id and status <> 'COMPLETED'
 );
 
-ALTER TABLE customer_favorite ENABLE ROW LEVEL SECURITY;
+CREATE TABLE
+    purchase_item (
+        id SERIAL PRIMARY KEY,
+        purchase_id INT,
+        product_id INT null,
+        base_id INT,
+        size_id INT,
+        FOREIGN KEY (purchase_id) REFERENCES purchase (id) On delete CASCADE,
+        FOREIGN KEY (product_id) REFERENCES product (id) On delete CASCADE,
+        FOREIGN KEY (base_id) REFERENCES base (id) On delete CASCADE,
+        foreign key (size_id) references size(id) On delete CASCADE
+    );
 
-CREATE POLICY "Enable all access for customer owned tables" ON "public"."customer_favorite"
-AS PERMISSIVE FOR ALL
-TO public
-USING (auth.uid() = customer_id)
-WITH CHECK (auth.uid() = customer_id);
+CREATE TABLE
+    category (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255),
+        description TEXT,
+        image_url VARCHAR(255)
+    );
 
+CREATE TABLE
+    category_product (
+        category_id INT,
+        product_id INT,
+        PRIMARY KEY (category_id, product_id),
+        FOREIGN KEY (category_id) REFERENCES category (id) On delete CASCADE,
+        FOREIGN KEY (product_id) REFERENCES product (id) On delete CASCADE
+    );
 
+CREATE TABLE
+    addon_type (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255)
+    );
 
---ALTER TABLE purchase ENABLE ROW LEVEL SECURITY;
---
---CREATE POLICY "Allow access for authenticated user for purchase table" ON "public"."purchase"
---AS PERMISSIVE FOR SELECT
---TO public
---USING ((auth.uid() = customer_id));
+CREATE TABLE
+    addon (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255),
+        price DECIMAL(10, 2),
+        addon_type_id INT REFERENCES addon_type(id) On delete CASCADE
+    );
+   
+CREATE TABLE
+    purchase_item_addon (
+        id SERIAL,
+        purchase_item_id INT,
+        addon_id INT,
+        PRIMARY KEY (id, purchase_item_id, addon_id),
+        FOREIGN KEY (purchase_item_id) REFERENCES purchase_item (id) On delete CASCADE,
+        FOREIGN KEY (addon_id) REFERENCES addon (id) On delete CASCADE
+    );
 
-
+CREATE TABLE
+    product_addon (
+        id SERIAL,
+        product_id INT,
+        addon_id INT,
+        PRIMARY KEY (id, product_id, addon_id),
+        FOREIGN KEY (product_id) REFERENCES product (id) On delete CASCADE,
+        FOREIGN KEY (addon_id) REFERENCES addon (id) On delete CASCADE
+    );
 
 
 -- TRIGGERS

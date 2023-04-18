@@ -11,7 +11,7 @@ public class CategoryData : BaseModel
     [Column("name")]
     public string Name { get; set; }
     [Column("description")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
     [Column("image_url")]
     public string ImageUrl { get; set; }
 

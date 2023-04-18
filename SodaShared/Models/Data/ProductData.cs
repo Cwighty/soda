@@ -12,7 +12,7 @@ public class ProductData : BaseModel
     [Column("name")]
     public string Name { get; set; }
     [Column("description")]
-    public string Description { get; set; }
+    public string? Description { get; set; }
     [Column("special_price")]
     public decimal? SpecialPrice { get; set; }
     [Column("image_url")]

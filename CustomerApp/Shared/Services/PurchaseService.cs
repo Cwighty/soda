@@ -52,7 +52,8 @@ public class PurchaseService
             var checkoutInitiationResponse = JsonSerializer.Deserialize<CheckoutInitiationResponse>(content);
             return checkoutInitiationResponse;
         }
-        throw new Exception();
+        var message = await res.Content.ReadAsStringAsync();
+        throw new Exception(message);
     }
 
     public async Task<int?> CheckoutOnline(List<PurchaseItem> cartItems, DateTime pickUpTime)

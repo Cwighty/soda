@@ -15,8 +15,17 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     private Product customizedProduct;
     [ObservableProperty]
     private List<Size> productSizes;
-    [ObservableProperty]
+    
     private Size selectedProductSize;
+    public Size SelectedProductSize
+    {
+        get { return selectedProductSize; }
+        set
+        {
+            SetProperty(ref selectedProductSize, value);
+            CustomizedProduct.Size = value;
+        }
+    }
 
     [ObservableProperty]
     private List<AddOn> addOns;

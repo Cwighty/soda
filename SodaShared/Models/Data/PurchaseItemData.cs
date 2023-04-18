@@ -19,7 +19,7 @@ public class PurchaseItemData : BaseModel
 
    /* [Reference(typeof(PurchaseData), includeInQuery:false)]
     public PurchaseData? Purchase { get; set; }*/
-    [Reference(typeof(ProductData))]
+    [Reference(typeof(ProductData), shouldFilterTopLevel:false)]
     public ProductData? Product { get; set; }
     [Reference(typeof(BaseData))]
     public BaseData Base { get; set; }

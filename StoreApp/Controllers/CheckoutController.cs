@@ -87,6 +87,11 @@ public class CheckoutController : Controller
             var size = await purchaseRepo.GetSize(item.SizeId);
             totalPrice += size?.Price ?? 0;
         }
+        if (totalPrice == 0)
+        {
+            //Must pay at least 1 dollar for stripe to work
+            return 1M;
+        }
         return totalPrice;
     }
 
