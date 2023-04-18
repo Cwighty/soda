@@ -3,9 +3,6 @@ on:
   push:
     branches:
     - main
-    paths:
-    - /StoreApp/*
-    - /SodaShared/*
 env:
   AZURE_WEBAPP_NAME: StoreApp20230417144125
   AZURE_WEBAPP_PACKAGE_PATH: StoreApp/published

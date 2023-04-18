@@ -1,4 +1,5 @@
-﻿using Size = SodaShared.Models.Size;
+﻿using CustomerApp.Features.Favorites;
+using Size = SodaShared.Models.Size;
 
 namespace CustomerApp.Features.Menu;
 
@@ -7,7 +8,7 @@ public partial class ProductDetailPageViewModel : BaseViewModel
 {
     private readonly IProductService productService;
     private readonly NavigationService navigationService;
-    
+    private readonly FavoritesService favoritesService;
     [ObservableProperty]
     private Product product;
     [ObservableProperty]
@@ -35,11 +36,13 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     [ObservableProperty]
     private AddOn selectedAddOn;
 
-    public ProductDetailPageViewModel(IProductService productService, NavigationService navigationService)
+    public ProductDetailPageViewModel(IProductService productService,
+                                      NavigationService navigationService,
+                                      FavoritesService favoritesService)
     {
-        
         this.productService = productService;
         this.navigationService = navigationService;
+        this.favoritesService = favoritesService;
     }
 
     public override async Task Initialize()
@@ -89,5 +92,11 @@ public partial class ProductDetailPageViewModel : BaseViewModel
             {
                 ["IncomingProduct"] = CustomizedProduct
             });
+    }
+
+    [RelayCommand]
+    private async Task AddToFavorites()
+    {
+        await favoritesService.ToggleFavorite(Product.Id);
     }
 }

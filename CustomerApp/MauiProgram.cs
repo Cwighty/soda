@@ -48,6 +48,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<PurchaseService>();
         builder.Services.AddSingleton<NotificationService>();
         builder.Services.AddSingleton<PurchaseRepository>();
+        builder.Services.AddSingleton<FavoritesService>();
 
         var storeApiUrl = builder.Configuration["StoreAPI"];
         if (string.IsNullOrEmpty(storeApiUrl))
