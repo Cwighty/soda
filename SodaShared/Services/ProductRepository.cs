@@ -136,6 +136,7 @@ public class ProductRepository
         var baseTypeData = mapper.Map<BaseTypeData>(baseType);
         var response = await client.From<BaseTypeData>().Insert(baseTypeData, options);
         baseType.Id = response.Models.FirstOrDefault().Id;
+        await UpdateBaseType(baseType);
         return mapper.Map<BaseType>(response.Models.FirstOrDefault());
     }
 
@@ -205,6 +206,26 @@ public class ProductRepository
         var baseTypeData = mapper.Map<BaseTypeData>(baseType);
         var response = await client.From<BaseTypeData>()
             .Update(baseTypeData);
+        await UpdateBaseTypeSizes(baseType);
+    }
+
+    public async Task UpdateBaseTypeSizes(BaseType baseType)
+    {
+        //clear all existing sizes
+        await client.From<BaseTypeSizeData>()
+            .Where(bts => bts.BaseTypeId == baseType.Id)
+            .Delete();
+
+        var sizes = baseType.Sizes;
+        foreach (var s in sizes)
+        {
+            var baseTypeSize = new BaseTypeSizeData
+            {
+                SizeId = s.Id,
+                BaseTypeId = baseType.Id
+            };
+            await client.From<BaseTypeSizeData>().Insert(baseTypeSize);
+        }
     }
 
     public async Task UpdateSize(Size size)
