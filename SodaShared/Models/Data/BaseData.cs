@@ -11,7 +11,7 @@ public class BaseData : BaseModel
     [Column("name")]
     public string Name { get; set; }
     [Column("description")]
-    public string? Description { get; set; }
+    public string Description { get; set; }
     [Column("price")]
     public decimal Price { get; set; }
     [Column("type_id")]
