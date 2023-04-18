@@ -10,6 +10,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Menu\**" />
+    <Content Remove="Pages\Menu\**" />
+    <EmbeddedResource Remove="Pages\Menu\**" />
+    <None Remove="Pages\Menu\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
     <PackageReference Include="Blazorise" Version="1.2.2" />
@@ -22,10 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SodaShared\SodaShared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Pages\Menu\" />
   </ItemGroup>
 
 </Project>

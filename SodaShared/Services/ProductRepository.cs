@@ -74,6 +74,12 @@ public class ProductRepository
         return mapper.Map<List<Size>>(response.Models);
     }
 
+    public async Task<List<Category>> GetCategories()
+    {
+        var response = await client.From<CategoryData>().Get();
+        return mapper.Map<List<Category>>(response.Models);
+    }
+
     public async Task<Product> CreateProduct(Product product)
     {   
         var options = new Postgrest.QueryOptions
@@ -150,6 +156,18 @@ public class ProductRepository
         var response = await client.From<SizeData>().Insert(sizeData, options);
         size.Id = response.Models.FirstOrDefault().Id;
         return mapper.Map<Size>(response.Models.FirstOrDefault());
+    }
+
+    public async Task<Category> CreateCategory(Category category)
+    {
+        var options = new Postgrest.QueryOptions
+        {
+            Returning = Postgrest.QueryOptions.ReturnType.Representation
+        };
+        var categoryData = mapper.Map<CategoryData>(category);
+        var response = await client.From<CategoryData>().Insert(categoryData, options);
+        category.Id = response.Models.FirstOrDefault().Id;
+        return mapper.Map<Category>(response.Models.FirstOrDefault());
     }
 
     public async Task UpdateProduct(Product product)
@@ -235,6 +253,13 @@ public class ProductRepository
             .Update(sizeData);
     }
 
+    public async Task UpdateCategory(Category category)
+    {
+        var categoryData = mapper.Map<CategoryData>(category);
+        var response = await client.From<CategoryData>()
+            .Update(categoryData);
+    }
+
     public async Task DeleteProduct(Product product)
     {
         var data = mapper.Map<ProductData>(product);
@@ -269,6 +294,12 @@ public class ProductRepository
     {
         var data = mapper.Map<SizeData>(size);
         await client.From<SizeData>().Delete(data);
+    }
+
+    public async Task DeleteCategory(Category category)
+    {
+        var data = mapper.Map<CategoryData>(category);
+        await client.From<CategoryData>().Delete(data);
     }
 
     public async Task<string> AddImage(byte[] image)

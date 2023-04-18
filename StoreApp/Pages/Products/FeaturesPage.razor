@@ -1,0 +1,156 @@
+﻿@page "/features"
+@using Microsoft.AspNetCore.Components.Forms
+@using SodaShared.Models;
+@using SodaShared.Services;
+@using Blazorise
+@using StoreApp.Components
+@inject ProductRepository ProductService
+
+<h1>Featured Categories</h1>
+
+<div class="row">
+    <div class="col-12">
+        <button class="btn btn-primary my-3" @onclick="ShowAddCategoryModal">Add New Featured Category</button>
+    </div>
+</div>
+@if (categories != null)
+{
+
+    <div class="row">
+        @foreach (var category in categories)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">@category.Name</h5>
+                        <p class="mt-2 mb-0"><b>Products:</b></p>
+                        <div>
+                            @foreach (var product in category.Products)
+                            {
+                                <span class="badge badge-pill badge-info">@product.Name</span>
+                            }
+                        </div>
+                        <hr />
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-outline-primary" @onclick="() => ShowEditCategoryModal(category)"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-outline-danger" @onclick="() => DeleteCategory(category)"><i class="bi bi-trash"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+    <Modal Title="@modalTitle" @ref="categoryModal">
+        <ModalContent Centered>
+        <ModalBody>
+            <EditForm Model="@editCategory">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <InputText class="form-control" @bind-Value="@editCategory.Name" />
+                </div>
+                <div class="form-group">
+                    <label for="addOns">Products:</label>
+                    <div class="row mx-1 p-0">
+                        <select class="col-10 me-4 form-control" @bind="selectedProduct">
+                            <option value="">--Select a Product--</option>
+                            @foreach (var product in products)
+                                {
+                                    <option value="@product.Id">@product.Name</option>
+                                }
+                            </select>
+                            <button class="col-1 btn btn-primary" @onclick="AddProduct"><i class="bi bi-plus"></i></button>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        @foreach (var product in editCategory.Products)
+                        {
+                            <li class="list-group-item">@product.Name<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveProduct(product)">Remove</button></li>
+                        }
+                    </ul>
+                </EditForm>
+            </ModalBody>
+            <ModalFooter>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="SaveCategory">Save</button>
+                    <button class="btn btn-secondary" @onclick="HideCategoryModal">Cancel</button>
+                </div>
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
+}
+
+@code {
+    List<Category> categories;
+    List<Product> products;
+    int selectedProduct;
+    Category editCategory = new Category();
+    Modal? categoryModal;
+    string? modalTitle;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await ProductService.GetCategories();
+        products = await ProductService.GetProducts();
+    }
+
+    private void ShowAddCategoryModal()
+    {
+        modalTitle = "Add New Add-On";
+        editCategory = new Category();
+        categoryModal.Show();
+    }
+
+    private void ShowEditCategoryModal(Category category)
+    {
+        modalTitle = "Edit Add-On";
+        editCategory = category.Clone();
+        categoryModal.Show();
+    }
+
+    private async Task SaveCategory()
+    {
+        if (editCategory.Id == 0)
+        {
+            await ProductService.CreateCategory(editCategory);
+            categories.Add(editCategory);
+        }
+        else
+        {
+            await ProductService.UpdateCategory(editCategory);
+            var index = categories.FindIndex(p => p.Id == editCategory.Id);
+            categories[index] = editCategory;
+            await OnInitializedAsync();
+            StateHasChanged();
+        }
+        await categoryModal.Hide();
+    }
+
+    private async Task DeleteCategory(Category category)
+    {
+        await ProductService.DeleteCategory(category);
+        categories.Remove(category);
+    }
+
+    private void AddProduct()
+    {
+        var product = products.Where(s => s.Id == selectedProduct).FirstOrDefault();
+        if (selectedProduct != null && !editCategory.Products.Contains(product))
+        {
+            editCategory.Products.Add(product);
+            selectedProduct = 0;
+        }
+    }
+
+    private void RemoveProduct(Product product)
+    {
+        editCategory.Products.Remove(product);
+    }
+
+    private void HideCategoryModal()
+    {
+        categoryModal.Hide();
+    }
+}
