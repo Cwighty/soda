@@ -14,5 +14,8 @@ public class CustomerData : BaseModel
     public string Email { get; set; }
     [Column("phone")]
     public string Phone { get; set; }
+
+    [Reference(typeof(ProductData), shouldFilterTopLevel:false)]
+    public List<ProductData> Favorites { get; set; }
 }
 

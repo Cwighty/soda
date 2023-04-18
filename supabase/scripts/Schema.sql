@@ -92,6 +92,15 @@ CREATE TABLE
     );
 
 CREATE TABLE
+    customer_favorite (
+		customer_id uuid,
+		product_id INT,
+		PRIMARY KEY (customer_id, product_id),
+		FOREIGN KEY (customer_id) REFERENCES customer (id),
+		FOREIGN KEY (product_id) REFERENCES product (id)
+	);
+
+CREATE TABLE
     purchase (
         id SERIAL PRIMARY KEY,
         customer_id uuid null,
@@ -326,6 +335,14 @@ FOR UPDATE USING (
 ) WITH CHECK (
   auth.uid() = customer_id and status <> 'COMPLETED'
 );
+
+ALTER TABLE customer_favorite ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable all access for customer owned tables" ON "public"."customer_favorite"
+AS PERMISSIVE FOR ALL
+TO public
+USING (auth.uid() = customer_id)
+WITH CHECK (auth.uid() = customer_id);
 
 
 

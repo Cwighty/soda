@@ -151,10 +151,18 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </VerticalStackLayout>
-        <Button IsVisible="{Binding IsNotBusy}"
-                Text="Add To Cart"
-                Command="{Binding AddToCartCommand}"
-                Grid.Row="5"
-                HorizontalOptions="CenterAndExpand" />
+        <Grid Grid.Row="5"
+              ColumnDefinitions="*,*">
+            <Button IsVisible="{Binding IsNotBusy}"
+                    Grid.Column="0"
+                    Text="Add To Favorites"
+                    Command="{Binding AddToFavoritesCommand}"
+                    HorizontalOptions="CenterAndExpand" />
+            <Button IsVisible="{Binding IsNotBusy}"
+                    Grid.Column="1"
+                    Text="Add To Cart"
+                    Command="{Binding AddToCartCommand}"
+                    HorizontalOptions="CenterAndExpand" />
+        </Grid>
     </Grid>
 </views:BasePage>
