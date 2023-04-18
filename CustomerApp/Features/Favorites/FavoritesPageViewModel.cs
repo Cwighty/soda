@@ -20,6 +20,7 @@ public partial class FavoritesPageViewModel : BaseViewModel
     {
         if (!userService.IsLoggedIn()) 
         {
+            await navigationService.ClearStack();
             await navigationService.GoTo("///ProfilePage");
             return;
         }
