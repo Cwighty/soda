@@ -10,7 +10,7 @@
 
 <div class="row">
     <div class="col-12">
-        <button class="btn btn-primary my-4" @onclick="ShowAddAddOnTypeModal">Add New Add-On Category</button>
+        <button class="btn btn-primary" @onclick="ShowAddAddOnTypeModal">Add New Add-On Category</button>
     </div>
 </div>
 @if (addOnTypes != null)
@@ -19,7 +19,7 @@
     <div class="row">
         @foreach (var addOnType in addOnTypes)
         {
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <div class="col-lg-3 col-md-4 col-sm-6 my-3">
                 <div class="card shadow">
                     <div class="card-body">
                         <h5 class="card-title">@addOnType.Name</h5>
@@ -55,11 +55,11 @@
 </Modal>
 }
 
-<h1 class="mb-3 mt-5">Add-Ons</h1>
+<h1 class="mt-5">Add-Ons</h1>
 
 <div class="row">
     <div class="col-12">
-        <button class="btn btn-primary my-4" @onclick="ShowAddAddOnModal">Add New Add On</button>
+        <button class="btn btn-primary" @onclick="ShowAddAddOnModal">Add New Add On</button>
     </div>
 </div>
 @if (addOns != null)
@@ -68,7 +68,7 @@
     <div class="row">
         @foreach (var addOn in addOns)
         {
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+            <div class="col-lg-3 col-md-4 col-sm-6 my-3">
                 <div class="card shadow">
                     <div class="card-body">
                         <h5 class="card-title">@addOn.Name</h5>
@@ -77,8 +77,12 @@
                         </div>
                         <hr />
                         <div class="d-flex justify-content-between mt-3">
-                            <button class="btn btn-outline-primary" @onclick="() => ShowEditAddOnModal(addOn)"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline-danger" @onclick="() => DeleteAddOn(addOn)"><i class="bi bi-trash"></i></button>
+                            <button class="btn btn-outline-primary" @onclick="() => ShowEditAddOnModal(addOn)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-outline-danger" @onclick="() => DeleteAddOn(addOn)">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
