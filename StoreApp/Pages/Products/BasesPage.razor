@@ -4,6 +4,7 @@
 @using SodaShared.Services;
 @using Blazorise
 @using StoreApp.Components
+@using Size = SodaShared.Models.Size;
 @inject ProductRepository ProductService
 
 <h1>Drink Base Categories</h1>
@@ -24,6 +25,14 @@
                     <div class="card-body">
                         <h5 class="card-title">@baseType.Name</h5>
                         <hr />
+                        <p class="mt-2 mb-0"><b>Sizes:</b></p>
+                        <div>
+                            @foreach (var size in baseType.Sizes)
+                            {
+                                <span class="badge badge-pill badge-info">@size.Name</span>
+                            }
+                        </div>
+                        <hr />
                         <div class="d-flex justify-content-between mt-3">
                             <button class="btn btn-outline-primary" @onclick="() => ShowEditBaseTypeModal(baseType)"><i class="bi bi-pencil"></i></button>
                             <button class="btn btn-outline-danger" @onclick="() => DeleteBaseType(baseType)"><i class="bi bi-trash"></i></button>
@@ -43,6 +52,25 @@
                     <label for="name">Name:</label>
                     <InputText class="form-control" @bind-Value="@editBaseType.Name" />
                 </div>
+                <div class="form-group">
+                    <label for="addOns">Sizes:</label>
+                    <div class="row mx-1 p-0">
+                        <select class="col-10 me-4 form-control" @bind="selectedSize">
+                            <option value="">--Select a Size--</option>
+                            @foreach (var size in sizes)
+                            {
+                                <option value="@size.Id">@size.Name - @size.Price</option>
+                            }
+                            </select>
+                            <button class="col-1 btn btn-primary" @onclick="AddSize"><i class="bi bi-plus"></i></button>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        @foreach (var size in editBaseType.Sizes)
+                        {
+                            <li class="list-group-item">@size.Name - @size.Price<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveSize(size)">Remove</button></li>
+                        }
+                    </ul>
             </EditForm>
         </ModalBody>
         <ModalFooter>
@@ -129,6 +157,8 @@
 @code {
     List<Base> drinkBases;
     List<BaseType> baseTypes;
+    List<Size> sizes;
+    int selectedSize;
     Base editDrinkBase = new Base();
     BaseType editBaseType = new BaseType();
     Modal? drinkBaseModal;
@@ -140,6 +170,7 @@
     {
         drinkBases = await ProductService.GetBases();
         baseTypes = await ProductService.GetBaseTypes();
+        sizes = await ProductService.GetSizes();
     }
 
     private void ShowAddDrinkBaseModal()
@@ -178,6 +209,21 @@
     {
         await ProductService.DeleteBase(drinkBase);
         drinkBases.Remove(drinkBase);
+    }
+
+    private void AddSize()
+    {
+        var size = sizes.Where(s => s.Id == selectedSize).FirstOrDefault();
+        if (selectedSize != null && !editBaseType.Sizes.Contains(size))
+        {
+            editBaseType.Sizes.Add(size);
+            selectedSize = 0;
+        }
+    }
+
+    private void RemoveSize(Size size)
+    {
+        editBaseType.Sizes.Remove(size);
     }
 
     private void HideDrinkBaseModal()
