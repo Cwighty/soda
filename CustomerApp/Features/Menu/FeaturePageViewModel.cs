@@ -48,9 +48,9 @@ public partial class FeaturePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task GoToCart()
+    private async Task GoToFavorites()
     {
-        await navigationService.GoTo("///CartPage");
+        await navigationService.GoTo(nameof(FavoritesPage));
     }
 
 
