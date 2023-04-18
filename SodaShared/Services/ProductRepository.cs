@@ -167,6 +167,7 @@ public class ProductRepository
         var categoryData = mapper.Map<CategoryData>(category);
         var response = await client.From<CategoryData>().Insert(categoryData, options);
         category.Id = response.Models.FirstOrDefault().Id;
+        await UpdateCategory(category);
         return mapper.Map<Category>(response.Models.FirstOrDefault());
     }
 
@@ -258,6 +259,25 @@ public class ProductRepository
         var categoryData = mapper.Map<CategoryData>(category);
         var response = await client.From<CategoryData>()
             .Update(categoryData);
+        await UpdateCategoryProducts(category);
+    }
+
+    public async Task UpdateCategoryProducts(Category category)
+    {
+        //clear all existing products
+        await client.From<CategoryProductData>()
+            .Where(cp => cp.CategoryId == category.Id)
+            .Delete();
+        var products = category.Products;
+        foreach (var p in products)
+        {
+            var categoryProduct = new CategoryProductData
+            {
+                CategoryId = category.Id,
+                ProductId = p.Id
+            };
+            await client.From<CategoryProductData>().Insert(categoryProduct);
+        }
     }
 
     public async Task DeleteProduct(Product product)

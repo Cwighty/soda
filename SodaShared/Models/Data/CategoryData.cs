@@ -15,7 +15,7 @@ public class CategoryData : BaseModel
     [Column("image_url")]
     public string ImageUrl { get; set; }
 
-    [Reference(typeof(ProductData))]
+    [Reference(typeof(ProductData), shouldFilterTopLevel:false)]
     public List<ProductData> Products { get; set; }
 }
 
