@@ -6,9 +6,10 @@ using SodaShared.Services;
 using StoreApp.Services;
 using Stripe;
 using Supabase;
+using System.Globalization;
 
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
 var builder = WebApplication.CreateBuilder(args);
-
 Console.WriteLine(Environment.GetEnvironmentVariable("VS_TUNNEL_URL"));
 
 // Add services to the container.
