@@ -10,13 +10,14 @@
     <Grid RowDefinitions="auto, *">
         <Grid ColumnDefinitions="*,auto"
               Grid.Row="0">
-            <Label Text="Welcome!"
+            <Label Text="Featured"
                    Style="{StaticResource LabelHeaderStyle}"
+                   Grid.Row="0"
                    Grid.Column="0" />
             <ImageButton Source="heart_filled.png"
                          Grid.Column="1"
-                         MaximumWidthRequest="40"
-                         MaximumHeightRequest="40"
+                         WidthRequest="40"
+                         HeightRequest="40"
                          Command="{Binding GoToFavoritesCommand}" />
         </Grid>
         <ScrollView VerticalOptions="FillAndExpand"
