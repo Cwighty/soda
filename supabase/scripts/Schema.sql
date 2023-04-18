@@ -160,6 +160,7 @@ CREATE TABLE
     purchase_item_addon (
         purchase_item_id INT,
         addon_id INT,
+        quantity INT,
         PRIMARY KEY (purchase_item_id, addon_id),
         FOREIGN KEY (purchase_item_id) REFERENCES purchase_item (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
@@ -169,149 +170,11 @@ CREATE TABLE
     product_addon (
         product_id INT,
         addon_id INT,
+        quantity INT,
         PRIMARY KEY (product_id, addon_id),
         FOREIGN KEY (product_id) REFERENCES product (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
     );
-
-INSERT INTO 
-    size (name, price, img)
-VALUES
-    ('Small', 0, 'drink_small.png'),
-    ('Medium', 0.50, 'drink_medium.png'),
-    ('Large', 1.00, 'drink_large.png');
-
-INSERT INTO
-    base_type (name)
-VAlUES
-    ('Soda'),
-    ('Coffee'),
-    ('Tea');
-
-INSERT INTO 
-    base_type_size (base_type_id, size_id)
-VALUES
-    (1, 1),
-    (1, 2),
-    (1, 3);
-
--- sample data for the base table (assuming it already exists and has been populated)
-INSERT INTO
-    base (name, description, price, type_id)
-VALUES
-    (
-        'Cola',
-        'Classic carbonated soft drink with caffeine',
-        1.99,
-        1
-    ),
-    (
-        'Lemon-Lime',
-        'Citrus-flavored carbonated soft drink',
-        1.99,
-        1
-    ),
-    (
-        'Ginger Ale',
-        'Carbonated soft drink with ginger flavor',
-        1.99,
-        1
-    );
-
--- sample data for the product table
-INSERT INTO
-    product (
-        base_id,
-        name,
-        description,
-        special_price,
-        image_url
-    )
-VALUES
-    (
-        1,
-        'Classic Cola',
-        'A classic carbonated soft drink with caffeine',
-        1.99,
-        'https://example.com/cola.jpg'
-    ),
-    (
-        2,
-        'Lemon-Lime Twist',
-        'A citrusy twist on a classic carbonated soft drink',
-        2.49,
-        'https://example.com/lemon-lime.jpg'
-    ),
-    (
-        3,
-        'Ginger Ale Splash',
-        'A refreshing ginger-flavored carbonated soft drink',
-        2.99,
-        'https://example.com/ginger-ale.jpg'
-    );
-
--- sample data for the addon_type table
-INSERT INTO
-    addon_type (name)
-VALUES
-    ('Syrup'),
-    ('Coffee'),
-    ('Tea'),
-    ('Milk'),
-    ('Ice');
-
--- sample data for the addon table
-INSERT INTO
-    addon (name, price, addon_type_id)
-VALUES
-    ('Whipped Cream', 0.50, 5),
-    ('Caramel Drizzle', 0.75, 2),
-    ('Chocolate Syrup', 0.75, 2),
-    ('Vanilla Syrup', 0.50, 2),
-    ('Strawberry Syrup', 0.75, 2);
-
--- sample data for the product_addon table
-INSERT INTO
-    product_addon (product_id, addon_id)
-VALUES
-    (1, 1),
-    (1, 2),
-    (2, 1),
-    (2, 3),
-    (3, 2),
-    (3, 4),
-    (3, 5);
-
--- Insert sample data into the special table
-INSERT INTO
-    category (name, description, image_url)
-VALUES
-    (
-        'Summer Special',
-        'Beat the heat with our refreshing summer drinks!',
-        'https://example.com/summer-special.jpg'
-    ),
-    (
-        'Winter Special',
-        'Warm up with our cozy winter drinks!',
-        'https://example.com/winter-special.jpg'
-    ),
-    ('Popular', 'The most popular!', NULL);
-
--- Insert sample data into the special_product table
-INSERT INTO
-    category_product (category_id, product_id)
-VALUES
-    (1, 2),
-    (1, 3),
-    (2, 1),
-    (2, 3),
-    (3, 1),
-    (3, 2);
-
-
-
-
 
 -- POLICIES
 ALTER TABLE customer ENABLE ROW LEVEL SECURITY;
@@ -356,7 +219,6 @@ WITH CHECK (auth.uid() = customer_id);
 
 
 
-
 -- TRIGGERS
 create function public.handle_new_user() 
 returns trigger as $$
@@ -369,3 +231,52 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
+
+
+
+
+
+CREATE OR REPLACE FUNCTION increment_quantity_product_addon()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- check if there is a collision
+    IF EXISTS (SELECT 1 FROM product_addon WHERE addon_id = NEW.addon_id and product_id = NEW.product_id) THEN
+        -- if there is a collision, increment the quantity
+        UPDATE product_addon
+        SET quantity = quantity + 1
+        WHERE addon_id = NEW.addon_id and product_id = NEW.product_id;
+        RETURN NULL;
+    END IF;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER increment_quantity_product_addon
+BEFORE INSERT ON product_addon
+FOR EACH ROW
+EXECUTE FUNCTION increment_quantity_product_addon();
+
+
+
+
+CREATE OR REPLACE FUNCTION increment_quantity_purchase_item_addon()
+RETURNS TRIGGER AS $$
+BEGIN
+    -- check if there is a collision
+    IF EXISTS (SELECT 1 FROM purchase_item_addon WHERE addon_id = NEW.addon_id and purchase_item_id = NEW.purchase_item_id) THEN
+        -- if there is a collision, increment the quantity
+        UPDATE purchase_item_addon
+        SET quantity = quantity + 1
+        WHERE addon_id = NEW.addon_id and purchase_item_id = NEW.purchase_item_id;
+        RETURN NULL;
+    END IF;
+    
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER increment_quantity_purchase_item_addon
+BEFORE INSERT ON purchase_item_addon
+FOR EACH ROW
+EXECUTE FUNCTION increment_quantity_purchase_item_addon();

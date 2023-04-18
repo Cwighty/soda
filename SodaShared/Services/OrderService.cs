@@ -31,7 +31,14 @@ public class OrderService
     }
     public async Task<int> GetOrderCount()
     {
-        var orders = await GetOrders();
-        return orders.Where(o => o.Status == "IN PROGRESS").Count();
+        try
+        {
+            var orders = await GetOrders();
+            return orders.Where(o => o.Status == "IN PROGRESS").Count();
+        }
+        catch
+        {
+            return 0;
+        }
     }
 }
