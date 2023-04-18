@@ -67,7 +67,7 @@
                                                                     Value="{StaticResource White}" />
                                                             <Setter TargetName="ChipBorderView"
                                                                     Property="Border.Background"
-                                                                    Value="{StaticResource TertiaryBrush}" />
+                                                                    Value="{StaticResource PrimaryBrush}" />
                                                         </VisualState.Setters>
                                                     </VisualState>
                                                     <VisualState x:Name="Unchecked">
@@ -84,18 +84,13 @@
                                             </VisualStateGroupList>
                                         </VisualStateManager.VisualStateGroups>
                                         <Border StrokeThickness="0"
-                                                x:Name="ChipBorderView"
-                                                HeightRequest="90"
-                                                WidthRequest="90">
+                                                x:Name="ChipBorderView">
                                             <Border.StrokeShape>
                                                 <RoundRectangle CornerRadius="25" />
                                             </Border.StrokeShape>
                                             <VerticalStackLayout Margin="15"
                                                                  VerticalOptions="End"
                                                                  Spacing="2">
-                                                <Image VerticalOptions="CenterAndExpand"
-                                                       Source="{Binding Source={RelativeSource AncestorType={x:Type models:Size}, AncestorLevel=1}, Path=Path}">
-                                                </Image>
                                                 <Label Text="{Binding Source={RelativeSource AncestorType={x:Type models:Size}, AncestorLevel=1}, Path=Name}"
                                                        x:Name="CategoryLabel"
                                                        HorizontalTextAlignment="Center"

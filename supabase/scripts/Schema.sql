@@ -56,8 +56,7 @@ CREATE TABLE
     size (
         id SERIAL primary key,
         name varchar(15),
-        price DECIMAl(10, 2),
-        img varchar(250)
+        price DECIMAl(10, 2)
     );
 
 CREATE TABLE
@@ -158,20 +157,20 @@ CREATE TABLE
    
 CREATE TABLE
     purchase_item_addon (
+        id SERIAL,
         purchase_item_id INT,
         addon_id INT,
-        quantity INT,
-        PRIMARY KEY (purchase_item_id, addon_id),
+        PRIMARY KEY (id, purchase_item_id, addon_id),
         FOREIGN KEY (purchase_item_id) REFERENCES purchase_item (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
     );
 
 CREATE TABLE
     product_addon (
+        id SERIAL,
         product_id INT,
         addon_id INT,
-        quantity INT,
-        PRIMARY KEY (product_id, addon_id),
+        PRIMARY KEY (id, product_id, addon_id),
         FOREIGN KEY (product_id) REFERENCES product (id),
         FOREIGN KEY (addon_id) REFERENCES addon (id)
     );
@@ -231,52 +230,3 @@ $$ language plpgsql security definer;
 create trigger on_auth_user_created
   after insert on auth.users
   for each row execute procedure public.handle_new_user();
-
-
-
-
-
-CREATE OR REPLACE FUNCTION increment_quantity_product_addon()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- check if there is a collision
-    IF EXISTS (SELECT 1 FROM product_addon WHERE addon_id = NEW.addon_id and product_id = NEW.product_id) THEN
-        -- if there is a collision, increment the quantity
-        UPDATE product_addon
-        SET quantity = quantity + 1
-        WHERE addon_id = NEW.addon_id and product_id = NEW.product_id;
-        RETURN NULL;
-    END IF;
-    
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER increment_quantity_product_addon
-BEFORE INSERT ON product_addon
-FOR EACH ROW
-EXECUTE FUNCTION increment_quantity_product_addon();
-
-
-
-
-CREATE OR REPLACE FUNCTION increment_quantity_purchase_item_addon()
-RETURNS TRIGGER AS $$
-BEGIN
-    -- check if there is a collision
-    IF EXISTS (SELECT 1 FROM purchase_item_addon WHERE addon_id = NEW.addon_id and purchase_item_id = NEW.purchase_item_id) THEN
-        -- if there is a collision, increment the quantity
-        UPDATE purchase_item_addon
-        SET quantity = quantity + 1
-        WHERE addon_id = NEW.addon_id and purchase_item_id = NEW.purchase_item_id;
-        RETURN NULL;
-    END IF;
-    
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE TRIGGER increment_quantity_purchase_item_addon
-BEFORE INSERT ON purchase_item_addon
-FOR EACH ROW
-EXECUTE FUNCTION increment_quantity_purchase_item_addon();
