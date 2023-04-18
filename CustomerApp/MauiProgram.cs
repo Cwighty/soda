@@ -1,13 +1,10 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Logging;
 using MonkeyCache.FileStore;
 using Plugin.LocalNotification;
 using SodaShared.Mappers;
-using SodaShared.Services;
 using Supabase;
-using System;
 using System.Reflection;
 
 namespace CustomerApp;
@@ -109,5 +106,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<OrderHistoryPageViewModel>();
         builder.Services.AddSingleton<OrderProcessedPage>();
         builder.Services.AddSingleton<OrderProcessedPageViewModel>();
+        builder.Services.AddSingleton<FavoritesPage>();
+        builder.Services.AddSingleton<FavoritesPageViewModel>();
     }
 }

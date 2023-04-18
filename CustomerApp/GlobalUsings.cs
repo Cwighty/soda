@@ -14,6 +14,7 @@ global using CommunityToolkit.Mvvm.Input;
 global using CustomerApp.Features.Menu;
 global using CustomerApp.Features.Menu.Controls;
 global using CustomerApp.Features.Cart;
+global using CustomerApp.Features.Favorites;
 global using SodaShared.Models;
 global using SodaShared.Models.Data;
 global using SodaShared.Services;

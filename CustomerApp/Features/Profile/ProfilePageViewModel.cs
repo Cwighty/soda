@@ -66,4 +66,10 @@ public partial class ProfilePageViewModel : BaseViewModel
     {
         await navigationService.GoTo(nameof(OrderHistoryPage));
     }
+
+    [RelayCommand]
+    private async Task GoToFavorites()
+    {
+        await navigationService.GoTo(nameof(FavoritesPage));
+    }
 }

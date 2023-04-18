@@ -1,4 +1,6 @@
-﻿namespace CustomerApp;
+﻿using CustomerApp.Features.Favorites;
+
+namespace CustomerApp;
 
 public partial class AppShell : Shell
 {
@@ -14,5 +16,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(OrderProcessedPage), typeof(OrderProcessedPage));
         Routing.RegisterRoute(nameof(ProfileDetailsPage), typeof(ProfileDetailsPage));
         Routing.RegisterRoute(nameof(OrderHistoryPage), typeof(OrderHistoryPage));
+        Routing.RegisterRoute(nameof(FavoritesPage), typeof(FavoritesPage));
     }
 }

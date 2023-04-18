@@ -40,6 +40,19 @@
         <Frame
                Padding="10">
             <Grid ColumnDefinitions="auto,*">
+                <Label Text="Favorites"
+                       FontFamily="MontserratRegular" />
+                <Image Source="right_arrow.png"
+                       Grid.Column="1"
+                       HorizontalOptions="End"
+                       WidthRequest="20" />
+            </Grid>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToFavoritesCommand}" />
+            </Frame.GestureRecognizers>
+        </Frame>
+        <Frame Padding="10">
+            <Grid ColumnDefinitions="auto,*">
                 <Label Text="Order History"
                        FontFamily="MontserratRegular" />
                 <Image Source="right_arrow.png"
