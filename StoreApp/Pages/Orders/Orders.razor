@@ -20,19 +20,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var statusGroup in Purchases.GroupBy(p => p.Status).OrderByDescending(g => g.Key.ToLower() == "completed"))
+                        @foreach (var statusGroup in Purchases.GroupBy(p => p.Status).OrderByDescending(g => g.Key == OrderStatus.IN_PROGRESS.ToFriendlyString()))
                         {
                             <tr>
                                 <td colspan="6" class="status"><b>@statusGroup.Key</b></td>
                             </tr>
-                            @foreach (var purchase in statusGroup.OrderByDescending(p => p.CompletedAt).ThenByDescending(p => p.CreatedAt))
+                            @foreach (var purchase in statusGroup.OrderBy(p => p.CompletedAt).ThenByDescending(p => p.CreatedAt))
                             {
                                 <tr>
                                     <td>@purchase.Id</td>
                                     <td>@purchase.Status</td>
                                     <td>@purchase.CreatedAt</td>
                                     <td>@purchase.SubTotal?.ToString("C")</td>
-                                    <td>@purchase.Customer?.Name</td>
+                                    @if (purchase.Customer != null)
+                                    {
+                                        <td>@purchase.Customer?.Name</td>
+                                    }
+                                    else
+                                    {
+                                        <td>Guest</td>
+                                    }
                                     <td>
                                         <ul>
                                             @foreach (var item in purchase.PurchaseItems)
@@ -53,9 +60,14 @@
                                         </ul>
                                     </td>
                                     <td>
-                                        @if (purchase.Status.ToLower() != "completed")
+                                        @if (purchase.Status == OrderStatus.COMPLETED.ToFriendlyString() || purchase.Status == OrderStatus.CANCELLED.ToFriendlyString())
                                         {
-                                            <button class="btn btn-primary" @onclick="() => CompletePurchase(purchase.Id)">Mark as Complete</button>
+                                            <button class="btn btn-primary mx-2" @onclick="() => ReopenPurchase(purchase.Id)">Reopen</button>
+                                        }
+                                        @if (purchase.Status == OrderStatus.IN_PROGRESS.ToFriendlyString())
+                                        {
+                                            <button class="btn btn-primary mx-2" @onclick="() => CompletePurchase(purchase.Id)">Mark as Complete</button>
+                                            <button class="btn btn-danger mx-2" @onclick="() => CancelPurchase(purchase.Id)">Cancel</button>
                                         }
                                     </td>
                                 </tr>
@@ -86,6 +98,17 @@
     private async Task CompletePurchase(int purchaseId)
     {
         var purchase = orderService.MarkOrderComplete(purchaseId);
+        await LoadPurchases(); // Reload the purchases to update the UI
+    }
+
+    private async Task CancelPurchase(int purchaseId)
+    {
+        var purchase = orderService.CancelOrder(purchaseId);
+        await LoadPurchases(); // Reload the purchases to update the UI
+    }
+    private async Task ReopenPurchase(int purchaseId)
+    {
+        var purchase = orderService.ReopenOrder(purchaseId);
         await LoadPurchases(); // Reload the purchases to update the UI
     }
 }
