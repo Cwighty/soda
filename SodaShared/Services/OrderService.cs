@@ -23,18 +23,31 @@ public class OrderService
     {
         
         var order = await client.From<PurchaseData>().Where(p => p.Id == orderId).Single();
-        order!.Status = "COMPLETED";
+        order!.Status = OrderStatus.COMPLETED.ToFriendlyString();
         order!.CompletedAt = DateTime.Now;
         await client.From<PurchaseData>().Update(order);
-
-        //send notifications
     }
+    public async Task CancelOrder(int orderId)
+    {
+        var order = await client.From<PurchaseData>().Where(p => p.Id == orderId).Single();
+        order!.Status = OrderStatus.CANCELLED.ToFriendlyString();
+        await client.From<PurchaseData>().Update(order);
+    }
+
+    public async Task ReopenOrder(int orderId)
+    {
+        var order = await client.From<PurchaseData>().Where(p => p.Id == orderId).Single();
+        order!.Status = OrderStatus.IN_PROGRESS.ToFriendlyString();
+        order!.CompletedAt = null;
+        await client.From<PurchaseData>().Update(order);
+    }
+
     public async Task<int> GetOrderCount()
     {
         try
         {
             var orders = await GetOrders();
-            return orders.Where(o => o.Status == "IN PROGRESS").Count();
+            return orders.Where(o => o.Status == OrderStatus.IN_PROGRESS.ToFriendlyString()).Count();
         }
         catch
         {
