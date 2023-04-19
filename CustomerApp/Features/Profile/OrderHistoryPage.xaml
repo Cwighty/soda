@@ -14,7 +14,7 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout>
-                        <Grid RowDefinitions="auto,auto,auto"
+                        <Grid RowDefinitions="auto,auto,auto,auto"
                               ColumnDefinitions="auto,*"
                               RowSpacing="10"
                               Margin="10,20">
@@ -31,6 +31,10 @@
                                    FontFamily="MontserratRegular" />
                             <Label Text="{Binding Status, StringFormat='Status: {0}'}"
                                    Grid.Row="2"
+                                   Grid.Column="1"
+                                   FontFamily="MontserratRegular" />
+                            <Label Text="{Binding TotalPaid, StringFormat='Paid: {0:C}'}"
+                                   Grid.Row="3"
                                    Grid.Column="1"
                                    FontFamily="MontserratRegular" />
                         </Grid>
