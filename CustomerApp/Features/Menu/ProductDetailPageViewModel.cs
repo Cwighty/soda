@@ -15,6 +15,8 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     private Product customizedProduct;
     [ObservableProperty]
     private List<Size> productSizes;
+    [ObservableProperty]
+    private string isFavoriteImg;
     
     private Size selectedProductSize;
     public Size SelectedProductSize
@@ -48,7 +50,9 @@ public partial class ProductDetailPageViewModel : BaseViewModel
             IsBusy = true;
             AddOns = await productService.GetAddOns();
             ProductSizes = Product.Base.BaseType.Sizes.ToList();
-            CustomizedProduct = Product;
+            if (Product != null)
+                CustomizedProduct = Product;
+            await UpdateFavoriteImage();
         }
         finally
         {
@@ -94,5 +98,19 @@ public partial class ProductDetailPageViewModel : BaseViewModel
     private async Task AddToFavorites()
     {
         await favoritesService.ToggleFavorite(Product.Id);
+        await UpdateFavoriteImage();
+    }
+
+    private async Task UpdateFavoriteImage()
+    {
+        var isFav = await favoritesService.IsFavorite(Product.Id);
+        if (isFav)
+        {
+            IsFavoriteImg = "heart_filled.png";
+        }
+        else
+        {
+            IsFavoriteImg = "heart.png";
+        }
     }
 }

@@ -13,11 +13,22 @@
                            IsVisible="{Binding IsBusy}"
                            VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" />
-        <Label Text="{Binding Product.Name}"
+        <Grid Grid.Row="0" ColumnDefinitions="auto, *">
+
+            <Label Text="{Binding Product.Name}"
                IsVisible="{Binding IsNotBusy}"
                Margin="0"
-               Grid.Row="0"
                Style="{StaticResource LabelHeaderStyle}" />
+            <ImageButton IsEnabled="{Binding IsNotBusy}"
+                    Grid.Column="1"
+                    Aspect="AspectFit"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                    Source="{Binding IsFavoriteImg}"
+                    Command="{Binding AddToFavoritesCommand}"
+                         HorizontalOptions="End"
+                     />
+        </Grid>
         <Frame IsVisible="{Binding IsNotBusy}"
                Grid.Row="1"
                BorderColor="Transparent"
@@ -148,12 +159,8 @@
         </VerticalStackLayout>
         <Grid Grid.Row="5"
               ColumnDefinitions="*,*">
-            <Button IsVisible="{Binding IsNotBusy}"
-                    Grid.Column="0"
-                    Text="Add To Favorites"
-                    Command="{Binding AddToFavoritesCommand}"
-                    HorizontalOptions="CenterAndExpand" />
-            <Button IsVisible="{Binding IsNotBusy}"
+           
+            <Button IsEnabled="{Binding IsNotBusy}"
                     Grid.Column="1"
                     Text="Add To Cart"
                     Command="{Binding AddToCartCommand}"
