@@ -44,5 +44,17 @@ public partial class FavoritesPageViewModel : BaseViewModel
     public async Task ToggleFavorite(Product product)
     {
         await favoritesService.ToggleFavorite(product.Id);
+        await Initialize();
+    }
+
+    [RelayCommand]
+    public async Task GoToDetails(Product product)
+    {
+        var route = $"///MenuPage/{nameof(ProductDetailPage)}";
+        await navigationService.GoTo(route,
+            new Dictionary<string, object>()
+            {
+                ["Product"] = product
+            });
     }
 }

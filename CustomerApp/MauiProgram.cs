@@ -29,7 +29,7 @@ public static class MauiProgram
 
         LoadAppsettingsIntoConfig(builder);
 
-        Barrel.ApplicationId = "MonkeyCash1";
+        Barrel.ApplicationId = "MonkeyCash2";
         var supabaseURL = builder.Configuration["SupabaseURL"];
         var anonKey = builder.Configuration["SupabaseAnonKey"];
 
@@ -41,7 +41,8 @@ public static class MauiProgram
             AutoConnectRealtime = true,
         };
         builder.Services.AddSingleton(new Supabase.Client(supabaseURL, anonKey, options));
-        builder.Services.AddSingleton<IProductService, ProductService>();
+        builder.Services.AddSingleton<ProductService>();
+        builder.Services.AddSingleton<IProductService, CacheProductService>();
         builder.Services.AddSingleton<NavigationService>();
         builder.Services.AddSingleton<ICacheService, CacheService>();
         builder.Services.AddSingleton<UserService>();
@@ -93,8 +94,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ProfilePageViewModel>();
         builder.Services.AddSingleton<ProductListPage>();
         builder.Services.AddSingleton<ProductListPageViewModel>();
-        builder.Services.AddSingleton<ProductDetailPage>();
-        builder.Services.AddSingleton<ProductDetailPageViewModel>();
+        builder.Services.AddScoped<ProductDetailPage>();
+        builder.Services.AddScoped<ProductDetailPageViewModel>();
         builder.Services.AddSingleton<RegisterPage>();
         builder.Services.AddSingleton<RegisterPageViewModel>();
         builder.Services.AddSingleton<LoginPage>();
