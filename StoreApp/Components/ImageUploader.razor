@@ -29,7 +29,7 @@
             return;
         }
 
-        const long MAXALLOWEDSIZE = 1024 * 1000;
+        const long MAXALLOWEDSIZE = 1024 * 5000;
         // Convert image to base64 string
         using (var stream = file.OpenReadStream(MAXALLOWEDSIZE))
         using (var ms = new MemoryStream())

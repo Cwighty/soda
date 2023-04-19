@@ -1,8 +1,12 @@
-﻿namespace SodaShared.Models;
+﻿using Newtonsoft.Json;
+
+namespace SodaShared.Models;
 
 public class BaseProduct
 {
+    [JsonProperty("base")]
     public string Base { get; set; }
+    [JsonProperty("products")]
     public List<Product> Products { get; set; }
 
     public BaseProduct(string name, List<Product> products)

@@ -1,9 +1,4 @@
 ﻿using MonkeyCache.FileStore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CustomerApp.Shared.Services
 {
@@ -11,7 +6,7 @@ namespace CustomerApp.Shared.Services
     {
         public void Add<T>(string key, T value)
         {
-            Barrel.Current.Add(key, value, TimeSpan.FromDays(1));
+            Barrel.Current.Add(key, value, TimeSpan.FromMinutes(10));
         }
 
         public T Get<T>(string key)

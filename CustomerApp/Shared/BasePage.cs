@@ -21,4 +21,6 @@ public class BasePage : ContentPage
         await ViewModel.Stop();
         base.OnDisappearing();
     }
+
+
 }
