@@ -5,6 +5,7 @@
        xmlns:menu="clr-namespace:CustomerApp.Features.Menu"
        xmlns:cart="clr-namespace:CustomerApp.Features.Cart"
        xmlns:profile="clr-namespace:CustomerApp.Features.Profile"
+       xmlns:login="clr-namespace:CustomerApp.Features.Login"
        Shell.FlyoutBehavior="Disabled"
        Shell.NavBarIsVisible="True"
        Shell.BackgroundColor="White"
@@ -34,5 +35,4 @@
             <ShellContent ContentTemplate="{DataTemplate profile:ProfilePage}" />
         </Tab>
     </TabBar>
-    
 </Shell>

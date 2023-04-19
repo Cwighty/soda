@@ -44,9 +44,8 @@ namespace CustomerApp.Shared.Services
 
                 // Do something with the token
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e);
             }
             //var response = await client.Auth.SignIn(email, password);
         }

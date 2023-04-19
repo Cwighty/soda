@@ -9,6 +9,7 @@ public class Purchase
     public DateTime? PickUpTime { get; set; }
     public decimal? SubTotal { get; set; }
     public decimal? TaxCollected { get; set; }
+    public decimal? TotalPaid => SubTotal ?? 0 + TaxCollected ?? 0;
     public string Status { get; set; }
     public Customer? Customer { get; set; }
 

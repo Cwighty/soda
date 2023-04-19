@@ -32,7 +32,7 @@ public partial class LoginPageViewModel : BaseViewModel
     private async Task Login()
     {
         await userService.Login(Email, Password);
-        await navigationService.GoTo("///ProfilePage");
+        await navigationService.GoTo("..");
     }
 
     [RelayCommand]

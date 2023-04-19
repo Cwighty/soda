@@ -57,6 +57,6 @@ public partial class FeaturePageViewModel : BaseViewModel
     [RelayCommand]
     private async Task GoToProfile()
     {
-        await navigationService.GoTo("///ProfilePage");
+        await navigationService.GoTo("/LoginPage");
     }
 }

@@ -5,8 +5,7 @@
                 xmlns:vm="clr-namespace:CustomerApp.Features.Menu"
                 xmlns:models="clr-namespace:SodaShared.Models;assembly=SodaShared"
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-                x:Class="CustomerApp.Features.Menu.ProductDetailPage"
-               >
+                x:Class="CustomerApp.Features.Menu.ProductDetailPage">
     <Shell.TitleView>
         <Grid Grid.Row="0"
               ColumnDefinitions="auto, *">
@@ -29,9 +28,8 @@
                            IsVisible="{Binding IsBusy}"
                            VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" />
-        
         <Frame IsVisible="{Binding IsNotBusy}"
-               Grid.Row="1"
+               Grid.Row="0"
                BorderColor="Transparent"
                Margin="80,10"
                CornerRadius="100"
@@ -45,12 +43,17 @@
                    HeightRequest="180"
                    WidthRequest="180" />
         </Frame>
+        <Label Text="{Binding Product.Description}"
+               Grid.Row="1" 
+               HorizontalTextAlignment="Center"
+               Margin="0,0,10,20"/>
         <ScrollView IsVisible="{Binding IsNotBusy}"
                     Grid.Row="2"
                     Orientation="Horizontal"
                     VerticalOptions="Start"
                     VerticalScrollBarVisibility="Never"
                     HorizontalScrollBarVisibility="Never"
+                    Margin="0,0,0,20"
                     HorizontalOptions="Center"
                     BackgroundColor="Transparent">
             <HorizontalStackLayout Spacing="10"
@@ -60,12 +63,8 @@
                 <BindableLayout.ItemTemplate>
                     <DataTemplate>
                         <RadioButton x:Name="RadioCategory"
-                                     Value="{Binding .}">
-                            <RadioButton.Content>
-                                <StackLayout>
-                                    <Label Text="{Binding Size}" />
-                                </StackLayout>
-                            </RadioButton.Content>
+                                     Value="{Binding .}"
+                                     Content="{Binding Size}">
                             <RadioButton.ControlTemplate>
                                 <ControlTemplate>
                                     <Grid HorizontalOptions="FillAndExpand">
@@ -119,19 +118,20 @@
                 </BindableLayout.ItemTemplate>
             </HorizontalStackLayout>
         </ScrollView>
-        <Picker IsVisible="{Binding IsNotBusy}"
-                Grid.Row="3"
-                Margin="0,5,0,10"
-                Title="Add Mix-In"
-                ItemsSource="{Binding AddOns}"
-                ItemDisplayBinding="{Binding Name}"
-                SelectedItem="{Binding SelectedAddOn}"
-                FontFamily="MontserratRegular">
-            <Picker.Behaviors>
-                <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
-                                                Command="{Binding AddAddOnCommand}" />
-            </Picker.Behaviors>
-        </Picker>
+        <Border Grid.Row="3">
+            <Picker IsVisible="{Binding IsNotBusy}"
+                    Title="Add Mix-In"
+                    TitleColor="Black"
+                    ItemsSource="{Binding AddOns}"
+                    ItemDisplayBinding="{Binding Name}"
+                    SelectedItem="{Binding SelectedAddOn}"
+                    FontFamily="MontserratRegular">
+                <Picker.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                    Command="{Binding AddAddOnCommand}" />
+                </Picker.Behaviors>
+            </Picker>
+        </Border>
         <VerticalStackLayout IsVisible="{Binding IsNotBusy}"
                              Grid.Row="4"
                              VerticalOptions="FillAndExpand">
@@ -160,7 +160,7 @@
         </VerticalStackLayout>
         <Grid Grid.Row="5"
               ColumnDefinitions="*,*">
-           
+
             <Button IsEnabled="{Binding IsNotBusy}"
                     Grid.Column="1"
                     Text="Add To Cart"
