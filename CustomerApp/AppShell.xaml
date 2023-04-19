@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<Shell
-    x:Class="CustomerApp.AppShell"
-    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:menu="clr-namespace:CustomerApp.Features.Menu"
-    xmlns:cart="clr-namespace:CustomerApp.Features.Cart"
-    xmlns:profile="clr-namespace:CustomerApp.Features.Profile"
-    Shell.FlyoutBehavior="Disabled"
+<Shell x:Class="CustomerApp.AppShell"
+       xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:menu="clr-namespace:CustomerApp.Features.Menu"
+       xmlns:cart="clr-namespace:CustomerApp.Features.Cart"
+       xmlns:profile="clr-namespace:CustomerApp.Features.Profile"
+       Shell.FlyoutBehavior="Disabled"
        Shell.NavBarIsVisible="True"
-       Shell.BackgroundColor="Transparent"
-       Shell.ForegroundColor="Black"
-    >
+       Shell.BackgroundColor="White"
+       Shell.ForegroundColor="Black">
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IconOverride="left_arrow.png" />
+    </Shell.BackButtonBehavior>
     <TabBar>
         <Tab Title="Featured"
              Icon="star.png"

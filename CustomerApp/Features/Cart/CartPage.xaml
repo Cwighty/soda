@@ -4,11 +4,12 @@
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 xmlns:vm="clr-namespace:CustomerApp.Features.Cart"
                 x:Class="CustomerApp.Features.Cart.CartPage"
-                Title="CartPage"
-                Shell.NavBarIsVisible="False">
-    <Grid RowDefinitions="auto,auto,*,auto,auto">
+                >
+    <Shell.TitleView>
         <Label Text="Order Up!"
                Style="{StaticResource LabelHeaderStyle}" />
+    </Shell.TitleView>
+    <Grid RowDefinitions="auto,auto,*,auto,auto">
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            IsVisible="{Binding IsBusy}"
                            VerticalOptions="CenterAndExpand"

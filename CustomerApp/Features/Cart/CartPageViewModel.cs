@@ -139,20 +139,14 @@ public partial class CartPageViewModel : BaseViewModel
     {
         if (!userService.IsLoggedIn())
         {
-            var options = new string[] { "Sign In", "Create An Account", "Continue As Guest" };
-            var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
-            if (action == "Sign In")
-            {
-                await navigationService.GoTo("///ProfilePage");
-                return;
-            }
-            else if (action == "Create An Account")
-            {
-                await navigationService.GoTo("///ProfilePage");
-                return;
-            }
+            await AskToSignIn();
         }
         var orderId = await purchaseService.CheckoutOnline(CartItems.ToList(), DateTime.Now + PickUpTime);
+        if (orderId == null)
+        {
+            await Shell.Current.DisplayAlert("Order Cancelled", "Your order was cancelled", "OK");
+            return;
+        }
         cache.Empty();
         CartItems = new();
         await notificationService.SubscribeTo(orderId ?? 0);
@@ -162,6 +156,22 @@ public partial class CartPageViewModel : BaseViewModel
             {
                 ["OrderId"] = orderId
             });
+    }
+
+    private async Task AskToSignIn()
+    {
+        string[] options = new string[] { "Sign In", "Create An Account", "Continue As Guest" };
+        var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
+        if (action == "Sign In")
+        {
+            await navigationService.GoTo("///ProfilePage");
+            return;
+        }
+        else if (action == "Create An Account")
+        {
+            await navigationService.GoTo("///ProfilePage");
+            return;
+        }
     }
 
 

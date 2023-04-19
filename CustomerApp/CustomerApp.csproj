@@ -49,6 +49,7 @@
     <MauiImage Update="Resources\Images\white_drink_large.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\white_drink_medium.svg" BaseSize="30,30" />
     <MauiImage Update="Resources\Images\white_drink_small.svg" BaseSize="20,20" />
+		<MauiImage Update="Resources\Images\left_arrow.svg" BaseSize="20,20" />
 
     <!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />

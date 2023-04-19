@@ -4,10 +4,8 @@
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 xmlns:vm="clr-namespace:CustomerApp.Features.Menu"
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-                x:Class="CustomerApp.Features.Menu.Controls.ProductListPage"
-                Title="ProductListPage"
-                Shell.NavBarIsVisible="False">
-    <VerticalStackLayout Margin="15,0">
+                x:Class="CustomerApp.Features.Menu.Controls.ProductListPage">
+    <Grid Margin="15,0">
         <CollectionView ItemsSource="{Binding Products}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -27,8 +25,7 @@
                                 <Image Source="{Binding ImageUrl, TargetNullValue={StaticResource placeholder}}"
                                        Aspect="AspectFit"
                                        HeightRequest="50"
-                                       WidthRequest="50"
-                                        />
+                                       WidthRequest="50" />
                             </Frame>
                             <Label Text="{Binding Name}"
                                    Grid.Column="1"
@@ -63,5 +60,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </VerticalStackLayout>
+    </Grid>
 </views:BasePage>

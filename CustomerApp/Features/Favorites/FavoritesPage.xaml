@@ -5,13 +5,15 @@
                 xmlns:vm="clr-namespace:CustomerApp.Features.Favorites"
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                 x:Class="CustomerApp.Features.Favorites.FavoritesPage"
-                Shell.NavBarIsVisible="False">
-    <Grid RowDefinitions="auto, *">
+                >
+    <Shell.TitleView>
         <Label Text="Favorites"
                Style="{StaticResource LabelHeaderStyle}"
-               Grid.Column="0" />
+                />
+    </Shell.TitleView>
+    <Grid >
         <CollectionView ItemsSource="{Binding Favorites}"
-                        Grid.Row="1">
+                        >
             <CollectionView.EmptyView>
                 <ContentView>
                     <Grid RowDefinitions="*,*">

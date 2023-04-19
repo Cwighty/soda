@@ -6,29 +6,30 @@
                 xmlns:models="clr-namespace:SodaShared.Models;assembly=SodaShared"
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                 x:Class="CustomerApp.Features.Menu.ProductDetailPage"
-                Shell.NavBarIsVisible="False">
+               >
+    <Shell.TitleView>
+        <Grid Grid.Row="0"
+              ColumnDefinitions="auto, *">
+            <Label Text="{Binding Product.Name}"
+                   Style="{StaticResource LabelHeaderStyle}" />
+            <ImageButton IsEnabled="{Binding IsNotBusy}"
+                         Grid.Column="1"
+                         Aspect="AspectFit"
+                         WidthRequest="40"
+                         HeightRequest="40"
+                         Margin="0, 10"
+                         Source="{Binding IsFavoriteImg}"
+                         Command="{Binding AddToFavoritesCommand}"
+                         HorizontalOptions="End" />
+        </Grid>
+    </Shell.TitleView>
     <Grid RowDefinitions="auto,auto,auto,auto,*,auto"
           Margin="15">
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            IsVisible="{Binding IsBusy}"
                            VerticalOptions="CenterAndExpand"
                            HorizontalOptions="CenterAndExpand" />
-        <Grid Grid.Row="0" ColumnDefinitions="auto, *">
-
-            <Label Text="{Binding Product.Name}"
-               IsVisible="{Binding IsNotBusy}"
-               Margin="0"
-               Style="{StaticResource LabelHeaderStyle}" />
-            <ImageButton IsEnabled="{Binding IsNotBusy}"
-                    Grid.Column="1"
-                    Aspect="AspectFit"
-                         WidthRequest="40"
-                         HeightRequest="40"
-                    Source="{Binding IsFavoriteImg}"
-                    Command="{Binding AddToFavoritesCommand}"
-                         HorizontalOptions="End"
-                     />
-        </Grid>
+        
         <Frame IsVisible="{Binding IsNotBusy}"
                Grid.Row="1"
                BorderColor="Transparent"
