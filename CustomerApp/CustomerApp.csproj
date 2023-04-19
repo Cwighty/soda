@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>CustomerApp</ApplicationTitle>
+		<ApplicationTitle>The Soda Geyser</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.customerapp</ApplicationId>
@@ -32,9 +32,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\geyserlogo.png" Color="#15616d" />
 
 		<!-- Splash Screen -->
+    <MauiSplashScreen Include="Resources\Splash\geyserlogo.png" Color="#15616d" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -121,6 +122,7 @@
 	  <None Remove="Resources\Images\coffee_cup.svg" />
 	  <None Remove="Resources\Images\cup_holder.png" />
 	  <None Remove="Resources\Images\drink.svg" />
+	  <None Remove="Resources\Images\geyserlogo.png" />
 	  <None Remove="Resources\Images\home.svg" />
 	  <None Remove="Resources\Images\home_filled.svg" />
 	  <None Remove="Resources\Images\menu_filled.svg" />
