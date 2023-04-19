@@ -85,10 +85,10 @@
                                                         <VisualState.Setters>
                                                             <Setter TargetName="CategoryLabel"
                                                                     Property="Label.TextColor"
-                                                                    Value="{StaticResource Gray600}" />
+                                                                    Value="{StaticResource Black}" />
                                                             <Setter TargetName="ChipBorderView"
                                                                     Property="Border.Background"
-                                                                    Value="{StaticResource White}" />
+                                                                    Value="{StaticResource Gray100}" />
                                                         </VisualState.Setters>
                                                     </VisualState>
                                                 </VisualStateGroup>
