@@ -23,7 +23,6 @@
         </Grid>
     </Shell.TitleView>
     <Grid RowDefinitions="auto, *">
-        
         <ScrollView VerticalOptions="FillAndExpand"
                     Grid.Row="1">
             <StackLayout>

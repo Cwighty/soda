@@ -5,8 +5,10 @@
                 x:Class="CustomerApp.Features.Login.LoginPage"
                 >
     <Shell.TitleView>
-        <Label Text="Please Sign In"
-               Style="{StaticResource LabelHeaderStyle}" />
+        <Grid>
+            <Label Text="Please Sign In"
+                   Style="{StaticResource LabelHeaderStyle}" />
+        </Grid>
     </Shell.TitleView>
     <Grid>
         <Button Text="Sign in with Google"

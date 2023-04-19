@@ -63,7 +63,7 @@ public class FavoritesService
             if (result)
             {
                 await navigationService.ClearStack();
-                await navigationService.GoTo("///ProfilePage");
+                await navigationService.GoTo(nameof(LoginPage));
             }
             return;
         }
