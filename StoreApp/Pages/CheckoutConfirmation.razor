@@ -25,15 +25,16 @@
                                 {
                                 <li>
                                         @item.Base.Price.ToString("C") - @item.Name
+                                        <ul>
+                                        <li>@item.Size.Price.ToString("C") - @item.Size.Name</li>
                                         @if (item.AddOns != null && item.AddOns.Any())
                                         {
-                                        <ul>
                                                 @foreach (var addon in item.AddOns)
                                                 {
                                                 <li>@addon.Price.ToString("C") - @addon.Name</li>
                                                 }
-                                        </ul>
                                         }
+                                        </ul>
                                 </li>
                                 }
                         </ul>
