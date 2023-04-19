@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:views="clr-namespace:CustomerApp.Shared"
+                xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:views="clr-namespace:CustomerApp.Shared"
+                xmlns:vm="clr-namespace:CustomerApp.Features.Favorites"
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:Class="CustomerApp.Features.Favorites.FavoritesPage"
+                x:Class="CustomerApp.Features.Favorites.FavoritesPage"
                 Shell.NavBarIsVisible="False">
     <Grid RowDefinitions="auto, *">
         <Label Text="Favorites"
@@ -11,6 +12,13 @@
                Grid.Column="0" />
         <CollectionView ItemsSource="{Binding Favorites}"
                         Grid.Row="1">
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <Grid RowDefinitions="*,*">
+                        <Label Text="No Favorites" FontSize="Large" VerticalOptions="End" HorizontalOptions="CenterAndExpand"/>
+                    </Grid>
+                </ContentView>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout>
@@ -42,22 +50,22 @@
                                    FontSize="Caption"
                                    LineBreakMode="WordWrap"
                                    TextColor="{StaticResource Gray500}" />
-                            <Image Source="add.png"
-                                   Grid.Column="2"
-                                   Grid.RowSpan="2"
-                                   Margin="10,0"
-                                   MaximumWidthRequest="30">
-                                <Image.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="{StaticResource Gray500}" />
-                                </Image.Behaviors>
-                            </Image>
+                            <ImageButton Source="heart_filled.png"
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesPageViewModel}}, Path=ToggleFavoriteCommand}"
+                                         CommandParameter="{Binding .}"
+                                         Grid.Column="2"
+                                         Grid.RowSpan="2"
+                                         Margin="10,0"
+                                         MaximumWidthRequest="35"
+                                         HeightRequest="35">
+                            </ImageButton>
                         </Grid>
                         <BoxView Color="{StaticResource Gray200}"
                                  Margin="0,0,0,0"
                                  HeightRequest=".5"
                                  HorizontalOptions="Fill" />
                         <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding ToggleFavoriteCommand}"
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FavoritesPageViewModel}}, Path=GoToDetailsCommand}"
                                                   CommandParameter="{Binding .}" />
                         </StackLayout.GestureRecognizers>
                     </StackLayout>

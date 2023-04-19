@@ -27,7 +27,8 @@ public class FavoritesService
     public async Task<bool> IsFavorite(int productId)
     {
         var favs = await GetFavorites();
-        return favs.Select(p => p.Id == productId).Any();
+        var ids = favs.Select(p => p.Id).ToList();
+        return ids.Contains(productId);
     }
 
     private async Task FavoriteDrink(int productId)
