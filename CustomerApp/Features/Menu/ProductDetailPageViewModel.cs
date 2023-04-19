@@ -53,6 +53,7 @@ public partial class ProductDetailPageViewModel : BaseViewModel
             if (Product != null)
                 CustomizedProduct = Product;
             await UpdateFavoriteImage();
+            SelectedProductSize = ProductSizes?.FirstOrDefault();
         }
         finally
         {

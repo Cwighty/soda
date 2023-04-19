@@ -3,11 +3,12 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-                x:Class="CustomerApp.Features.Profile.ProfileDetailsPage"
-                Shell.NavBarIsVisible="False">
-    <StackLayout>
+                x:Class="CustomerApp.Features.Profile.ProfileDetailsPage">
+    <Shell.TitleView>
         <Label Text="Profile Details"
                Style="{StaticResource LabelHeaderStyle}" />
+    </Shell.TitleView>
+    <StackLayout>
         <StackLayout Margin="20">
             <Label Text="Name"
                    FontFamily="MontserratRegular" />
@@ -28,7 +29,7 @@
                    IsEnabled="False"
                    FontFamily="MontserratRegular" />
         </StackLayout>
-        <Label Text="Communication Preferences"
+        <!--<Label Text="Communication Preferences"
                Style="{StaticResource LabelHeaderStyle}" />
         <Grid RowDefinitions="*,*,*"
               ColumnDefinitions="auto,*"
@@ -54,7 +55,7 @@
             <Switch HorizontalOptions="End"
                     Grid.Row="2"
                     Grid.Column="1" />
-        </Grid>
+        </Grid>-->
         <Button Text="Save Changes"
                 WidthRequest="120"
                 Command="{Binding UpdateDetailsCommand}"
