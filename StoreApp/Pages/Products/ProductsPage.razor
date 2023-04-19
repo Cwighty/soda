@@ -4,6 +4,7 @@
 @using SodaShared.Services;
 @using Blazorise
 @using StoreApp.Components
+@using Size = SodaShared.Models.Size;
 @inject ProductRepository ProductService
 
 <h1>Products</h1>
@@ -110,7 +111,7 @@
 
 @code {
     List<Product> products;
-    List<SodaShared.Models.Size> sizes;
+    List<Size> sizes;
     List<Base> bases;
     List<AddOn> addOns;
     Product editProduct = new Product();
@@ -132,6 +133,7 @@
     {
         modalTitle = "Add New Product";
         editProduct = new Product();
+        newImageBytes = null;
         productModal.Show();
     }
 
@@ -139,6 +141,7 @@
     {
         modalTitle = "Edit Product";
         editProduct = product.Clone();
+        newImageBytes = null;
         productModal.Show();
     }
 
@@ -187,6 +190,7 @@
 
     private void HideProductModal()
     {
+        newImageBytes = null;
         productModal.Hide();
     }
 }
