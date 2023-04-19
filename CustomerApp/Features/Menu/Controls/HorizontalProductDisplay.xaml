@@ -40,8 +40,8 @@
                                 Margin="15,10,5,5"
                                 WidthRequest="150"
                                 BackgroundColor="{StaticResource Tertiary}"
-                                Stroke="Gray"
-                                StrokeThickness="0"
+                                Stroke="{StaticResource Secondary}"
+                                StrokeThickness="1"
                                 StrokeShape="RoundRectangle 15">
                             <Border.Shadow>
                                 <Shadow Radius="25"
@@ -50,8 +50,8 @@
                             <Grid RowDefinitions="Auto,Auto,Auto">
                                 <Border Grid.Row="0"
                                         StrokeThickness="0"
-                                        BackgroundColor="{StaticResource White}"
-                                        Padding="0"
+                                        BackgroundColor="{StaticResource Secondary}"
+                                        Padding="5"
                                         Margin="-1">
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="15" />
@@ -63,7 +63,7 @@
                                 <Label Grid.Row="1"
                                        HorizontalOptions="FillAndExpand"
                                        Text="{Binding Name}"
-                                       FontSize="Small"
+                                       FontSize="12"
                                        FontFamily="PoppinsBold"
                                        TextColor="{StaticResource White}"
                                        LineBreakMode="NoWrap"
