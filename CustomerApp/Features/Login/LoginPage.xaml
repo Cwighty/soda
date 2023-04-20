@@ -10,11 +10,16 @@
                    Style="{StaticResource LabelHeaderStyle}" />
         </Grid>
     </Shell.TitleView>
-    <Grid>
+    <VerticalStackLayout VerticalOptions="Center"
+                         Spacing="50">
+        <Image Source="logo.png" 
+               MaximumWidthRequest="300"/>
+        <Image Source="geyserlogo.png"
+               MaximumWidthRequest="200"/>
         <Button Text="Sign in with Google"
                 Command="{Binding LoginCommand}"
                 HorizontalOptions="Center"
                 VerticalOptions="Center"
                 MinimumWidthRequest="200"/>
-    </Grid>
+    </VerticalStackLayout>
 </views:BasePage>
