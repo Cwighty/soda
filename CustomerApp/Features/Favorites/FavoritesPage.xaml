@@ -7,9 +7,11 @@
                 x:Class="CustomerApp.Features.Favorites.FavoritesPage"
                 >
     <Shell.TitleView>
-        <Label Text="Favorites"
-               Style="{StaticResource LabelHeaderStyle}"
-                />
+        <Grid>
+            <Label Text="Favorites"
+                   Style="{StaticResource LabelHeaderStyle}"
+                    />
+        </Grid>
     </Shell.TitleView>
     <Grid >
         <CollectionView ItemsSource="{Binding Favorites}"

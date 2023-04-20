@@ -18,5 +18,10 @@ namespace CustomerApp.Shared.Services
         {
             Barrel.Current.EmptyAll();
         }
+
+        public void Clear(string key)
+        {
+            Barrel.Current.Empty(key);
+        }
     }
 }
