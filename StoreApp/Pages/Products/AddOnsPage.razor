@@ -4,95 +4,100 @@
 @using SodaShared.Services;
 @using Blazorise
 @using StoreApp.Components
+@using StoreApp.Services;
 @inject ProductRepository ProductService
+@inject AuthorizationService Auth;
 
-<h1>Add-On Categories</h1>
-
-<div class="row">
-    <div class="col-12">
-        <button class="btn btn-primary" @onclick="ShowAddAddOnTypeModal">Add New Add-On Category</button>
-    </div>
-</div>
-@if (addOnTypes != null)
+@if (isAdmin)
 {
 
+    <h1>Add-On Categories</h1>
+
     <div class="row">
-        @foreach (var addOnType in addOnTypes)
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 my-3">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h5 class="card-title">@addOnType.Name</h5>
-                        <hr />
-                        <div class="d-flex justify-content-between mt-3">
-                            <button class="btn btn-outline-primary" @onclick="() => ShowEditAddOnTypeModal(addOnType)"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline-danger" @onclick="() => DeleteAddOnType(addOnType)"><i class="bi bi-trash"></i></button>
+        <div class="col-12">
+            <button class="btn btn-primary" @onclick="ShowAddAddOnTypeModal">Add New Add-On Category</button>
+        </div>
+    </div>
+    @if (addOnTypes != null)
+    {
+
+        <div class="row">
+            @foreach (var addOnType in addOnTypes)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 my-3">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">@addOnType.Name</h5>
+                            <hr />
+                            <div class="d-flex justify-content-between mt-3">
+                                <button class="btn btn-outline-primary" @onclick="() => ShowEditAddOnTypeModal(addOnType)"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline-danger" @onclick="() => DeleteAddOnType(addOnType)"><i class="bi bi-trash"></i></button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
 
 
-    <Modal Title="@modalTitle" @ref="addOnTypeModal">
-        <ModalContent Centered>
-        <ModalBody>
-            <EditForm Model="@editAddOnType">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <InputText class="form-control" @bind-Value="@editAddOnType.Name" />
+        <Modal Title="@modalTitle" @ref="addOnTypeModal">
+            <ModalContent Centered>
+            <ModalBody>
+                <EditForm Model="@editAddOnType">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <InputText class="form-control" @bind-Value="@editAddOnType.Name" />
+                    </div>
+                </EditForm>
+            </ModalBody>
+            <ModalFooter>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="SaveAddOnType">Save</button>
+                    <button class="btn btn-secondary" @onclick="HideAddOnTypeModal">Cancel</button>
                 </div>
-            </EditForm>
-        </ModalBody>
-        <ModalFooter>
-            <div class="modal-footer">
-                <button class="btn btn-primary" @onclick="SaveAddOnType">Save</button>
-                <button class="btn btn-secondary" @onclick="HideAddOnTypeModal">Cancel</button>
-            </div>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
-}
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
+    }
 
-<h1 class="mt-5">Add-Ons</h1>
-
-<div class="row">
-    <div class="col-12">
-        <button class="btn btn-primary" @onclick="ShowAddAddOnModal">Add New Add On</button>
-    </div>
-</div>
-@if (addOns != null)
-{
+    <h1 class="mt-5">Add-Ons</h1>
 
     <div class="row">
-        @foreach (var addOn in addOns)
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 my-3">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h5 class="card-title">@addOn.Name</h5>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="badge badge-secondary">Price: @addOn.Price.ToString("C")</span>
-                        </div>
-                        <hr />
-                        <div class="d-flex justify-content-between mt-3">
-                            <button class="btn btn-outline-primary" @onclick="() => ShowEditAddOnModal(addOn)">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn btn-outline-danger" @onclick="() => DeleteAddOn(addOn)">
-                                <i class="bi bi-trash"></i>
-                            </button>
+        <div class="col-12">
+            <button class="btn btn-primary" @onclick="ShowAddAddOnModal">Add New Add On</button>
+        </div>
+    </div>
+    @if (addOns != null)
+    {
+
+        <div class="row">
+            @foreach (var addOn in addOns)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 my-3">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">@addOn.Name</h5>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge badge-secondary">Price: @addOn.Price.ToString("C")</span>
+                            </div>
+                            <hr />
+                            <div class="d-flex justify-content-between mt-3">
+                                <button class="btn btn-outline-primary" @onclick="() => ShowEditAddOnModal(addOn)">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="btn btn-outline-danger" @onclick="() => DeleteAddOn(addOn)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
 
 
-    <Modal Title="@modalTitle" @ref="addOnModal">
-        <ModalContent Centered>
+        <Modal Title="@modalTitle" @ref="addOnModal">
+            <ModalContent Centered>
             <ModalBody>
                 <EditForm Model="@editAddOn">
                     <div class="form-group">
@@ -107,21 +112,26 @@
                         <label for="type">Type:</label>
                         <InputSelect class="form-control" @bind-Value="@editAddOn.AddOnType.Id">
                             @foreach (var addOnType in addOnTypes)
-                            {
-                                <option value="@addOnType.Id">@addOnType.Name</option>
-                            }
-                        </InputSelect>
+                                {
+                                    <option value="@addOnType.Id">@addOnType.Name</option>
+                                }
+                            </InputSelect>
+                        </div>
+                    </EditForm>
+                </ModalBody>
+                <ModalFooter>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" @onclick="SaveAddOn">Save</button>
+                        <button class="btn btn-secondary" @onclick="HideAddOnModal">Cancel</button>
                     </div>
-                </EditForm>
-            </ModalBody>
-            <ModalFooter>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" @onclick="SaveAddOn">Save</button>
-                    <button class="btn btn-secondary" @onclick="HideAddOnModal">Cancel</button>
-                </div>
-            </ModalFooter>
-        </ModalContent>
-    </Modal>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    }
+}
+else
+{
+    <h1>Unauthorized</h1>
 }
 
 
@@ -135,9 +145,11 @@
     Modal? addOnTypeModal;
     string? modalTitle;
     private int selectedAddOn;
+    private bool isAdmin;
 
     protected override async Task OnInitializedAsync()
     {
+        isAdmin = Auth.IsAdmin();
         addOns = await ProductService.GetAddOns();
         addOnTypes = await ProductService.GetAddOnTypes();
     }

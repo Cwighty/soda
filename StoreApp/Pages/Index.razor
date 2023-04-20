@@ -4,11 +4,15 @@
 @using Microsoft.AspNetCore.Components
 @using Microsoft.Extensions.Logging
 @using SodaShared.Services;
+@using StoreApp.Services;
 @inject OrderService orderService
+@inject AuthorizationService auth
+@inject NavigationManager nav
 
 <PageTitle>Index</PageTitle>
 
-
+@if (isAdmin)
+{
 <div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="card shadow mb-4">
@@ -33,12 +37,19 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
+}
+else
+{
+    <h1>Unauthorized</h1>
+}
 
 @code {
-    private int inProgressOrdersCount = 0; 
+    private int inProgressOrdersCount = 0;
+    private bool isAdmin = false;
     protected override async Task OnInitializedAsync()
     {
+        isAdmin = auth.IsAdmin();
         inProgressOrdersCount = await orderService.GetOrderCount();
     }
 }

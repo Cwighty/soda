@@ -1,91 +1,102 @@
 ﻿@page "/orders"
 @using SodaShared.Models
 @using SodaShared.Services;
+@using StoreApp.Services;
+@inject AuthorizationService Auth;
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-12">
-            @if (Purchases != null)
-            {
-                <table class="table table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Order Id</th>
-                            <th>Status</th>
-                            <th>Date Created</th>
-                            <th>Sub Total Paid</th>
-                            <th>Customer</th>
-                            <th>Details</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var statusGroup in Purchases.GroupBy(p => p.Status).OrderByDescending(g => g.Key == OrderStatus.IN_PROGRESS.ToFriendlyString()))
-                        {
+@if (Auth.IsAdmin())
+{
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                @if (Purchases != null)
+                {
+                    <table class="table table-striped">
+                        <thead class="thead-dark">
                             <tr>
-                                <td colspan="6" class="status"><b>@statusGroup.Key</b></td>
+                                <th>Order Id</th>
+                                <th>Status</th>
+                                <th>Date Created</th>
+                                <th>Sub Total Paid</th>
+                                <th>Customer</th>
+                                <th>Details</th>
+                                <th>Actions</th>
                             </tr>
-                            @foreach (var purchase in statusGroup.OrderBy(p => p.CompletedAt).ThenByDescending(p => p.CreatedAt))
+                        </thead>
+                        <tbody>
+                            @foreach (var statusGroup in Purchases.GroupBy(p => p.Status).OrderByDescending(g => g.Key == OrderStatus.IN_PROGRESS.ToFriendlyString()))
                             {
                                 <tr>
-                                    <td>@purchase.Id</td>
-                                    <td>@purchase.Status</td>
-                                    <td>@purchase.CreatedAt</td>
-                                    <td>@purchase.SubTotal?.ToString("C")</td>
-                                    @if (purchase.Customer != null)
-                                    {
-                                        <td>@purchase.Customer?.Name</td>
-                                    }
-                                    else
-                                    {
-                                        <td>Guest</td>
-                                    }
-                                    <td>
-                                        <ul>
-                                            @foreach (var item in purchase.PurchaseItems)
-                                            {
-                                                <li>
-                                                    @item.Base.Price.ToString("C") - @item.Name
-                                                    @if (item.AddOns != null && item.AddOns.Any())
-                                                    {
-                                                        <ul>
-                                                            @foreach (var addon in item.AddOns)
-                                                            {
-                                                                <li>@addon.Price.ToString("C") - @addon.Name</li>
-                                                            }
-                                                        </ul>
-                                                    }
-                                                </li>
-                                            }
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        @if (purchase.Status == OrderStatus.COMPLETED.ToFriendlyString() || purchase.Status == OrderStatus.CANCELLED.ToFriendlyString())
-                                        {
-                                            <button class="btn btn-primary mx-2" @onclick="() => ReopenPurchase(purchase.Id)">Reopen</button>
-                                        }
-                                        @if (purchase.Status == OrderStatus.IN_PROGRESS.ToFriendlyString())
-                                        {
-                                            <button class="btn btn-primary mx-2" @onclick="() => CompletePurchase(purchase.Id)">Mark as Complete</button>
-                                            <button class="btn btn-danger mx-2" @onclick="() => CancelPurchase(purchase.Id)">Cancel</button>
-                                        }
-                                    </td>
+                                    <td colspan="6" class="status"><b>@statusGroup.Key</b></td>
                                 </tr>
+                                @foreach (var purchase in statusGroup.OrderBy(p => p.CompletedAt).ThenByDescending(p => p.CreatedAt))
+                                {
+                                    <tr>
+                                        <td>@purchase.Id</td>
+                                        <td>@purchase.Status</td>
+                                        <td>@purchase.CreatedAt</td>
+                                        <td>@purchase.SubTotal?.ToString("C")</td>
+                                        @if (purchase.Customer != null)
+                                        {
+                                            <td>@purchase.Customer?.Name</td>
+                                        }
+                                        else
+                                        {
+                                            <td>Guest</td>
+                                        }
+                                        <td>
+                                            <ul>
+                                                @foreach (var item in purchase.PurchaseItems)
+                                                {
+                                                    <li>
+                                                        @item.Base.Price.ToString("C") - @item.Name
+                                                        @if (item.AddOns != null && item.AddOns.Any())
+                                                        {
+                                                            <ul>
+                                                                @foreach (var addon in item.AddOns)
+                                                                {
+                                                                    <li>@addon.Price.ToString("C") - @addon.Name</li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            @if (purchase.Status == OrderStatus.COMPLETED.ToFriendlyString() || purchase.Status == OrderStatus.CANCELLED.ToFriendlyString())
+                                            {
+                                                <button class="btn btn-primary mx-2" @onclick="() => ReopenPurchase(purchase.Id)">Reopen</button>
+                                            }
+                                            @if (purchase.Status == OrderStatus.IN_PROGRESS.ToFriendlyString())
+                                            {
+                                                <button class="btn btn-primary mx-2" @onclick="() => CompletePurchase(purchase.Id)">Mark as Complete</button>
+                                                <button class="btn btn-danger mx-2" @onclick="() => CancelPurchase(purchase.Id)">Cancel</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                    </tbody>
-                </table>
-            }
+                        </tbody>
+                    </table>
+                }
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <h1>Unauthorized</h1>
+}
 
 @code {
     [Inject] private OrderService orderService { get; set; }
     private List<Purchase> Purchases { get; set; }
-
+    private bool isAdmin;
     protected override async Task OnInitializedAsync()
     {
+        isAdmin = Auth.IsAdmin();
         await LoadPurchases();
     }
 
