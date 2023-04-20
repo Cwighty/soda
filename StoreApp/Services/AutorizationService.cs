@@ -14,7 +14,7 @@ public class AuthorizationService
 
     public async Task LogIn(string email, string password)
     {
-        await client.Auth.SignInWithPassword(email, password);
+       await client.Auth.SignInWithPassword(email, password);
     }
 
     public async Task Register(string email, string password)

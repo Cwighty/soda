@@ -1,6 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @using StoreApp.Services;
 @inject AuthorizationService Auth;
+@inject NavigationManager NavigationManager;
 
 
 <PageTitle>The Soda Geyser</PageTitle>
@@ -31,8 +32,9 @@
 </div>
 
 @code{
-    public void LogOut()
+    public async Task LogOut()
     {
-        Auth.Logout();
+        await Auth.Logout();
+        NavigationManager.NavigateTo("login");
     }
 }

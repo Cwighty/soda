@@ -108,18 +108,18 @@ else
 
     private async Task CompletePurchase(int purchaseId)
     {
-        var purchase = orderService.MarkOrderComplete(purchaseId);
+        await orderService.MarkOrderComplete(purchaseId);
         await LoadPurchases(); // Reload the purchases to update the UI
     }
 
     private async Task CancelPurchase(int purchaseId)
     {
-        var purchase = orderService.CancelOrder(purchaseId);
+        await orderService.CancelOrder(purchaseId);
         await LoadPurchases(); // Reload the purchases to update the UI
     }
     private async Task ReopenPurchase(int purchaseId)
     {
-        var purchase = orderService.ReopenOrder(purchaseId);
+        await orderService.ReopenOrder(purchaseId);
         await LoadPurchases(); // Reload the purchases to update the UI
     }
 }

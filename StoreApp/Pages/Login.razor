@@ -36,8 +36,16 @@
 
     private async Task LogIn()
     {
-        await auth.LogIn(username, password);
-        NavigationManager.NavigateTo("/");
+        try
+        {
+            await auth.LogIn(username, password);
+            NavigationManager.NavigateTo("/");
+        }
+        catch
+        {
+            username = "";
+            password = "";
+        }
     }
 }
 
