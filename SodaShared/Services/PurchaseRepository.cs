@@ -27,9 +27,11 @@ public class PurchaseRepository
         return await client.From<AddOnData>().Where(a => a.Id == id).Single();
     }
     
-    public async Task<List<Purchase>> GetAllPurchases()
+    public async Task<List<Purchase>> GetAllPurchasesForUser()
     {
-        var response = await client.From<PurchaseData>().Get();
+        var response = await client.From<PurchaseData>()
+            .Where(p => p.CustomerId != null)
+            .Get();
         return mapper.Map<List<Purchase>>(response.Models);
     }
     public async Task<Purchase> GetPurchaseById(int orderId)

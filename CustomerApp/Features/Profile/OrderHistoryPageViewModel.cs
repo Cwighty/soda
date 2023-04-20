@@ -13,7 +13,7 @@ public partial class OrderHistoryPageViewModel : BaseViewModel
     }
     public async override Task Initialize()
     {
-        Purchases = await purchaseRepo.GetAllPurchases();
+        Purchases = await purchaseRepo.GetAllPurchasesForUser();
     }
 
     public override Task Stop()

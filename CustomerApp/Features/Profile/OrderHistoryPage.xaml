@@ -11,6 +11,16 @@
     <Grid >
         <CollectionView ItemsSource="{Binding Purchases}"
                         Margin="15,0">
+            <CollectionView.EmptyView>
+                <ContentView>
+                    <Grid RowDefinitions="*,*">
+                        <Label Text="No Orders"
+                               FontSize="Large"
+                               VerticalOptions="End"
+                               HorizontalOptions="CenterAndExpand" />
+                    </Grid>
+                </ContentView>
+            </CollectionView.EmptyView>
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout>
