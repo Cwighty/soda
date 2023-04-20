@@ -35,8 +35,8 @@
 		<MauiIcon Include="Resources\AppIcon\geyserlogo.png" Color="#15616d" />
 
 		<!-- Splash Screen -->
-    <MauiSplashScreen Include="Resources\Splash\geyserlogo.png" Color="#15616d" />
-
+    <MauiSplashScreen Include="Resources\Splash\logowithwords.png" Color="#15616d" />
+    
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
 		
@@ -44,7 +44,6 @@
     <MauiImage Update="Resources\Images\home.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\profile.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\black_drink_large.svg" BaseSize="40,40" />
-    <MauiImage Update="Resources\Images\black_drink_medium.svg" BaseSize="30,30" />
     <MauiImage Update="Resources\Images\black_drink_small.svg" BaseSize="20,20" />
     <MauiImage Update="Resources\Images\white_drink_large.svg" BaseSize="40,40" />
     <MauiImage Update="Resources\Images\white_drink_medium.svg" BaseSize="30,30" />
@@ -126,6 +125,8 @@
 	  <None Remove="Resources\Images\geyserlogo.png" />
 	  <None Remove="Resources\Images\home.svg" />
 	  <None Remove="Resources\Images\home_filled.svg" />
+	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\logowithwords.png" />
 	  <None Remove="Resources\Images\menu_filled.svg" />
 	  <None Remove="Resources\Images\profile.svg" />
 	  <None Remove="Resources\Images\right_arrow.svg" />
