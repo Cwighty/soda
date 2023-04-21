@@ -6,6 +6,7 @@ using SodaShared.Services;
 using StoreApp.Services;
 using Stripe;
 using Supabase;
+using Supabase.Interfaces;
 using System.Globalization;
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
@@ -29,11 +30,11 @@ var options = new SupabaseOptions
     AutoRefreshToken = true,
     AutoConnectRealtime = true,
 };
-builder.Services.AddSingleton(new Supabase.Client(supabaseURL, serviceRoleKey, options));
-builder.Services.AddSingleton<OrderService>();
-builder.Services.AddSingleton<ProductRepository>();
-builder.Services.AddTransient<AuthorizationService>();
-builder.Services.AddSingleton<PurchaseRepository>();
+builder.Services.AddScoped((f) => new Supabase.Client(supabaseURL, serviceRoleKey, options));
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ProductRepository>();
+builder.Services.AddScoped<AuthorizationService>();
+builder.Services.AddScoped<PurchaseRepository>();
 
 
 builder.Services
