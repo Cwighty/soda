@@ -32,7 +32,7 @@ var options = new SupabaseOptions
 builder.Services.AddSingleton(new Supabase.Client(supabaseURL, serviceRoleKey, options));
 builder.Services.AddSingleton<OrderService>();
 builder.Services.AddSingleton<ProductRepository>();
-builder.Services.AddSingleton<AuthorizationService>();
+builder.Services.AddTransient<AuthorizationService>();
 builder.Services.AddSingleton<PurchaseRepository>();
 
 
