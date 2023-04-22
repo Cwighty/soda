@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 
@@ -54,8 +55,22 @@ public partial class CartPageViewModel : BaseViewModel
     [ObservableProperty]
     private decimal total;
 
-    [ObservableProperty]
+    
     private TimeSpan pickUpTime = DateTime.Now.TimeOfDay + TimeSpan.FromMinutes(15);
+    public TimeSpan PickUpTime
+    {
+        get => pickUpTime; 
+        
+        set
+        {
+            if (value < DateTime.Now.TimeOfDay) 
+            {
+                AppShell.Current.DisplayAlert("Invalid Time", "Can't order a time in the past.", "Ok");
+                SetProperty(ref pickUpTime, DateTime.Now.TimeOfDay + TimeSpan.FromMinutes(15));
+            } 
+            else { SetProperty(ref pickUpTime, value); }
+        }
+    }
 
     public bool IsNotEmpty => CartItems?.Count > 0;
 

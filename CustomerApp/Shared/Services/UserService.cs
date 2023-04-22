@@ -1,4 +1,5 @@
-﻿using Client = Supabase.Client;
+﻿using Microsoft.Extensions.Configuration;
+using Client = Supabase.Client;
 
 namespace CustomerApp.Shared.Services;
 
@@ -8,17 +9,24 @@ public class UserService
     private readonly Client client;
     private readonly IMapper mapper;
     private readonly ICacheService cacheService;
+    private readonly IConfiguration config;
 
-    public UserService(Client client, IMapper mapper, ICacheService cacheService)
+    public UserService(Client client, IMapper mapper, ICacheService cacheService, IConfiguration config)
     {
         this.client = client;
         this.mapper = mapper;
         this.cacheService = cacheService;
-        var cachedToken = cacheService.Get<string>(TOKEN_CACHE_KEY);
-        if (cachedToken != null)
-        {
-            client.Auth.SetAuth(cachedToken);
-        }
+        this.config = config;
+        //var cachedToken = cacheService.Get<string>(TOKEN_CACHE_KEY);
+        //if (cachedToken != null)
+        //{
+        //    client.Auth.SetAuth(cachedToken);
+        //    if (client.Auth.CurrentSession == null)
+        //    {
+        //        cacheService.Clear(TOKEN_CACHE_KEY);
+        //        client.Auth.SetAuth(config["SupabaseAnonKey"]);
+        //    }
+        //}
     }
 
     public async Task<Customer> GetCustomer()

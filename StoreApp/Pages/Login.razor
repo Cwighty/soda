@@ -1,4 +1,7 @@
 ﻿@page "/login"
+@using StoreApp.Services
+@inject NavigationManager NavigationManager
+@inject AuthorizationService auth
 
 <div class="container-fluid">
     <div class="row justify-content-center">
@@ -9,26 +12,40 @@
                     <hr />
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter username">
+                        <input type="text" class="form-control" id="username" placeholder="Enter username" @bind="username">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                        <input type="password" class="form-control" id="password" placeholder="Enter password" @bind="password">
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-block mt-3">Log In</button>
-                    </div>
-                    <hr />
-                    <div class="text-center">
-                        <a href="#" class="btn btn-outline-primary"><i class="bi bi-google"></i> Log In with Google</a>
+                        <button type="submit" class="btn btn-primary btn-block mt-3" @onclick="LogIn">Log In</button>
                     </div>
                 </div>
+            </div>
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="/register">Register here</a></p>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    // Your C# code here
+    private string username = "";
+    private string password = "";
+
+    private async Task LogIn()
+    {
+        try
+        {
+            await auth.LogIn(username, password);
+            NavigationManager.NavigateTo("/");
+        }
+        catch
+        {
+            username = "";
+            password = "";
+        }
+    }
 }
 

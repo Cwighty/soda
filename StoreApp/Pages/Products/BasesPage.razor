@@ -6,7 +6,13 @@
 @using StoreApp.Components
 @using Size = SodaShared.Models.Size;
 @inject ProductRepository ProductService
+@using StoreApp.Services;
+@inject AuthorizationService Auth;
 
+@if (Auth.IsAdmin())
+{
+
+}
 <h1>Sizes</h1>
 
 <div class="row">
@@ -62,8 +68,8 @@
                 <button class="btn btn-secondary" @onclick="HideSizeModal">Cancel</button>
             </div>
         </ModalFooter>
-        </ModalContent>
-    </Modal>
+    </ModalContent>
+</Modal>
 }
 
 <h1 class="mt-5">Drink Base Categories</h1>
@@ -116,9 +122,9 @@
                         <select class="col-10 me-4 form-control" @bind="selectedSize">
                             <option value="">--Select a Size--</option>
                             @foreach (var size in sizes)
-                            {
-                                <option value="@size.Id">@size.Name - @size.Price</option>
-                            }
+                                {
+                                    <option value="@size.Id">@size.Name - @size.Price</option>
+                                }
                             </select>
                             <button class="col-1 btn btn-primary" @onclick="AddSize"><i class="bi bi-plus"></i></button>
                         </div>
@@ -129,16 +135,16 @@
                             <li class="list-group-item">@size.Name - @size.Price<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveSize(size)">Remove</button></li>
                         }
                     </ul>
-            </EditForm>
-        </ModalBody>
-        <ModalFooter>
-            <div class="modal-footer">
-                <button class="btn btn-primary" @onclick="SaveBaseType">Save</button>
-                <button class="btn btn-secondary" @onclick="HideBaseTypeModal">Cancel</button>
-            </div>
-        </ModalFooter>
-    </ModalContent>
-</Modal>
+                </EditForm>
+            </ModalBody>
+            <ModalFooter>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" @onclick="SaveBaseType">Save</button>
+                    <button class="btn btn-secondary" @onclick="HideBaseTypeModal">Cancel</button>
+                </div>
+            </ModalFooter>
+        </ModalContent>
+    </Modal>
 }
 
 <h1 class="mt-5">Drink Bases</h1>
@@ -175,24 +181,24 @@
 
     <Modal Title="@modalTitle" @ref="drinkBaseModal">
         <ModalContent Centered>
-            <ModalBody>
-                <EditForm Model="@editDrinkBase">
-                    <div class="form-group">
-                        <label for="name">Name:</label>
-                        <InputText class="form-control" @bind-Value="@editDrinkBase.Name" />
-                    </div>
-                    <div class="form-group">
-                        <label for="description">Description:</label>
-                        <InputText class="form-control" @bind-Value="@editDrinkBase.Description" />
-                    </div>
-                    <div class="form-group">
-                        <label for="price">Price:</label>
-                        <InputNumber class="form-control" @bind-Value="@editDrinkBase.Price" />
-                    </div>
-                    <div class="form-group">
-                        <label for="type">Type:</label>
-                        <InputSelect class="form-control" @bind-Value="@editDrinkBase.BaseType.Id">
-                            @foreach (var baseType in baseTypes)
+        <ModalBody>
+            <EditForm Model="@editDrinkBase">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <InputText class="form-control" @bind-Value="@editDrinkBase.Name" />
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <InputText class="form-control" @bind-Value="@editDrinkBase.Description" />
+                </div>
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <InputNumber class="form-control" @bind-Value="@editDrinkBase.Price" />
+                </div>
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <InputSelect class="form-control" @bind-Value="@editDrinkBase.BaseType.Id">
+                        @foreach (var baseType in baseTypes)
                             {
                                 <option value="@baseType.Id">@baseType.Name</option>
                             }
@@ -208,6 +214,10 @@
             </ModalFooter>
         </ModalContent>
     </Modal>
+}
+else
+{
+<h1>Unauthorized</h1>
 }
 
 

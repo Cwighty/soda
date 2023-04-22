@@ -4,82 +4,92 @@
 @using SodaShared.Services;
 @using Blazorise
 @using StoreApp.Components
+@using StoreApp.Services;
 @inject ProductRepository ProductService
 
-<h1>Featured Categories</h1>
-
-<div class="row">
-    <div class="col-12">
-        <button class="btn btn-primary my-3" @onclick="ShowAddCategoryModal">Add New Featured Category</button>
-    </div>
-</div>
-@if (categories != null)
+@if (isAdmin)
 {
 
+    <h1>Featured Categories</h1>
+
     <div class="row">
-        @foreach (var category in categories)
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h5 class="card-title">@category.Name</h5>
-                        <p class="mt-2 mb-0"><b>Products:</b></p>
-                        <div>
-                            @foreach (var product in category.Products)
-                            {
-                                <span class="badge badge-pill badge-info">@product.Name</span>
-                            }
-                        </div>
-                        <hr />
-                        <div class="d-flex justify-content-between mt-3">
-                            <button class="btn btn-outline-primary" @onclick="() => ShowEditCategoryModal(category)"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-outline-danger" @onclick="() => DeleteCategory(category)"><i class="bi bi-trash"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
+        <div class="col-12">
+            <button class="btn btn-primary my-3" @onclick="ShowAddCategoryModal">Add New Featured Category</button>
+        </div>
     </div>
+    @if (categories != null)
+    {
 
-
-    <Modal Title="@modalTitle" @ref="categoryModal">
-        <ModalContent Centered>
-        <ModalBody>
-            <EditForm Model="@editCategory">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <InputText class="form-control" @bind-Value="@editCategory.Name" />
-                </div>
-                <div class="form-group">
-                    <label for="addOns">Products:</label>
-                    <div class="row mx-1 p-0">
-                        <select class="col-10 me-4 form-control" @bind="selectedProduct">
-                            <option value="">--Select a Product--</option>
-                            @foreach (var product in products)
+        <div class="row">
+            @foreach (var category in categories)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h5 class="card-title">@category.Name</h5>
+                            <p class="mt-2 mb-0"><b>Products:</b></p>
+                            <div>
+                                @foreach (var product in category.Products)
                                 {
-                                    <option value="@product.Id">@product.Name</option>
+                                    <span class="badge badge-pill badge-info">@product.Name</span>
                                 }
-                            </select>
-                            <button class="col-1 btn btn-primary" @onclick="AddProduct"><i class="bi bi-plus"></i></button>
+                            </div>
+                            <hr />
+                            <div class="d-flex justify-content-between mt-3">
+                                <button class="btn btn-outline-primary" @onclick="() => ShowEditCategoryModal(category)"><i class="bi bi-pencil"></i></button>
+                                <button class="btn btn-outline-danger" @onclick="() => DeleteCategory(category)"><i class="bi bi-trash"></i></button>
+                            </div>
                         </div>
                     </div>
-                    <ul class="list-group">
-                        @foreach (var product in editCategory.Products)
-                        {
-                            <li class="list-group-item">@product.Name<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveProduct(product)">Remove</button></li>
-                        }
-                    </ul>
-                </EditForm>
-            </ModalBody>
-            <ModalFooter>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" @onclick="SaveCategory">Save</button>
-                    <button class="btn btn-secondary" @onclick="HideCategoryModal">Cancel</button>
                 </div>
-            </ModalFooter>
-        </ModalContent>
-    </Modal>
+            }
+        </div>
+
+
+        <Modal Title="@modalTitle" @ref="categoryModal">
+            <ModalContent Centered>
+            <ModalBody>
+                <EditForm Model="@editCategory">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <InputText class="form-control" @bind-Value="@editCategory.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label for="addOns">Products:</label>
+                        <div class="row mx-1 p-0">
+                            <select class="col-10 me-4 form-control" @bind="selectedProduct">
+                                <option value="">--Select a Product--</option>
+                                @foreach (var product in products)
+                                    {
+                                        <option value="@product.Id">@product.Name</option>
+                                    }
+                                </select>
+                                <button class="col-1 btn btn-primary" @onclick="AddProduct"><i class="bi bi-plus"></i></button>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            @foreach (var product in editCategory.Products)
+                            {
+                                <li class="list-group-item">@product.Name<button class="btn btn-danger btn-sm float-right" @onclick="() => RemoveProduct(product)">Remove</button></li>
+                            }
+                        </ul>
+                    </EditForm>
+                </ModalBody>
+                <ModalFooter>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" @onclick="SaveCategory">Save</button>
+                        <button class="btn btn-secondary" @onclick="HideCategoryModal">Cancel</button>
+                    </div>
+                </ModalFooter>
+            </ModalContent>
+        </Modal>
+    }
 }
+else
+{
+    <h1>Unauthorized</h1>
+}
+
 
 @code {
     List<Category> categories;
@@ -88,10 +98,12 @@
     Category editCategory = new Category();
     Modal? categoryModal;
     string? modalTitle;
-
+    bool isAdmin;
+    [Inject] AuthorizationService Auth { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        isAdmin = Auth.IsAdmin();
         categories = await ProductService.GetCategories();
         products = await ProductService.GetProducts();
     }

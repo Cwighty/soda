@@ -1,4 +1,8 @@
 ﻿@inherits LayoutComponentBase
+@using StoreApp.Services;
+@inject AuthorizationService Auth;
+@inject NavigationManager NavigationManager;
+
 
 <PageTitle>The Soda Geyser</PageTitle>
 
@@ -8,12 +12,29 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
+        @if (Auth.IsLoggedIn())
+        {
+            <div class="top-row px-4">
+                <button class="btn btn-primary" @onclick="LogOut">Log Out</button>
+            </div>
+        }
+        else
+        {
+            <div class="top-row px-4">
+                <a href="login">Login</a>
+            </div>
 
+        }
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+
+@code{
+    public async Task LogOut()
+    {
+        await Auth.Logout();
+        NavigationManager.NavigateTo("login");
+    }
+}

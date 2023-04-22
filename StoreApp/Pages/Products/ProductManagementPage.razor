@@ -5,6 +5,13 @@
 @using Microsoft.Extensions.Logging
 @using SodaShared.Services;
 @inject OrderService orderService
+@using StoreApp.Services;
+@inject AuthorizationService Auth;
+
+@if (Auth.IsAdmin())
+{
+
+
 
 <PageTitle>Product Management</PageTitle>
 
@@ -34,6 +41,11 @@
         </div>
     </div>
 </div>
+}
+else
+{
+<h1>Unauthorized</h1>
+}
 
 @code {
 
