@@ -10,7 +10,9 @@
         <Grid Grid.Row="0"
               ColumnDefinitions="auto, *">
             <Label Text="{Binding Product.Name}"
-                   Style="{StaticResource LabelHeaderStyle}" />
+                   Style="{StaticResource LabelHeaderStyle}"
+                   LineBreakMode="TailTruncation"
+                   MaximumWidthRequest="280"/>
             <ImageButton IsEnabled="{Binding IsNotBusy}"
                          Grid.Column="1"
                          Aspect="AspectFit"
