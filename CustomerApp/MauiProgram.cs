@@ -29,7 +29,7 @@ public static class MauiProgram
 
         LoadAppsettingsIntoConfig(builder);
 
-        Barrel.ApplicationId = "MonkeyCash3";
+        Barrel.ApplicationId = "MonkeyCashMoneyRecords";
         var supabaseURL = builder.Configuration["SupabaseURL"];
         var anonKey = builder.Configuration["SupabaseAnonKey"];
 
@@ -50,6 +50,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<NotificationService>();
         builder.Services.AddSingleton<PurchaseRepository>();
         builder.Services.AddSingleton<FavoritesService>();
+        builder.Services.AddSingleton<OrderService>();
 
         var storeApiUrl = builder.Configuration["StoreAPI"];
         if (string.IsNullOrEmpty(storeApiUrl))

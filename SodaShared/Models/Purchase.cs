@@ -11,6 +11,7 @@ public class Purchase
     public decimal? TaxCollected { get; set; }
     public decimal? TotalPaid => SubTotal ?? 0 + TaxCollected ?? 0;
     public string Status { get; set; }
+    public bool IsInProgress => Status == OrderStatus.IN_PROGRESS.ToFriendlyString();
     public Customer? Customer { get; set; }
 
     public List<PurchaseItem> PurchaseItems { get; set; }

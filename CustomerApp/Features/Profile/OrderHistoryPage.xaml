@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <views:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                xmlns:vm="clr-namespace:CustomerApp.Features.Profile"
                 xmlns:views="clr-namespace:CustomerApp.Shared"
                 x:Class="CustomerApp.Features.Profile.OrderHistoryPage"
                 >
@@ -25,7 +26,7 @@
                 <DataTemplate>
                     <StackLayout>
                         <Grid RowDefinitions="auto,auto,auto,auto"
-                              ColumnDefinitions="auto,*"
+                              ColumnDefinitions="auto,auto,*"
                               RowSpacing="10"
                               Margin="10,20">
                             <Image Source="black_drink_large.png"
@@ -47,6 +48,19 @@
                                    Grid.Row="3"
                                    Grid.Column="1"
                                    FontFamily="MontserratRegular" />
+                            <Button Text="Cancel Order"
+                                    Grid.Column="2"
+                                    Padding="0"
+                                    HeightRequest="20"
+                                    BackgroundColor="Transparent"
+                                    TextColor="{StaticResource Primary}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:OrderHistoryPageViewModel}}, Path=CancelOrderCommand}"
+                                    CommandParameter="{Binding .}"
+                                    IsVisible="{Binding IsInProgress}">
+                                <Button.Shadow>
+                                    <Shadow Opacity="0" />
+                                </Button.Shadow>
+                            </Button>
                         </Grid>
                         <BoxView Color="{StaticResource Gray200}"
                                  Margin="0,0,0,0"
