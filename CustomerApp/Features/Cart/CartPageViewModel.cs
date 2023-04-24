@@ -155,6 +155,7 @@ public partial class CartPageViewModel : BaseViewModel
         if (!userService.IsLoggedIn())
         {
             await AskToSignIn();
+            return;
         }
         var orderId = await purchaseService.CheckoutOnline(CartItems.ToList(), DateTime.Now + PickUpTime);
         if (orderId == null)
@@ -179,12 +180,12 @@ public partial class CartPageViewModel : BaseViewModel
         var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
         if (action == "Sign In")
         {
-            await navigationService.GoTo("///ProfilePage");
+            await navigationService.GoTo(nameof(LoginPage));
             return;
         }
         else if (action == "Create An Account")
         {
-            await navigationService.GoTo("///ProfilePage");
+            await navigationService.GoTo(nameof(LoginPage));
             return;
         }
     }
