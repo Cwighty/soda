@@ -1,6 +1,6 @@
 ﻿namespace CustomerApp.Shared.Services;
 
-public class NavigationService
+public class NavigationService : INavigationService
 {
     public async Task GoTo(string path)
     {

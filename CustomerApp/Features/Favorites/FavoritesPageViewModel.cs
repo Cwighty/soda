@@ -2,14 +2,14 @@
 
 public partial class FavoritesPageViewModel : BaseViewModel
 {
-    private readonly UserService userService;
-    private readonly NavigationService navigationService;
-    private readonly FavoritesService favoritesService;
+    private readonly IUserService userService;
+    private readonly INavigationService navigationService;
+    private readonly IFavoritesService favoritesService;
 
     [ObservableProperty]
     private List<Product> favorites;
     
-    public FavoritesPageViewModel(UserService userService, NavigationService navigationService, FavoritesService favoritesService) 
+    public FavoritesPageViewModel(IUserService userService, INavigationService navigationService, IFavoritesService favoritesService) 
     {
         this.userService = userService;
         this.navigationService = navigationService;

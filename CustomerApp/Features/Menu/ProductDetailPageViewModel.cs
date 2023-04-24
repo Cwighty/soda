@@ -1,5 +1,4 @@
-﻿using CustomerApp.Features.Favorites;
-using Size = SodaShared.Models.Size;
+﻿using Size = SodaShared.Models.Size;
 
 namespace CustomerApp.Features.Menu;
 

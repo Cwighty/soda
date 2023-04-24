@@ -46,10 +46,13 @@ public static class MauiProgram
         builder.Services.AddSingleton<NavigationService>();
         builder.Services.AddSingleton<ICacheService, CacheService>();
         builder.Services.AddSingleton<UserService>();
+        builder.Services.AddSingleton<IUserService, UserService>();
         builder.Services.AddSingleton<PurchaseService>();
         builder.Services.AddSingleton<NotificationService>();
+        builder.Services.AddSingleton<INavigationService, NavigationService>();
         builder.Services.AddSingleton<PurchaseRepository>();
         builder.Services.AddSingleton<FavoritesService>();
+        builder.Services.AddSingleton<IFavoritesService, FavoritesService>();
         builder.Services.AddSingleton<OrderService>();
 
         var storeApiUrl = builder.Configuration["StoreAPI"];

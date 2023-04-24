@@ -65,7 +65,7 @@ public class ProductService : IProductService
 
 public class CacheProductService: IProductService
 {
-    private readonly ProductService productService;
+    private readonly IProductService productService;
     private readonly ICacheService cacheService;
 
     public CacheProductService(ProductService productService, ICacheService cacheService)

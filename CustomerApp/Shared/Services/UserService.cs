@@ -3,7 +3,7 @@ using Client = Supabase.Client;
 
 namespace CustomerApp.Shared.Services;
 
-public class UserService
+public class UserService : IUserService
 {
     private const string TOKEN_CACHE_KEY = "authToken";
     private readonly Client client;

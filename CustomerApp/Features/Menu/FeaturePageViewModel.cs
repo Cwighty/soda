@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-
-namespace CustomerApp.Features.Menu;
+﻿namespace CustomerApp.Features.Menu;
 
 public partial class FeaturePageViewModel : BaseViewModel
 {
@@ -8,9 +6,9 @@ public partial class FeaturePageViewModel : BaseViewModel
     private List<Category> _categorizedProducts;
 
     private readonly IProductService productService;
-    private readonly NavigationService navigationService;
+    private readonly INavigationService navigationService;
 
-    public FeaturePageViewModel(IProductService productService, NavigationService navigationService)
+    public FeaturePageViewModel(IProductService productService, INavigationService navigationService)
     {
         this.productService = productService;
         this.navigationService = navigationService;
@@ -36,7 +34,7 @@ public partial class FeaturePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task NavigateToDetail(Product product)
+    public async Task NavigateToDetail(Product product)
     {
         await navigationService
             .GoTo(
@@ -48,14 +46,14 @@ public partial class FeaturePageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task GoToFavorites()
+    public async Task GoToFavorites()
     {
         await navigationService.GoTo(nameof(FavoritesPage));
     }
 
 
     [RelayCommand]
-    private async Task GoToProfile()
+    public async Task GoToProfile()
     {
         await navigationService.GoTo("/LoginPage");
     }

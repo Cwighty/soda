@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Mvvm.Input;
-
-namespace CustomerApp.Features.Login;
+﻿namespace CustomerApp.Features.Login;
 
 public partial class LoginPageViewModel : BaseViewModel
 {
@@ -8,10 +6,10 @@ public partial class LoginPageViewModel : BaseViewModel
     private string email;
     [ObservableProperty]
     private string password;
-    private readonly NavigationService navigationService;
-    private readonly UserService userService;
+    private readonly INavigationService navigationService;
+    private readonly IUserService userService;
 
-    public LoginPageViewModel(NavigationService navigationService, UserService userService)
+    public LoginPageViewModel(INavigationService navigationService, IUserService userService)
     {
         this.navigationService = navigationService;
         this.userService = userService;
@@ -29,14 +27,14 @@ public partial class LoginPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task Login()
+    public async Task Login()
     {
         await userService.Login(Email, Password);
         await navigationService.GoTo("..");
     }
 
     [RelayCommand]
-    private async Task GoToRegister()
+    public async Task GoToRegister()
     {
         await navigationService.GoTo(nameof(RegisterPage));
     }

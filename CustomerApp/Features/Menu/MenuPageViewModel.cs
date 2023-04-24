@@ -1,13 +1,11 @@
-﻿
-
-namespace CustomerApp.Features.Menu;
+﻿namespace CustomerApp.Features.Menu;
 
 public partial class MenuPageViewModel : BaseViewModel
 {
     private readonly IProductService productService;
-    private readonly NavigationService navigationService;
+    private readonly INavigationService navigationService;
 
-    public MenuPageViewModel(IProductService productService, NavigationService navigationService)
+    public MenuPageViewModel(IProductService productService, INavigationService navigationService)
     {
         this.productService = productService;
         this.navigationService = navigationService;
@@ -49,7 +47,7 @@ public partial class MenuPageViewModel : BaseViewModel
             IsBusy = true;
             BaseTypes = await productService.GetBaseTypes();
             ProductsByBase = await productService.GetBaseProducts();
-            SelectedBaseType = BaseTypes.First();
+            SelectedBaseType = BaseTypes?.First();
         }
         finally
         {
@@ -63,7 +61,7 @@ public partial class MenuPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task Navigate(List<Product> products)
+    public async Task Navigate(List<Product> products)
     {
         await navigationService
             .GoTo(
@@ -75,7 +73,7 @@ public partial class MenuPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task NavigateToDetail(Product product)
+    public async Task NavigateToDetail(Product product)
     {
         await navigationService
             .GoTo(

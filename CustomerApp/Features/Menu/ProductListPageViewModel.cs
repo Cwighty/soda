@@ -3,10 +3,10 @@
 [QueryProperty(nameof(Products), nameof(Products))]
 public partial class ProductListPageViewModel : BaseViewModel
 {
-    private readonly NavigationService navigationService;
+    private readonly INavigationService navigationService;
     [ObservableProperty]
     private List<Product> products;
-    public ProductListPageViewModel(NavigationService navigationService)
+    public ProductListPageViewModel(INavigationService navigationService)
     {
         this.navigationService = navigationService;
     }
@@ -21,7 +21,7 @@ public partial class ProductListPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task Details(Product product)
+    public async Task Details(Product product)
     {
         await navigationService.GoTo(nameof(ProductDetailPage),
             new Dictionary<string, object>()
