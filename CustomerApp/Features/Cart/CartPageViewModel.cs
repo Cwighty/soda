@@ -154,8 +154,11 @@ public partial class CartPageViewModel : BaseViewModel
     {
         if (!userService.IsLoggedIn())
         {
-            await AskToSignIn();
-            return;
+            var signin = await AskToSignIn();
+            if (signin)
+            {
+                return;
+            }
         }
         var orderId = await purchaseService.CheckoutOnline(CartItems.ToList(), DateTime.Now + PickUpTime);
         if (orderId == null)
@@ -174,20 +177,21 @@ public partial class CartPageViewModel : BaseViewModel
             });
     }
 
-    private async Task AskToSignIn()
+    private async Task<bool> AskToSignIn()
     {
         string[] options = new string[] { "Sign In", "Create An Account", "Continue As Guest" };
         var action = await Application.Current.MainPage.DisplayActionSheet("", "Cancel", null, options);
         if (action == "Sign In")
         {
             await navigationService.GoTo(nameof(LoginPage));
-            return;
+            return true;
         }
         else if (action == "Create An Account")
         {
             await navigationService.GoTo(nameof(LoginPage));
-            return;
+            return true;
         }
+        return false;
     }
 
 
