@@ -157,6 +157,7 @@ public partial class CartPageViewModel : BaseViewModel
             var signin = await AskToSignIn();
             if (signin)
             {
+                IncomingProduct = null;
                 return;
             }
         }

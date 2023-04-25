@@ -30,7 +30,10 @@ public partial class LoginPageViewModel : BaseViewModel
     public async Task Login()
     {
         await userService.Login(Email, Password);
-        await navigationService.GoTo("..");
+        await navigationService.GoTo("..", new Dictionary<string, object>()
+        {
+            ["IncomingProduct"] = null
+        });
     }
 
     [RelayCommand]
