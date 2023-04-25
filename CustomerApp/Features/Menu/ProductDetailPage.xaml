@@ -25,7 +25,7 @@
         </Grid>
     </Shell.TitleView>
     <Grid RowDefinitions="auto,auto,auto,auto,*,auto"
-          Margin="15">
+          Margin="0">
         <ActivityIndicator IsRunning="{Binding IsBusy}"
                            IsVisible="{Binding IsBusy}"
                            VerticalOptions="CenterAndExpand"
@@ -48,7 +48,7 @@
         <Label Text="{Binding Product.Description}"
                Grid.Row="1" 
                HorizontalTextAlignment="Center"
-               Margin="0,0,10,20"/>
+               Margin="15,10,15,10"/>
         <ScrollView IsVisible="{Binding IsNotBusy}"
                     Grid.Row="2"
                     Orientation="Horizontal"
@@ -120,7 +120,7 @@
                 </BindableLayout.ItemTemplate>
             </HorizontalStackLayout>
         </ScrollView>
-        <Border Grid.Row="3">
+        <Border Grid.Row="3" Margin="15, 0">
             <Picker IsVisible="{Binding IsNotBusy}"
                     Title="Add Mix-In"
                     TitleColor="Black"
@@ -136,6 +136,7 @@
         </Border>
         <VerticalStackLayout IsVisible="{Binding IsNotBusy}"
                              Grid.Row="4"
+                             Margin="15, 0"
                              VerticalOptions="FillAndExpand">
             <CollectionView ItemsSource="{Binding CustomizedProduct.AddOns}">
                 <CollectionView.ItemTemplate>
