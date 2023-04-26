@@ -3,13 +3,14 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                 xmlns:vm="clr-namespace:CustomerApp.Features.Profile"
                 xmlns:views="clr-namespace:CustomerApp.Shared"
-                x:Class="CustomerApp.Features.Profile.OrderHistoryPage"
-                >
+                x:Class="CustomerApp.Features.Profile.OrderHistoryPage">
     <Shell.TitleView>
-        <Label Text="Order History"
-               Style="{StaticResource LabelHeaderStyle}" />
+        <Grid>
+            <Label Text="Order History"
+                   Style="{StaticResource LabelHeaderStyle}" />
+        </Grid>
     </Shell.TitleView>
-    <Grid >
+    <Grid>
         <CollectionView ItemsSource="{Binding Purchases}"
                         Margin="15,0">
             <CollectionView.EmptyView>

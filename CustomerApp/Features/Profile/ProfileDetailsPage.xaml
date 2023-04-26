@@ -5,8 +5,10 @@
                 xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
                 x:Class="CustomerApp.Features.Profile.ProfileDetailsPage">
     <Shell.TitleView>
-        <Label Text="Profile Details"
-               Style="{StaticResource LabelHeaderStyle}" />
+        <Grid>
+            <Label Text="Profile Details"
+                   Style="{StaticResource LabelHeaderStyle}" />
+        </Grid>
     </Shell.TitleView>
     <StackLayout>
         <StackLayout Margin="20">
@@ -17,6 +19,7 @@
             <Label Text="Phone Number"
                    FontFamily="MontserratRegular" />
             <Entry Text="{Binding Customer.Phone, Mode=TwoWay}"
+                   x:Name="phoneNumberEntry"
                    Keyboard="Telephone"
                    FontFamily="MontserratRegular">
                 <Entry.Behaviors>
