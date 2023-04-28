@@ -15,6 +15,14 @@
 
     <h1>Products</h1>
 
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search products" @bind-value="@searchTerm" />
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12">
             <button class="btn btn-primary mb-3" @onclick="ShowAddProductModal">Add New Product</button>
@@ -24,7 +32,10 @@
     {
 
         <div class="row">
-            @foreach (var group in products.GroupBy(p => p.Base.BaseType).Select(g => Tuple.Create(g.Key, g.ToList())))
+            @foreach (var group in products
+           .Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+           .GroupBy(p => p.Base.BaseType)
+           .Select(g => Tuple.Create(g.Key, g.ToList())))
             {
                 <h2>@group.Item1.Name</h2>
                 @foreach (var product in group.Item2)
@@ -134,6 +145,7 @@ else
     string? modalTitle;
     private int selectedAddOn;
     private byte[] newImageBytes;
+    string searchTerm = "";
 
 
     protected override async Task OnInitializedAsync()
