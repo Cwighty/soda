@@ -32,13 +32,14 @@
     {
 
         <div class="row">
-            @foreach (var group in products
+            @foreach (var baseProductGroup in products
            .Where(p => p.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
            .GroupBy(p => p.Base.BaseType)
            .Select(g => Tuple.Create(g.Key, g.ToList())))
             {
-                <h2>@group.Item1.Name</h2>
-                @foreach (var product in group.Item2)
+                <h2>@baseProductGroup.Item1.Name</h2>
+                <hr />
+                @foreach (var product in baseProductGroup.Item2)
                 {
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
                         <div class="card shadow">

@@ -69,13 +69,14 @@
     </div>
     @if (addOns != null)
     {
-        @foreach (var addOnType in addOns
+        @foreach (var addOnGroup in addOns
                                    .GroupBy(a => a.AddOnType)
                                    .Select(g => Tuple.Create(g.Key, g.ToList())))
         {
-            <h2>@addOnType.Item1.Name</h2>
+            <h2>@addOnGroup.Item1.Name</h2>
+            <hr />
             <div class="row">
-                @foreach (var addOn in addOnType.Item2)
+                @foreach (var addOn in addOnGroup.Item2)
                 {
                     <div class="col-lg-3 col-md-4 col-sm-6 my-3">
                         <div class="card shadow">
