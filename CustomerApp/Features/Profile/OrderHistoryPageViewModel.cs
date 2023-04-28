@@ -16,6 +16,7 @@ public partial class OrderHistoryPageViewModel : BaseViewModel
     {
         var purchases = await purchaseRepo.GetAllPurchasesForUser();
         Purchases = purchases.OrderByDescending(p => p.CreatedAt).ToList();
+        Purchases.ForEach(p => p.CreatedAt = p.CreatedAt.AddHours(-6));
     }
 
     public override Task Stop()

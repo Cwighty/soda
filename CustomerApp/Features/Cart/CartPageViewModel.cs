@@ -161,7 +161,7 @@ public partial class CartPageViewModel : BaseViewModel
                 return;
             }
         }
-        var orderId = await purchaseService.CheckoutOnline(CartItems.ToList(), DateTime.Now + PickUpTime);
+        var orderId = await purchaseService.CheckoutOnline(CartItems.ToList(), DateTime.UtcNow + PickUpTime);
         if (orderId == null)
         {
             await Shell.Current.DisplayAlert("Order Cancelled", "Your order was cancelled", "OK");

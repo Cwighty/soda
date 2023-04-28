@@ -26,6 +26,7 @@ public partial class OrderProcessedPageViewModel : BaseViewModel
         if(OrderId != 0)
         {
             Purchase = await purchaseRepo.GetPurchaseById(OrderId);
+            Purchase.PickUpTime = Purchase.PickUpTime?.AddHours(7);
             PickUpTimeRange = $"{Purchase.PickUpTime?.ToString("h:mm tt")} - {(Purchase.PickUpTime + TimeSpan.FromMinutes(15))?.ToString("h:mm tt")}";
         }
     }
